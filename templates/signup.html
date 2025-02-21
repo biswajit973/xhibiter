@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <title>Xhibiter | NFT Marketplace HTML Template</title>
+
+    <meta charset="utf-8" />
+    <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /><![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="" />
+{% load static %}
+    <!-- Css -->
+    <link rel="stylesheet" href="{%  static 'css/style.css' %}" />
+    <!-- Toastr CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+<!-- jQuery (Required for Toastr) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<!-- Toastr JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+
+    <!-- Dark Mode JS -->
+    <script src="{% static 'js/darkMode.bundle.js' %}"></script>
+
+    <!-- Favicons -->
+    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" />
+    <link rel="apple-touch-icon" href="{% static 'img/apple-touch-icon.png' %}" />
+    <link rel="apple-touch-icon" sizes="72x72" href="{% static 'img/apple-touch-icon-72x72.png' %}" />
+    <link rel="apple-touch-icon" sizes="114x114" href="{% static 'img/apple-touch-icon-114x114.png' %}" />
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <style>
+      .form-step { display: none; }
+      .form-step.active { display: block; }
+      .hidden { display: none; }
+      .text-red-500 { color : red ;}
+    </style>
+  </head>
+
+  <body
+    class="overflow-x-hidden font-body text-jacarta-500 dark:bg-jacarta-900"
+    itemscope
+    itemtype="http://schema.org/WebPage"
+  >
+    <main>
+      <!-- Login -->
+      <section class="relative h-screen">
+        <div class="lg:flex lg:h-full">
+          <!-- Left -->
+          <div class="relative text-center lg:w-1/2 overflow-y-auto">
+            <img src="{% static 'img/login.jpg' %}" alt="login" class="absolute h-full w-full object-cover" />
+            <!-- Logo -->
+            <a href="{% url 'index' }" class="relative inline-block py-36">
+              <img src="{% static 'img/logo_white.png' %}" class="inline-block max-h-7" alt="Xhibiter | NFT Marketplace" />
+            </a>
+          </div>
+
+          <!-- Right -->
+          <div class="relative flex  justify-center  lg:w-1/2 overflow-y-auto">
+            <picture class="pointer-events-none absolute inset-0 -z-10 dark:hidden">
+              <img src="{% static 'img/gradient_light.jpg' %}" alt="gradient" class="h-full w-full" />
+            </picture>
+
+            <div class="w-full mt-5 max-w-[25.625rem] text-center">
+              <h1 class="mb-3 font-display text-4xl text-jacarta-700 dark:text-white">Sign up</h1>
+              <p class="mb-5 text-lg leading-normal dark:text-jacarta-300">
+                Choose one of available wallet providers or create a new wallet.
+                <a href="#" class="text-accent">What is a wallet?</a>
+              </p>
+
+              <!-- Tabs Nav -->
+              <ul
+                class="nav nav-tabs scrollbar-custom mb-5 flex items-center justify-start overflow-x-auto overflow-y-hidden border-b border-jacarta-100 pb-px dark:border-jacarta-600 md:justify-center"
+                role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button
+                    class="nav-link active relative flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white"
+                    id="ethereum-tab"
+                    data-bs-toggle="tab"
+                    data-bs-target="#ethereum"
+                    type="button"
+                    role="tab"
+                    aria-controls="ethereum"
+                    aria-selected="true"
+                  >
+                    <svg
+                      version="1.1"
+                      xmlns="http://www.w3.org/2000/svg"
+                      x="0"
+                      y="0"
+                      viewBox="0 0 1920 1920"
+                      xml:space="preserve"
+                      class="mr-1 mb-[2px] h-4 w-4 fill-current"
+                    >
+                      <path fill="#8A92B2" d="M959.8 80.7L420.1 976.3 959.8 731z"></path>
+                      <path fill="#62688F" d="M959.8 731L420.1 976.3l539.7 319.1zm539.8 245.3L959.8 80.7V731z"></path>
+                      <path fill="#454A75" d="M959.8 1295.4l539.8-319.1L959.8 731z"></path>
+                      <path fill="#8A92B2" d="M420.1 1078.7l539.7 760.6v-441.7z"></path>
+                      <path fill="#62688F" d="M959.8 1397.6v441.7l540.1-760.6z"></path>
+                    </svg>
+
+                    <span class="font-display text-base font-medium">Seekers</span>
+                  </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button
+                    class="nav-link relative flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white"
+                    id="torus-tab"
+                    data-bs-toggle="tab"
+                    data-bs-target="#torus"
+                    type="button"
+                    role="tab"
+                    aria-controls="torus"
+                    aria-selected="false"
+                  >
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="mr-1 mb-[2px] h-4 w-4 fill-current"
+                    >
+                      <path d="M9.35098 3H4V5.93692H9.35098V3Z" fill="#0364FF" />
+                      <path d="M9.35028 3.00403H6.44531V12.74H9.35028V3.00403Z" fill="#0364FF" />
+                      <path
+                        d="M11.5221 5.93554C12.3239 5.93554 12.9739 5.27842 12.9739 4.46777C12.9739 3.65715 12.3239 3 11.5221 3C10.7203 3 10.0703 3.65715 10.0703 4.46777C10.0703 5.27842 10.7203 5.93554 11.5221 5.93554Z"
+                        fill="#0364FF"
+                      />
+                    </svg>
+
+                    <span class="font-display text-base font-medium">Experts</span>
+                  </button>
+                </li>
+                {% comment %} <li class="nav-item" role="presentation">
+                  <button
+                    class="nav-link relative flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white"
+                    id="wallet-connect-tab"
+                    data-bs-toggle="tab"
+                    data-bs-target="#wallet-connect"
+                    type="button"
+                    role="tab"
+                    aria-controls="wallet-connect"
+                    aria-selected="false"
+                  >
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="mr-1 mb-[2px] h-4 w-4 fill-current"
+                    >
+                      <path
+                        d="M4.08889 5.34343C6.30052 3.1588 9.8863 3.1588 12.0979 5.34343L12.3641 5.60635C12.4747 5.71559 12.4747 5.89269 12.3641 6.0019L11.4536 6.90132C11.3983 6.95594 11.3086 6.95594 11.2534 6.90132L10.8871 6.5395C9.34416 5.01545 6.84265 5.01545 5.29974 6.5395L4.90747 6.92698C4.85219 6.9816 4.76256 6.9816 4.70726 6.92698L3.79674 6.02756C3.68616 5.91835 3.68616 5.74125 3.79674 5.63201L4.08889 5.34343ZM13.981 7.20351L14.7914 8.00397C14.9019 8.11321 14.9019 8.29031 14.7914 8.39953L11.1374 12.009C11.0268 12.1182 10.8475 12.1182 10.7369 12.009C10.7369 12.009 10.7369 12.009 10.7369 12.009L8.14348 9.44724C8.11583 9.41995 8.07101 9.41995 8.04336 9.44724L5.45 12.009C5.33945 12.1182 5.16015 12.1182 5.04957 12.009C5.04957 12.009 5.04957 12.009 5.04957 12.009L1.39544 8.39947C1.28485 8.29026 1.28485 8.11316 1.39544 8.00392L2.2058 7.20346C2.31638 7.09422 2.49568 7.09422 2.60626 7.20346L5.1997 9.7652C5.22735 9.79253 5.27217 9.79253 5.29982 9.7652L7.89312 7.20346C8.00371 7.09422 8.183 7.09422 8.29359 7.20343C8.29359 7.20346 8.29359 7.20346 8.29359 7.20346L10.887 9.7652C10.9147 9.79253 10.9595 9.79253 10.9871 9.7652L13.5806 7.20351C13.6911 7.09427 13.8704 7.09427 13.981 7.20351Z"
+                        fill="#3C99FC"
+                      />
+                    </svg>
+
+                    <span class="font-display text-base font-medium">Mobile Wallet</span>
+                  </button>
+                </li> {% endcomment %}
+              </ul>
+
+              <!-- Tab Content -->
+              <div class="tab-content">
+                <!-- Ethereum -->
+                <div class="tab-pane fade show active" id="ethereum" role="tabpanel" aria-labelledby="ethereum-tab">
+                  
+                  <form id="seeker-contact-form">
+                    <div class="flex space-x-7">
+                      <div class="mb-6 w-1/2">
+                        <label for="firstname" class="mb-1 block font-display text-sm  text-left text-jacarta-700 dark:text-white"
+                          >First Name<span class="text-red">*</span></label
+                        >
+                        <input
+                          name="firstname" placeholder="firstname"
+                          class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300"
+                          id="seeker-firstname"
+                          type="text"
+                          required
+                        />
+                      </div>
+                      <div class="mb-6 w-1/2">
+                        <label for="lastname" class="mb-1 block font-display  text-left  text-sm text-jacarta-700 dark:text-white"
+                          >Last Name<span class="text-red">*</span></label
+                        >
+                        <input
+                          name="lastname" placeholder="lastname"
+                          class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300"
+                          id="seeker-lastname"
+                          type="text"
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div class="flex space-x-7">
+                      <div class="mb-6 w-1/2">
+                        <label for="email" class="mb-1 block font-display  text-left  text-sm text-jacarta-700 dark:text-white"
+                          >Email<span class="text-red">*</span></label
+                        >
+                        <input
+                          name="email" placeholder="email"
+                          class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300"
+                          id="seeker-email"
+                          type="email"
+                          required
+                        />
+                      </div>
+                      <div class="mb-6 w-1/2">
+                        <label for="contact" class="mb-1 block font-display text-sm  text-left text-jacarta-700 dark:text-white"
+                          > Contact Number<span class="text-red">*</span></label
+                        >
+                        <input
+                          name="contact" placeholder="contact number"
+                          class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300"
+                          id="seeker-contact"
+                          type="text"
+                          required
+                        />
+                      </div>
+                    </div>
+                    {% comment %} <div class="mb-6 flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        id="contact-form-consent-input"
+                        name="agree-to-terms"
+                        class="h-5 w-5 self-start rounded border-jacarta-200 text-accent checked:bg-accent focus:ring-accent/20 focus:ring-offset-0 dark:border-jacarta-500 dark:bg-jacarta-600"
+                      />
+                      <label for="contact-form-consent-input" class="text-sm dark:text-jacarta-200"
+                        >I agree to the <a href="{% url 'tos' %}" class="text-accent">Terms of Service</a></label
+                      >
+                    </div> {% endcomment %}
+    
+                    <button
+                      type="submit"
+                      class="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark mt-6"
+                      id="seeker-contact-form-submit"
+                    >
+                      Submit
+                    </button>
+    
+                    <p class="mt-2 mb-3 text-sm text-center text-jacarta-700 dark:text-white">
+                      Already have an account? 
+                      <a href="{% url 'login' %}" class="text-accent hover:underline">Sign In</a>
+                    </p>
+                  </form>
+                </div>
+                <!-- end ethereum -->
+
+                <!-- Torus -->
+                <div class="tab-pane fade" id="torus" role="tabpanel" aria-labelledby="torus-tab">
+                  <form id="expert-contact-form">
+                    <!-- Step 1: Name -->
+                    <div class="form-step active" id="step-1">
+                      <div class="mb-6">
+                        <label for="firstname" class="mb-1 block font-display text-sm  text-left text-jacarta-700 dark:text-white"
+                          >First Name<span class="text-red">*</span></label
+                        >
+                        <input
+                          name="firstname" placeholder="firstname"
+                          class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300"
+                          id="expert-firstname"
+                          type="text"
+                          required
+                        />
+                        <span id="first-name-error" class="text-red-500 text-sm block text-left"></span>
+
+                      </div>
+                      <div class="mb-6">
+                        <label for="lastname" class="mb-1 block font-display  text-left  text-sm text-jacarta-700 dark:text-white"
+                          >Last Name<span class="text-red">*</span></label>
+                        <input
+                          name="lastname" placeholder="lastname"
+                          class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300"
+                          id="expert-lastname"
+                          type="text"
+                          required
+                        />
+                        <span id="last-name-error" class="text-red-500 text-sm block text-left"></span>
+                      </div>
+                      
+                      <button type="button" class="next-step rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark mb-4"
+                      >Continue</button>
+                    </div>
+                  
+                    <!-- Step 2: Email & Contact -->
+                    <div class="form-step" id="step-2">
+                      <div class="mb-6">
+                        <label for="email" class="mb-1 block font-display  text-left  text-sm text-jacarta-700 dark:text-white"
+                          >Email<span class="text-red">*</span></label
+                        >
+                        <input
+                          name="email" placeholder="email"
+                          class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300"
+                          id="expert-email"
+                          type="email"
+                          required
+                        />
+                        <span id="email-error" class="text-red-500 text-sm block text-left"></span>
+
+                      </div>
+                      <div class="mb-6">
+                        <label for="contact" class="mb-1 block font-display text-sm  text-left text-jacarta-700 dark:text-white"
+                          > Contact Number<span class="text-red">*</span></label
+                        >
+                        <input
+                          name="contact" placeholder="contact number"
+                          class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300"
+                          id="expert-contact"
+                          type="text"
+                          required
+                        />
+                        <span id="contact-error" class="text-red-500 text-sm block text-left"></span>
+
+                      </div>
+
+                      <button type="button" class="prev-step rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">Back</button>
+                      <button type="button" class="next-step rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">Continue</button>
+                    </div>
+                  <div class="form-step" id="step-3">
+
+                    <div class="mb-6">
+                      <label for="username" class="block text-sm font-medium font-display text-jacarta-700 dark:text-white mb-3">
+                        Your page link
+                      </label>
+                      <p class="mb-3 text-2xs dark:text-jacarta-300">
+                        you can change it later.
+                       </p>
+                      <div class="relative mt-1 flex rounded-lg shadow-sm border border-gray-300">
+                        <span class="inline-flex items-center px-3 text-gray-500 bg-gray-100 border-r border-gray-300 rounded-l-lg w-44 truncate"style="width: 200px; overflow: hidden; text-overflow: ellipsis;">https://sandbox.wemakesoftwares.com/</span>
+                        <input type="text" id="userName"
+                          class="flex-1 block w-full py-3 px-3 rounded-r-lg border-0 focus:ring-2 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300"
+                          placeholder="Enter your username" required>
+                          <span class="absolute inset-y-0 right-0 flex items-center pr-3" style="width:6%" id="status-icon"></span>
+                        </div>
+                      <p id="error-message" class="mt-1 text-sm text-red-500 block text-left"></p>
+                    </div>
+                    
+                    
+                    <button type="button" class="prev-step rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">Back</button>
+                    <button type="button" class="next-step rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">Continue</button>
+                  </div>  
+                    <!-- Step 3: Social Media -->
+                    <div class="form-step" id="step-4">
+                     <div class="mb-6 flex items-center space-x-2">
+                                  <input
+                                    type="checkbox"
+                                    id="instagram-checkbox"
+                                    class="h-5 w-5 rounded border-jacarta-200 text-accent checked:bg-accent focus:ring-accent/20 dark:border-jacarta-500 dark:bg-jacarta-600"
+                                  />
+                                  <label for="instagram-checkbox" class="text-sm dark:text-jacarta-200">
+                                    Provide Instagram Link
+                                  </label>
+                                </div>
+                                <div id="instagram-input" class="mb-6 hidden">
+                                  <label for="instagram" class="mb-1 block font-display text-sm text-left text-jacarta-700 dark:text-white">
+                                    Instagram Link
+                                  </label>
+                                  <input
+                                    name="instagram"
+                                    class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300"
+                                    id="instagram"
+                                    type="text"
+                                    placeholder="https://www.instagram.com/yourprofile"
+                                   />
+                                   <span id="instagramurl-error" class="text-red-500 text-sm block text-left"></span>
+
+                                </div>
+                                <div id="instagram-followers-count" class="mb-6  hidden">
+                                  <label for="instagram_followers_count" class="mb-1 block font-display text-sm text-left text-jacarta-700 dark:text-white">
+                                    Followers Count
+                                  </label>
+                                  <input
+                                    name="instagram_followers_count"
+                                    class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300"
+                                    id="followers_count"
+                                    type="text"
+                                    placeholder="followers count" 
+                                  />
+                                  <span id="followerscount-error" class="text-red-500 text-sm block text-left"></span>
+
+                                </div>
+
+                                <!-- Checkbox for YouTube Link -->
+                                <div class="mb-6 flex items-center space-x-2">
+                                  <input
+                                    type="checkbox"
+                                    id="youtube-checkbox"
+                                    class="h-5 w-5 rounded border-jacarta-200 text-accent checked:bg-accent focus:ring-accent/20 dark:border-jacarta-500 dark:bg-jacarta-600"
+                                  />
+                                  <label for="youtube-checkbox" class="text-sm dark:text-jacarta-200">
+                                    Provide YouTube Link
+                                  </label>
+                                </div>
+                                <div id="youtube-input" class="mb-6  hidden">
+                                  <label for="youtube" class="mb-1 block font-display text-sm text-left text-jacarta-700 dark:text-white">
+                                    YouTube Link
+                                  </label>
+                                  <input
+                                    name="youtube"
+                                    class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300"
+                                    id="youtube"
+                                    type="text"
+                                    placeholder="https://www.youtube.com/channel/yourchannel" 
+                                  />
+                                  <span id="youtubeurl-error" class="text-red-500 text-sm block text-left"></span>
+
+                                </div>
+                                <div id="youtube-subscribers-count" class="mb-6  hidden">
+                                  <label for="youtube_subscribers_count" class="mb-1 block font-display text-sm text-left text-jacarta-700 dark:text-white">
+                                    Subscribers Count
+                                  </label>
+                                  <input
+                                    name="youtube_subscribers_count"
+                                    class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300"
+                                    id="subscribers_count"
+                                    type="text"
+                                    placeholder="subscribers count"
+                                  />
+                                  <span id="subscriberscount-error" class="text-red-500 text-sm block text-left"></span>
+
+                                </div>
+                                <span id="url-error" class="text-red-500 text-sm block text-left mb-3"></span>
+
+
+  
+
+                      <button type="button" class="prev-step rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark mb-3">Back</button>
+                      <button type="button" class="next-step rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark mb-3">Continue</button>
+                    </div>
+                  
+                    <!-- Step 4: Password & Captcha -->
+                    <div class="form-step" id="step-5">
+                      <div class="mb-6">
+                        <label for="password" class="mb-1 block font-display  text-left  text-sm text-jacarta-700 dark:text-white"
+                          >Create Password<span class="text-red">*</span></label
+                        >
+                        <input
+                          name="password" placeholder="password"
+                          class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300"
+                          id="expert-password"
+                          type="password"
+                          required
+                        />
+                        <span id="password-error" class="text-red-500 text-sm block text-left"></span>
+
+                      </div>
+                      <div class="mb-6">
+                        <label for="confirmPassword" class="mb-1 block font-display text-sm  text-left text-jacarta-700 dark:text-white"
+                          > Confirm Password<span class="text-red">*</span></label
+                        >
+                        <input
+                          name="confirmPassword" placeholder="confirm password"
+                          class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300"
+                          id="expert-confirmPassword"
+                          type="password"
+                          required
+                        />
+                        <span id="confirmPassword-error" class="text-red-500 text-sm block text-left"></span>
+
+                      </div>
+                      <div class="g-recaptcha mb-3" 
+                      style="margin-top:10px; width: 100%; display: flex;justify-content:center;" data-sitekey="6LeAV5oqAAAAAGvSIJX-vuouZSzXMljjRzmGEk6u"></div>
+                        <input type="hidden" name="recaptcha_token" id="recaptcha_token">
+                
+                  
+                      <button type="button" class="prev-step rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">Back</button>
+                      <button type="submit" class=" rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"  id="submit-button-form">Submit</button>
+                    </div>
+                  </form>
+                  
+</div>
+<!-- end torus -->
+
+                <!-- Wallet Connect -->
+                <div class="tab-pane fade" id="wallet-connect" role="tabpanel" aria-labelledby="wallet-connect-tab">
+                  <button
+                    class="mb-4 flex w-full items-center justify-center rounded-full border-2 border-jacarta-100 bg-white py-4 px-8 text-center font-semibold text-jacarta-700 transition-all hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                  >
+                    <img src="{% static 'img/wallets/wallet_connect_24.svg' %}" class="mr-2.5 inline-block h-6 w-6" alt="" />
+                    <span>Mobile Wallet</span>
+                  </button>
+
+                  <button
+                    class="mb-4 flex w-full items-center justify-center rounded-full border-2 border-jacarta-100 bg-white py-4 px-8 text-center font-semibold text-jacarta-700 transition-all hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                  >
+                    <img src="{% static 'img/wallets/torus_24.svg' %}" class="mr-2.5 inline-block h-6 w-6" alt="" />
+                    <span>Torus</span>
+                  </button>
+
+                  <button
+                    class="js-wallet mb-4 flex w-full items-center justify-center rounded-full border-2 border-jacarta-100 bg-white py-4 px-8 text-center font-semibold text-jacarta-700 transition-all hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                    data-bs-toggle="modal"
+                    data-bs-target="#walletModal"
+                  >
+                    <img src="{% static 'img/wallets/metamask_24.svg' %}" class="mr-2.5 inline-block h-6 w-6" alt="" />
+                    <span>Sign in with Metamask</span>
+                  </button>
+
+                  <button
+                    class="mb-4 flex w-full items-center justify-center rounded-full border-2 border-jacarta-100 bg-white py-4 px-8 text-center font-semibold text-jacarta-700 transition-all hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                  >
+                    <span>Show more options</span>
+                  </button>
+                </div>
+                <!-- end wallet connect -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- end login -->
+    </main>
+
+    <!-- Wallet Modal -->
+    <div class="modal fade" id="walletModal" tabindex="-1" aria-labelledby="walletModalLabel" aria-hidden="true">
+      <div class="modal-dialog max-w-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="walletModalLabel">Connect your wallet</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                width="24"
+                height="24"
+                class="h-6 w-6 fill-jacarta-700 dark:fill-white"
+              >
+                <path fill="none" d="M0 0h24v24H0z" />
+                <path
+                  d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"
+                />
+              </svg>
+            </button>
+          </div>
+
+          <!-- Body -->
+          <div class="modal-body p-6 text-center">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              x="0"
+              y="0"
+              viewBox="0 0 318.6 318.6"
+              xml:space="preserve"
+              class="mb-4 inline-block h-8 w-8"
+            >
+              <style>
+                .st1,
+                .st6 {
+                  fill: #e4761b;
+                  stroke: #e4761b;
+                  stroke-linecap: round;
+                  stroke-linejoin: round;
+                }
+                .st6 {
+                  fill: #f6851b;
+                  stroke: #f6851b;
+                }
+              </style>
+              <path
+                fill="#e2761b"
+                stroke="#e2761b"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M274.1 35.5l-99.5 73.9L193 65.8z"
+              />
+              <path
+                class="st1"
+                d="M44.4 35.5l98.7 74.6-17.5-44.3zm193.9 171.3l-26.5 40.6 56.7 15.6 16.3-55.3zm-204.4.9L50.1 263l56.7-15.6-26.5-40.6z"
+              />
+              <path
+                class="st1"
+                d="M103.6 138.2l-15.8 23.9 56.3 2.5-2-60.5zm111.3 0l-39-34.8-1.3 61.2 56.2-2.5zM106.8 247.4l33.8-16.5-29.2-22.8zm71.1-16.5l33.9 16.5-4.7-39.3z"
+              />
+              <path
+                d="M211.8 247.4l-33.9-16.5 2.7 22.1-.3 9.3zm-105 0l31.5 14.9-.2-9.3 2.5-22.1z"
+                fill="#d7c1b3"
+                stroke="#d7c1b3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M138.8 193.5l-28.2-8.3 19.9-9.1zm40.9 0l8.3-17.4 20 9.1z"
+                fill="#233447"
+                stroke="#233447"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M106.8 247.4l4.8-40.6-31.3.9zM207 206.8l4.8 40.6 26.5-39.7zm23.8-44.7l-56.2 2.5 5.2 28.9 8.3-17.4 20 9.1zm-120.2 23.1l20-9.1 8.2 17.4 5.3-28.9-56.3-2.5z"
+                fill="#cd6116"
+                stroke="#cd6116"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M87.8 162.1l23.6 46-.8-22.9zm120.3 23.1l-1 22.9 23.7-46zm-64-20.6l-5.3 28.9 6.6 34.1 1.5-44.9zm30.5 0l-2.7 18 1.2 45 6.7-34.1z"
+                fill="#e4751f"
+                stroke="#e4751f"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                class="st6"
+                d="M179.8 193.5l-6.7 34.1 4.8 3.3 29.2-22.8 1-22.9zm-69.2-8.3l.8 22.9 29.2 22.8 4.8-3.3-6.6-34.1z"
+              />
+              <path
+                fill="#c0ad9e"
+                stroke="#c0ad9e"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M180.3 262.3l.3-9.3-2.5-2.2h-37.7l-2.3 2.2.2 9.3-31.5-14.9 11 9 22.3 15.5h38.3l22.4-15.5 11-9z"
+              />
+              <path
+                fill="#161616"
+                stroke="#161616"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M177.9 230.9l-4.8-3.3h-27.7l-4.8 3.3-2.5 22.1 2.3-2.2h37.7l2.5 2.2z"
+              />
+              <path
+                d="M278.3 114.2l8.5-40.8-12.7-37.9-96.2 71.4 37 31.3 52.3 15.3 11.6-13.5-5-3.6 8-7.3-6.2-4.8 8-6.1zM31.8 73.4l8.5 40.8-5.4 4 8 6.1-6.1 4.8 8 7.3-5 3.6 11.5 13.5 52.3-15.3 37-31.3-96.2-71.4z"
+                fill="#763d16"
+                stroke="#763d16"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                class="st6"
+                d="M267.2 153.5l-52.3-15.3 15.9 23.9-23.7 46 31.2-.4h46.5zm-163.6-15.3l-52.3 15.3-17.4 54.2h46.4l31.1.4-23.6-46zm71 26.4l3.3-57.7 15.2-41.1h-67.5l15 41.1 3.5 57.7 1.2 18.2.1 44.8h27.7l.2-44.8z"
+              />
+            </svg>
+            <p class="text-center dark:text-white">
+              You don't have MetaMask in your browser, please download it from
+              <a href="https://metamask.io/" class="text-accent" target="_blank" rel="noreferrer noopener">MetaMask</a>
+            </p>
+          </div>
+          <!-- end body -->
+
+          <div class="modal-footer">
+            <div class="flex items-center justify-center space-x-4">
+              <a
+                href="https://metamask.io/"
+                target="_blank"
+                rel="noreferrer noopener"
+                class="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+              >
+                Get Metamask
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- JS Scripts -->
+    <script src="{% static 'js/app.bundle.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+
+    <script>
+      let currentStep = 1;
+      const totalSteps = 5;
+    
+      function showStep(step) {
+        document.querySelectorAll('.form-step').forEach(el => el.classList.remove('active'));
+        document.getElementById(`step-${step}`).classList.add('active');
+      }
+    
+      document.querySelectorAll('.next-step').forEach(btn => {
+        btn.addEventListener('click', function () {
+          if (!validateStep(currentStep)) return;
+          currentStep++;
+          showStep(currentStep);
+        });
+      });
+
+     
+
+    
+      document.querySelectorAll('.prev-step').forEach(btn => {
+        btn.addEventListener('click', function () {
+          currentStep--;
+          showStep(currentStep);
+        });
+      });
+    
+      function validateStep(step) {
+        if (step === 1) {
+
+          let firstName = document.getElementById('expert-firstname');
+          let lastName = document.getElementById('expert-lastname');
+          let firstNameError = document.getElementById('first-name-error');
+          let lastNameError = document.getElementById('last-name-error');
+
+          firstName.addEventListener("input",function(){
+            if (!firstName.value.trim()) {
+              firstNameError.textContent = 'First Name is required.';
+                    }
+                    else{
+                      firstNameError.textContent = '';
+
+                    }
+          })
+          lastName.addEventListener("input",function(){
+            if (!lastName.value.trim()) {
+              lastNameError.textContent = 'Last Name is required.';
+                    }
+                    else{
+                      lastNameError.textContent = '';
+
+                    }
+          })
+
+                if (!firstName.value.trim() && !lastName.value.trim()) {
+                  firstNameError.textContent = 'First Name is required.';
+                  lastNameError.textContent = 'Last Name is required.';
+                  return false;
+                }
+                if (!firstName.value.trim()) {
+            firstNameError.textContent = 'First Name is required.';
+            return false;
+                  }
+
+                  if (!lastName.value.trim()) {
+                    lastNameError.textContent = 'Last Name is required.';
+                    return false;
+                  }
+                  
+        } else if (step === 2) {
+              
+
+          let email = document.getElementById('expert-email');
+          let contact = document.getElementById('expert-contact');
+          let emailError = document.getElementById('email-error');
+          let contactError = document.getElementById('contact-error');
+          let emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+          let contactRegex = /^[0-9]{10}$/;
+
+          email.addEventListener("input",function(){
+            if (!email.value.trim()) {
+              emailError.textContent = 'Email is required.';
+                    }
+                    else{
+                      emailError.textContent = '';
+
+                    }
+          })
+          contact.addEventListener("input",function(){
+            if (!contact.value.trim()) {
+              contactError.textContent = 'Contact Number is required.';
+                    }
+                    else{
+                      contactError.textContent = '';
+
+                    }
+          })
+            
+                if (!email.value.trim() && !contact.value.trim()) {
+                  emailError.textContent = 'Email is required.';
+                  contactError.textContent = 'Contact Number is required.';
+                  return false;
+                }
+                else  if (!email.value.trim()) {
+                  emailError.textContent = 'Email is required.';
+                    return false;
+                  }
+                  else if (!emailRegex.test(email.value.trim())) {
+                    emailError.textContent = 'Invalid email format.';
+                    return false;
+                }
+
+                  if (!contact.value.trim()) {
+                    contactError.textContent = 'Contact Number is required.';
+                    return false;
+                  }
+                  else if (!contactRegex.test(contact.value.trim())) {
+                    contactError.textContent = 'Invalid contact number. Must be 10 digits.';
+                    return false;
+                }
+
+        }
+        else if (step === 3) {
+          
+          let userName = document.getElementById('userName')
+          let errorMessage = $("#error-message");
+          if (!userName.value.trim()) {
+              $("#error-message").text('Username is required.').css("color", "red");
+            return false;
+          }
+          
+
+            if (errorMessage.hasClass("text-red-500")) {
+              return false ; 
+            }
+        }
+         else if (step === 4) {
+
+          const instaCheckbox = document.getElementById('instagram-checkbox').checked;
+        const youtubeCheckbox = document.getElementById('youtube-checkbox').checked;
+
+        const instaInput = document.getElementById('instagram');
+        const instaFollowersInput = document.getElementById('followers_count');
+
+        const youtubeInput = document.getElementById('youtube');
+        const youtubeSubscribersInput = document.getElementById('subscribers_count');
+
+        const urlError = document.getElementById('url-error');
+        const instagramurlError = document.getElementById('instagramurl-error');
+        const youtubeurlError = document.getElementById('youtubeurl-error');
+        const followerscountError = document.getElementById('followerscount-error');
+        const subscriberscountError = document.getElementById('subscriberscount-error');
+
+
+       
+        urlError.textContent = ''; 
+
+        if (!instaCheckbox && !youtubeCheckbox) {
+            urlError.textContent = 'Please select at least one option (Instagram or YouTube).';
+            return false;
+        }
+        else{
+          urlError.textContent = '';
+        }
+
+        // Validate Instagram fields if checked
+        if (instaCheckbox) {
+
+          instaInput.addEventListener("input",function(){
+            if (!instaInput.value.trim()) {
+              instagramurlError.textContent = 'Instagram link is required.';
+                    }
+                    else{
+                      instagramurlError.textContent = '';
+
+                    }
+          })
+
+
+          instaFollowersInput.addEventListener("input",function(){
+            if (!instaFollowersInput.value.trim()) {
+              followerscountError.textContent = 'Instagram followers count is required.';
+                    }
+                    else{
+                      followerscountError.textContent = '';
+
+                    }
+          })
+
+            if (!instaInput.value.trim()) {
+              instagramurlError.textContent = 'Instagram link is required.';
+                return false;
+            } else if (!/^https:\/\/www\.instagram\.com\//.test(instaInput.value.trim())) {
+              instagramurlError.textContent = 'Enter a valid Instagram URL.';
+                return false;
+            }
+            if (!instaFollowersInput.value.trim()) {
+              followerscountError.textContent = 'Instagram followers count is required.';
+                return false;
+            } else if (isNaN(instaFollowersInput.value.trim()) || Number(instaFollowersInput.value.trim()) <= 0) {
+              followerscountError.textContent = 'Instagram followers count must be a valid number.';
+                return false;
+            }
+        }
+
+        // Validate YouTube fields if checked
+        if (youtubeCheckbox) {
+
+
+          youtubeInput.addEventListener("input",function(){
+            if (!youtubeInput.value.trim()) {
+              youtubeurlError.textContent = 'YouTube link is required.';
+                    }
+                    else{
+                      youtubeurlError.textContent = '';
+
+                    }
+          })
+
+
+          youtubeSubscribersInput.addEventListener("input",function(){
+            if (!youtubeSubscribersInput.value.trim()) {
+              subscriberscountError.textContent = 'YouTube subscribers count is required.';
+                    }
+                    else{
+                      subscriberscountError.textContent = '';
+
+                    }
+          })
+            if (!youtubeInput.value.trim()) {
+              youtubeurlError.textContent = 'YouTube link is required.';
+                return false;
+            } else if (!/^https:\/\/www\.youtube\.com\//.test(youtubeInput.value.trim())) {
+              youtubeurlError.textContent = 'Enter a valid YouTube URL.';
+                return false;
+            }
+            if (!youtubeSubscribersInput.value.trim()) {
+              subscriberscountError.textContent = 'YouTube subscribers count is required.';
+                return false;
+            } else if (isNaN(youtubeSubscribersInput.value.trim()) || Number(youtubeSubscribersInput.value.trim()) <= 0) {
+              subscriberscountError.textContent = 'YouTube subscribers count must be a valid number.';
+                return false;
+            }
+        }
+        } else if (step === 5) {     
+
+        }
+        return true;
+      }
+       
+      document.getElementById('instagram-checkbox').addEventListener('change', function () {
+        if (!this.checked) {
+          document.getElementById('instagram').value = '';
+          document.getElementById('followers_count').value = '';
+      }
+        document.getElementById('instagram-input').classList.toggle('hidden', !this.checked);
+        document.getElementById('instagram-followers-count').classList.toggle('hidden', !this.checked);
+  
+        if (!this.checked && !document.getElementById('youtube-checkbox').checked) {
+          document.getElementById('url-error').textContent = 'Please select at least one option (Instagram or YouTube).';
+      } else {
+        document.getElementById('url-error').textContent = ''; 
+      }
+      });
+    
+      document.getElementById('youtube-checkbox').addEventListener('change', function () {
+        if (!this.checked) {
+          document.getElementById('youtube').value = '';
+          document.getElementById('subscribers_count').value = '';
+          console.log('YouTube input cleared:',  document.getElementById('youtube').value);
+          console.log('YouTube subscribers cleared:',  document.getElementById('subscribers_count').value);
+      }
+        document.getElementById('youtube-input').classList.toggle('hidden', !this.checked);
+        document.getElementById('youtube-subscribers-count').classList.toggle('hidden', !this.checked);
+       
+  
+        if (!this.checked && !document.getElementById('instagram-checkbox').checked) {
+          document.getElementById('url-error').textContent = 'Please select at least one option (Instagram or YouTube).';
+      } else {
+        document.getElementById('url-error').textContent = ''; 
+      }
+      });
+    
+      showStep(currentStep);
+
+
+
+      $(document).ready(function () {
+        function generateUsername() {
+            let firstName = $("#expert-firstname").val().trim().toLowerCase();
+            let lastName = $("#expert-lastname").val().trim().toLowerCase();
+    
+            if (firstName && lastName) {
+                let username = firstName + lastName;
+                checkUsernameAvailability(username, false);
+            }
+        }
+    
+        function checkUsernameAvailability(username, isManualInput) {
+            $.ajax({
+                url: "/check-username/",  
+                type: "GET",
+                data: { username: username },
+                success: function (response) {
+                    let statusIcon = $("#status-icon");
+                    let errorMessage = $("#error-message");
+    
+                    if (response.exists) {
+                        if (!isManualInput) {
+                            let randomNum = Math.floor(1000 + Math.random() * 9000);
+                            let newUsername = username + randomNum;
+                            checkUsernameAvailability(newUsername, false);  
+                        } else {
+                            statusIcon.html('❌').addClass("text-red-500").removeClass("text-green-500");
+                            errorMessage.text("Username Already Exists!").addClass("text-red-500").removeClass("text-green-500");
+                        }
+                    } else {
+                        $("#userName").val(username);
+                        statusIcon.html('✔').addClass("text-green-500").removeClass("text-red-500");
+                        errorMessage.text("Username Available!").addClass("text-green-500").removeClass("text-red-500").css("color", "");;
+                    }
+                },
+            });
+        }
+    
+        $("#expert-firstname, #expert-lastname").on("input", function () {
+            generateUsername();
+        });
+    
+        $("#userName").on("input", function () {
+            let username = $(this).val().trim();
+            if (username.length > 0) {
+                checkUsernameAvailability(username, true);
+            } else {
+                $("#status-icon").html("");
+                $("#error-message").text("");
+            }
+        });
+    });
+
+    let password = document.getElementById('expert-password');
+          let confirmPassword = document.getElementById('expert-confirmPassword');
+          let passwordError = document.getElementById('password-error');
+          let confirmPasswordError = document.getElementById('confirmPassword-error');
+
+          password.addEventListener("input",function(){
+            if (!password.value.trim()) {
+              passwordError.textContent = 'Password is required.';
+                    }
+                    else{
+                      passwordError.textContent = '';
+
+                    }
+          })
+          confirmPassword.addEventListener("input",function(){
+            if (!confirmPassword.value.trim()) {
+              confirmPasswordError.textContent = 'Confirm Password is required.';
+                    }
+                    else{
+                      confirmPasswordError.textContent = '';
+
+                    }
+          })
+
+    
+      $('#expert-contact-form').on('submit', function(event) {
+
+
+
+        event.preventDefault();
+    
+            var firstname = document.getElementById("expert-firstname").value;
+            var lastname = document.getElementById("expert-lastname").value;
+            var email = document.getElementById("expert-email").value;
+            var username = document.getElementById("userName").value;
+
+            var contact_number = document.getElementById("expert-contact").value;
+            var password = document.getElementById("expert-password").value;
+            var confirmPassword = document.getElementById("expert-confirmPassword").value;
+            var youtubelink = document.getElementById("youtube").value;
+            var instagramlink = document.getElementById("instagram").value;
+            var subscribersCount = document.getElementById("subscribers_count").value;
+            var followersCount = document.getElementById("followers_count").value;
+            let passwordError = document.getElementById('password-error');
+            let confirmPasswordError = document.getElementById('confirmPassword-error');
+            const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+
+
+            var recaptcha_token = grecaptcha.getResponse();
+        
+
+            if (!password.trim() && !confirmPassword.trim()) {
+              passwordError.textContent = 'Password is required.';
+              confirmPasswordError.textContent = 'Confirm Password is required.';
+              return ;
+            }
+            if (!password.trim()) {
+              passwordError.textContent = 'Password is required.';
+              return ;
+              }
+            if (!passwordPattern.test(password.trim())) {
+                passwordError.textContent = 'Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, a number, and a special character.';
+                return ;
+            }
+
+              if (!confirmPassword.trim()) {
+                confirmPasswordError.textContent = 'Confirm Password is required.';
+                return ;
+              }
+            if(!recaptcha_token){
+                alert('Please complete the reCAPTCHA.');
+                return;
+            }
+            if (password !== confirmPassword) {
+                alert("Passwords do not match. Please try again.");
+                return;  
+            }
+
+        var formData = new FormData();
+        formData.append('firstname', firstname);
+        formData.append('lastname', lastname);
+        formData.append('username', username);
+
+        formData.append('contact_number', contact_number);
+        formData.append('email', email);
+        formData.append('youtubelink', youtubelink);
+        formData.append('instagramlink', instagramlink);
+        formData.append('subscribersCount', subscribersCount);
+        formData.append('followersCount', followersCount);
+
+        formData.append('password', password);
+        formData.append('password2', confirmPassword);
+        formData.append('recaptcha_token', recaptcha_token);
+
+        // Send data via AJAX
+        $.ajax({
+            url: '/signup_api/',
+            type: 'POST',
+            data: formData,
+            processData: false, 
+            contentType: false,
+            success: function(response) {
+                toastr.success('Registration successful!', 'Success');
+                window.location.href = response.redirect_url; 
+
+                const inputFields = ["firstname","lastname","expert-contact","expert-email", "expert-password", "expert-confirmPassword"];
+                inputFields.forEach(fieldId => {
+                    document.getElementById(fieldId).value = "";
+                  
+                });
+            },
+            error: function(xhr) {
+                var errors = xhr.responseJSON;
+                var firstKey = Object.keys(errors)[0];
+                var firstError = errors[firstKey][0];
+                toastr.error(firstError, 'Error');
+
+                if (errors) {
+                    grecaptcha.reset();  
+               
+                }
+            }
+        });
+    });
+
+    </script>
+  </body>
+</html>
