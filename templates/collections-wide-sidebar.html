@@ -522,13 +522,14 @@
                 <!-- Grid -->
                 <div class="tab-pane fade show active" id="view-grid" role="tabpanel" aria-labelledby="view-grid-tab">
                   <div class="grid grid-cols-1 gap-[1.875rem] md:grid-cols-3 lg:grid-cols-4 js-collections-grid">
+                    {% for expert in experts %}
                     <article>
                       <div
                         class="rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700"
                       >
-                        <a href="{% url 'collection' %}">
-                          <img
-                            src="{% static 'img/collections/collection_square_1.jpg' %}"
+                        <a href="{% url 'collection' expert.id %}">
+                          <img 
+                            src="{% if expert.profile_picture %}{{ expert.profile_picture.url }}{% else %}{% static 'img/collections/collection_square_1.jpg' %}{% endif %}"
                             alt="item 1"
                             class="w-full rounded-[0.625rem]"
                             loading="lazy"
@@ -536,10 +537,10 @@
                         </a>
 
                         <a
-                          href="{% url 'collection' %}"
+                          href="{% url 'collection' expert.id %}"
                           class="mt-5 mb-2 flex items-center font-display text-base text-jacarta-700 hover:text-accent dark:text-white dark:hover:text-accent"
                         >
-                          Art Me Outside
+                         {{ expert.firstname}} {{ expert.lastname}}
                           <div class="flex h-[1.125rem] w-[1.125rem] ml-1 mb-px items-center justify-center rounded-full border-2 border-white bg-green dark:border-jacarta-600" data-tippy-content="Verified Collection">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" class="h-[.875rem] w-[.875rem] fill-white">
                               <path fill="none" d="M0 0h24v24H0z"></path>
@@ -551,7 +552,8 @@
                         <div class="font-medium text-2xs text-jacarta-500 dark:text-jacarta-300">Last Sale: <span class="text-jacarta-700 dark:text-white">1.3 ETH</span></div> 
                       </div>
                     </article>
-                    <article>
+                    {% endfor %}
+                    {% comment %} <article>
                       <div
                         class="rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700"
                       >
@@ -841,7 +843,7 @@
                         <div class="font-medium text-2xs text-jacarta-500 dark:text-jacarta-300">Last Sale: <span class="text-jacarta-700 dark:text-white">1.6 ETH</span></div>
 
                       </div>
-                    </article>
+                    </article> {% endcomment %}
                   </div>
                 </div>
 
@@ -1841,7 +1843,7 @@
     </div>
 
     <!-- Buy Now Modal -->
-    <div class="modal fade" id="buyNowModal" tabindex="-1" aria-labelledby="buyNowModalLabel" aria-hidden="true">
+    {% comment %} <div class="modal fade" id="buyNowModal" tabindex="-1" aria-labelledby="buyNowModalLabel" aria-hidden="true">
       <div class="modal-dialog max-w-2xl">
         <div class="modal-content">
           <div class="modal-header">
@@ -1981,6 +1983,6 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> {% endcomment %}
 
     {% endblock %}

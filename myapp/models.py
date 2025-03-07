@@ -56,4 +56,40 @@ class ExpertUser(AbstractBaseUser,PermissionsMixin):
     REQUIRED_FIELDS = ['contact_number']
 
     def __str__(self):
-        return self.name
+        return self.firstname
+
+    
+class ServiceVideoForm(models.Model):
+    expert = models.ForeignKey(ExpertUser, on_delete=models.CASCADE) 
+    title = models.CharField(max_length=255,null=True,blank=True)
+    duration = models.CharField(max_length=2,null=True,blank=True)
+    amount = models.CharField(max_length=7,null=True,blank=True)  
+    created_at = models.DateTimeField(auto_now_add=True)  
+
+    def __str__(self):
+        return f"{self.title} - {self.expert}" 
+    
+class ServicePriorityDmForm(models.Model):
+    expert = models.ForeignKey(ExpertUser, on_delete=models.CASCADE) 
+    title = models.CharField(max_length=255,null=True,blank=True)
+    amount = models.CharField(max_length=7,null=True,blank=True)  
+    created_at = models.DateTimeField(auto_now_add=True)  
+
+    def __str__(self):
+        return f"{self.title} - {self.expert}" 
+    
+    
+class ServiceWebinarForm(models.Model):
+    expert = models.ForeignKey(ExpertUser, on_delete=models.CASCADE) 
+    title = models.CharField(max_length=255,null=True,blank=True)
+    duration = models.CharField(max_length=2,null=True,blank=True)
+    session_time = models.TimeField(null=True,blank=True)
+    session_date = models.DateField(null=True,blank=True)
+    amount = models.CharField(max_length=7,null=True,blank=True)  
+    created_at = models.DateTimeField(auto_now_add=True)  
+
+    def __str__(self):
+        return f"{self.title} - {self.expert}"             
+    
+    
+    

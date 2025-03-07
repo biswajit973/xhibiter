@@ -28,11 +28,74 @@ def careers(request):
 def case_studies(request):
   return render(request, 'case-studies.html')
 
-def collection(request):
-  return render(request, 'collection.html')
+
+def collection(request,id):
+  
+  expertvideodetails = []
+  expertwebinardetails = []
+  expertpriorityDmdetails = []
+
+  formatted_followers = "0"
+  formatted_subscribers = "0"
+
+  expert = ExpertUser.objects.get(id=id)
+  
+  if expert.followersCount is not None:
+        try:
+            followers_count = int(float(expert.followersCount))  
+            if followers_count >= 1000000:
+                formatted_followers = f"{followers_count / 1000000:.1f}".rstrip('0').rstrip('.') + "M"
+            elif followers_count >= 1000:
+                formatted_followers = f"{followers_count / 1000:.1f}".rstrip('0').rstrip('.') + "K"
+            else:
+                formatted_followers = str(followers_count)
+        except ValueError:
+            formatted_followers = "0"  
+
+  if expert.subscribersCount is not None:
+      try:
+          subscribers_count = int(float(expert.subscribersCount))  
+          if subscribers_count >= 1000000:
+              formatted_subscribers = f"{subscribers_count / 1000000:.1f}".rstrip('0').rstrip('.') + "M"
+          elif subscribers_count >= 1000:
+              formatted_subscribers = f"{subscribers_count / 1000:.1f}".rstrip('0').rstrip('.') + "K"
+          else:
+              formatted_subscribers = str(subscribers_count)
+      except ValueError:
+          formatted_subscribers = "0"    
+
+  
+  expertvideosessiondetails =  ServiceVideoForm.objects.filter(expert=id)
+  
+  for expertvideosession in expertvideosessiondetails:
+    expertvideodetails.append(expertvideosession)
+    
+  expertwebinarsessiondetails =  ServiceWebinarForm.objects.filter(expert=id)
+  
+  for expertwebinarsession in expertwebinarsessiondetails:
+    expertwebinardetails.append(expertwebinarsession) 
+      
+  expertprioritydmsessiondetails =  ServicePriorityDmForm.objects.filter(expert=id)
+  
+  for expertprioritydmsession in expertprioritydmsessiondetails:
+    expertpriorityDmdetails.append(expertprioritydmsession)   
+    
+  context = {
+      "expert": expert,
+      "formatted_followers": formatted_followers,
+      "formatted_subscribers": formatted_subscribers,
+      "expertvideosessiondetails": expertvideodetails,
+      "expertwebinarsessiondetails": expertwebinardetails,
+      "expertpriorityDmdetails": expertpriorityDmdetails,
+  }
+  
+  return render(request, 'collection.html',context)
 
 def collection_wide_sidebar(request):
-  return render(request, 'collections-wide-sidebar.html')
+  
+  experts = ExpertUser.objects.all()
+  
+  return render(request, 'collections-wide-sidebar.html',{"experts":experts})
 
 def collections(request):
   return render(request, 'collections.html')
@@ -58,7 +121,8 @@ def home_3(request):
   return render(request, 'home-3.html')
 
 def home_4(request):
-  return render(request, 'home-4.html')
+  experts = ExpertUser.objects.exclude(id=None)
+  return render(request, 'home-4.html',{"experts":experts})
 
 def home_5(request):
   return render(request, 'home-5.html')
@@ -132,6 +196,36 @@ def user(request):
 def wallet(request):
   return render(request, 'wallet.html')
 
+
+def services(request):
+  return render(request, 'services.html')
+
+@login_required
+def video(request):
+  expertvideodetails = []
+  expertvideosessiondetails =  ServiceVideoForm.objects.filter(expert = request.user.id)
+  
+  for expert in expertvideosessiondetails:
+    expertvideodetails.append(expert)
+  
+  return render(request, 'video.html',{'expertvideosessiondetails':expertvideodetails})
+
+def webinar(request):
+  expertwebinardetails = []
+  expertwebinarsessiondetails =  ServiceWebinarForm.objects.filter(expert = request.user.id)
+  
+  for expert in expertwebinarsessiondetails:
+    expertwebinardetails.append(expert)
+    
+  return render(request, 'webinar.html',{'expertwebinarsessiondetails':expertwebinardetails})
+
+def priorityDM(request):
+  expertpriorityDmdetails = []
+  expertprioritydmsessiondetails =  ServicePriorityDmForm.objects.filter(expert = request.user.id)
+  
+  for expert in expertprioritydmsessiondetails:
+    expertpriorityDmdetails.append(expert)
+  return render(request, 'priorityDM.html',{'expertpriorityDmdetails':expertpriorityDmdetails})
 
 
 import requests
@@ -343,4 +437,271 @@ def update_account_details_api(request):
         return JsonResponse({'message': ' details updated successfully'})
 
     return JsonResponse({'error': 'Invalid request method'}, status=405)
+   
+   
+   
+
+@login_required
+@csrf_exempt
+def serviceVideo_api(request):
+    if request.method == 'POST':
+        try:
+            expert = ExpertUser.objects.get(id=request.user.id)  
+            title = request.POST.get('title')
+            duration = request.POST.get('duration')
+            amount = request.POST.get('amount')
+
+            if not title or not duration or not amount:
+                return JsonResponse({'error': 'All fields are required (title, duration, amount).'}, status=400)
+
+            service_video = ServiceVideoForm.objects.create(
+                expert=expert,
+                title=title,
+                duration=duration,
+                amount=amount
+            )
+
+            return JsonResponse({
+                'message': 'Service video created successfully!',
+                'service_id': service_video.id
+            }, status=201)
+
+        except ExpertUser.DoesNotExist:
+            return JsonResponse({'error': 'Expert user not found.'}, status=404)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+
+    return JsonResponse({'error': 'Invalid request method'}, status=405)
+  
+  
+
+@login_required
+@csrf_exempt
+def serviceWebinar_api(request):
+    if request.method == 'POST':
+        try:
+            expert = ExpertUser.objects.get(id=request.user.id)  
+            title = request.POST.get('title')
+            duration = request.POST.get('duration')
+            amount = request.POST.get('amount')
+            session_date = request.POST.get('session_date')
+            session_time = request.POST.get('session_time')
+
+
+            if not title or not duration or not amount or not session_date or not session_time:
+                return JsonResponse({'error': 'All fields are required (title, duration, amount).'}, status=400)
+
+            try:
+                session_date = datetime.strptime(session_date,'%Y-%m-%d').date()
+            except ValueError:
+                return JsonResponse({'error': 'Invalid date format. Use YYYY-MM-DD.'}, status=400)
+
+            try:
+                session_time = datetime.strptime(session_time + ":00", '%H:%M:%S').time()
+            except ValueError:
+                return JsonResponse({'error': 'Invalid time format. Use HH:MM.'}, status=400)
+
+            service_webinar = ServiceWebinarForm.objects.create(
+                expert=expert,
+                title=title,
+                duration=duration,
+                amount=amount,
+                session_date=session_date,
+                session_time=session_time
+            )
+            return JsonResponse({
+                'message': 'Service video created successfully!',
+                'service_id': service_webinar.id
+            }, status=201)
+
+
+        except ExpertUser.DoesNotExist:
+            return JsonResponse({'error': 'Expert user not found.'}, status=404)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+
+    return JsonResponse({'error': 'Invalid request method'}, status=405)
+      
+   
+
+@login_required
+@csrf_exempt
+def servicePrioritydm_api(request):
+    if request.method == 'POST':
+        try:
+            expert = ExpertUser.objects.get(id=request.user.id)  
+            title = request.POST.get('title')
+            amount = request.POST.get('amount')
+
+            if not title or   not amount:
+                return JsonResponse({'error': 'All fields are required (title, duration, amount).'}, status=400)
+
+            service_prioritydm = ServicePriorityDmForm.objects.create(
+                expert=expert,
+                title=title,
+                amount=amount
+            )
+
+            return JsonResponse({
+                'message': 'Service video created successfully!',
+                'service_id': service_prioritydm.id
+            }, status=201)
+
+        except ExpertUser.DoesNotExist:
+            return JsonResponse({'error': 'Expert user not found.'}, status=404)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+
+    return JsonResponse({'error': 'Invalid request method'}, status=405)
+  
+  
+@csrf_exempt
+def deletevideoSession_api(request,id):
+  
+  if request.method=="POST":
+    
+    videosession = ServiceVideoForm.objects.filter(id=id)
+    
+    videosession.delete()
+    
+    return JsonResponse({"message":"record deleted successfully"})
+    
+  return JsonResponse({"error":'invalid request method'},status=405)  
+
+
+  
+@csrf_exempt
+def deletewebinarSession_api(request,id):
+  
+  if request.method=="POST":
+    
+    webinarsession = ServiceWebinarForm.objects.filter(id=id)
+    
+    webinarsession.delete()
+    
+    return JsonResponse({"message":"record deleted successfully"})
+    
+  return JsonResponse({"error":'invalid request method'},status=405) 
+
+
+
+  
+@csrf_exempt
+def deleteprioritydmSession_api(request,id):
+  
+  if request.method=="POST":
+    
+    prioritydmsession = ServicePriorityDmForm.objects.filter(id=id)
+    
+    prioritydmsession.delete()
+    
+    return JsonResponse({"message":"record deleted successfully"})
+    
+  return JsonResponse({"error":'invalid request method'},status=405)  
+
+
+@csrf_exempt
+def updateVideoSession_api(request):
+  
+  if request.method=="POST":
+    id = request.POST.get("id")
+    title = request.POST.get("title")
+    duration = request.POST.get("duration")
+    amount = request.POST.get("amount")
+
+
+
+
+    videosession = ServiceVideoForm.objects.get(id=id)
+    videosession.title = title
+    videosession.duration = duration
+    videosession.amount = amount
+    videosession.save()
+    
+    
+    
+    return JsonResponse({"message":"record updated successfully"})
+    
+  return JsonResponse({"error":'invalid request method'},status=405)  
+
+
+
+
+
+@csrf_exempt
+def updateWebinarSession_api(request):
+  
+  if request.method=="POST":
+    id = request.POST.get("id")
+    title = request.POST.get("title")
+    duration = request.POST.get("duration")
+    amount = request.POST.get("amount")
+    session_date = request.POST.get('session_date')
+    session_time = request.POST.get('session_time')
+
+
+   
+
+    try:
+        session_date = datetime.strptime(session_date,'%Y-%m-%d').date()
+    except ValueError:
+        return JsonResponse({'error': 'Invalid date format. Use YYYY-MM-DD.'}, status=400)
+
+    try:
+        session_time = datetime.strptime(session_time + ":00", '%H:%M:%S').time()
+    except ValueError:
+        return JsonResponse({'error': 'Invalid time format. Use HH:MM.'}, status=400)
+
+
+
+
+    webinarsession = ServiceWebinarForm.objects.get(id=id)
+    webinarsession.title = title
+    webinarsession.duration = duration
+    webinarsession.amount = amount
+    webinarsession.session_date=session_date
+    webinarsession.session_time= session_time
+    webinarsession.save()
+    
+    
+    
+    return JsonResponse({"message":"record updated successfully"})
+    
+  return JsonResponse({"error":'invalid request method'},status=405) 
+
+
+
+@csrf_exempt
+def updatePriorityDmSession_api(request):
+  
+  if request.method=="POST":
+    id = request.POST.get("id")
+    title = request.POST.get("title")
+    amount = request.POST.get("amount")
+
+
+
+
+    priorityDmsession = ServicePriorityDmForm.objects.get(id=id)
+    priorityDmsession.title = title
+    priorityDmsession.amount = amount
+    priorityDmsession.save()
+    
+    
+    
+    return JsonResponse({"message":"record updated successfully"})
+    
+  return JsonResponse({"error":'invalid request method'},status=405) 
+
+
+  
+
+
+  
+    
+    
+      
+        
+  
+      
    

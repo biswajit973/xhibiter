@@ -1,0 +1,354 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <main>
+      <!-- Create -->
+      <section class="relative py-24">
+        <picture class="pointer-events-none absolute inset-0 -z-10 dark:hidden">
+          <img src="{% static 'img/gradient_light.jpg' %}" alt="gradient" class="h-full w-full" />
+        </picture>
+       <div class="container">
+        <h1 class="text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
+            Services
+          </h1>
+          <p class=" font-display text-2xl font-medium text-jacarta-700 dark:text-white">Select Type</p><br>
+        <div class="w-full flex  items-center px-4 md:px-6 xl:px-8" style="justify-content: space-around;">
+           
+            <div class="flex items-center gap-4">
+                        <a href="{% url 'video' %}" class="tab px-4 py-2 rounded-lg bg-jacarta-100 font-display text-sm font-semibold text-jacarta-700 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:bg-jacarta-700 dark:text-white dark:hover:bg-accent">
+                            <span class="whitespace-nowrap">1:1 Call</span>
+                        </a>
+                        <a href="{% url 'webinar' %}" class="rounded-lg  font-display text-sm font-semibold text-jacarta-700 transition-colors border-transparent bg-accent text-white dark:bg-jacarta-700 dark:text-white dark:bg-accent px-6 py-3">
+                            <span class="whitespace-nowrap">Webinar</span>
+                        </a>
+                        <a  href="{% url 'priorityDM' %}" class="tab px-4 py-2 rounded-lg bg-jacarta-100 font-display text-sm font-semibold text-jacarta-700 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:bg-jacarta-700 dark:text-white dark:hover:bg-accent">
+                            <span class="whitespace-nowrap">Priority DM</span>
+                        </a>
+                    </div>
+        
+                    <div class="flex gap-3">
+                        <a href="{% url 'services' %}?type=Webinar" class="px-4 py-2 rounded-lg bg-jacarta-100 font-display text-sm font-semibold text-jacarta-700 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:bg-jacarta-700 dark:text-white dark:hover:bg-accent inline-block">
+                            + Add New
+                        </a>
+                    </div>
+                </div>
+            </div>
+           
+        
+          
+        
+      </section>
+      {% if expertwebinarsessiondetails %}
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-4">
+        {% for expert in expertwebinarsessiondetails %}
+          <div  id ="session-{{ expert.id }}" class="bg-white shadow-xl rounded-2xl overflow-hidden transform transition hover:scale-105 hover:shadow-2xl h-full flex flex-col">
+            <div class="p-6 flex-grow flex flex-col">
+              <!-- Header with Title and Status -->
+              <div class="flex justify-between items-center mb-4 ">
+                <h1 class="text-xl font-semibold truncate" title="one to one">{{ expert.title }}</h1>
+                <div class="flex items-center gap-2 text-gray-500">
+                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" 
+                          d="M255.66 112c-77.94 0-157.89 45.11-220.83 135.33a16 16 0 0 0-.27 17.77C82.92 340.8 161.8 400 255.66 400c92.84 0 173.34-59.38 221.79-135.25a16.14 16.14 0 0 0 0-17.47C428.89 172.28 347.8 112 255.66 112z"></path>
+                    <circle cx="256" cy="256" r="80" fill="none" stroke-miterlimit="10" stroke-width="32"></circle>
+                  </svg>
+                  <span class="text-sm font-medium">Public</span>
+                </div>
+              </div>
+          
+              <!-- Time and Price -->
+              <div class="text-gray-600 text-lg mb-4 flex-grow">
+                <span>{{ expert.duration }} mins | </span>
+                <span class="text-gray-900 font-semibold">₹{{ expert.amount }}</span>
+              </div>
+              <div class="text-gray-600 text-lg mb-4 flex-grow">
+                <span> Session Time : {{ expert.session_time }} </span><br>
+                <span class="text-gray-900 font-semibold"> Session Date : {{ expert.session_date }}</span>
+              </div>
+          
+              <!-- Action Buttons -->
+              <div class="flex justify-between mt-auto">
+                <button
+                class="font-display text-sm font-semibold text-accent"
+                data-bs-toggle="modal"
+                data-bs-target="#editWebinarModal"
+              onclick="editWebinarSession({{ expert.id }},'{{ expert.title}}','{{ expert.duration}}','{{ expert.amount}}',' {{ expert.session_time }}',' {{ expert.session_date }}')" >
+                Edit
+              </button>
+                <button class="bg-red-500 text-black px-4 py-2 rounded-lg shadow-md hover:bg-red-600 transition" onclick="deleteWebinarSession({{ expert.id }})">>
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+    </div>
+      {% else %}
+      <div class="w-full md:w-2/3 p-4 flex flex-col items-center text-center">
+        <img 
+            alt="Empty State" 
+            loading="lazy" 
+            width="204" 
+            height="20" 
+            class="h-auto" 
+            src="{% static 'img/webinar.svg' %}" 
+            style="color: transparent;"
+        />
+        
+        <div class="flex flex-col space-y-2 mt-4">
+            <h5 class="text-lg font-semibold text-gray-800 dark:text-white">Host a webinar</h5>
+            
+            <div class="flex justify-center gap-6 mt-4">
+                <a href="{% url 'services' %}?type=Webinar" class="px-4 py-2 rounded-lg bg-jacarta-100 font-display text-sm font-semibold text-jacarta-700 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:bg-jacarta-700 dark:text-white dark:hover:bg-accent inline-block">
+                    + Add New
+                </a>
+               
+            </div>
+        </div>
+        {% endif %}
+
+      
+    </div>
+    
+
+      
+      <!-- end create -->
+    </main>
+    <div class="modal fade" id="editWebinarModal" tabindex="-1" aria-labelledby="editWebinarModalLabel" aria-hidden="true">
+      <div class="modal-dialog max-w-2xl">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editVideoModalLabel">Edit Video Details</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          
+          <!-- Body -->
+          <div class="modal-body p-6">
+            <form id="serviceWebinarForm" class="mt-4">
+              <input type="hidden" name="id" id="webinar-id">
+              
+              <div class="mb-4">
+                <label for="webinar-title" class="block font-display text-jacarta-700 dark:text-white">Title<span class="text-red">*</span></label>
+                <input type="text" name="title" id="webinar-title" placeholder="Enter title" 
+                       class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white" required>
+              </div>
+          
+              <div class="grid grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label for="webinar-duration" class="block font-display text-jacarta-700 dark:text-white">Duration (mins)<span class="text-red">*</span></label>
+                  <input type="text" name="duration" id="webinar-duration" placeholder="Enter duration" 
+                         class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white" required>
+                </div>
+                <div>
+                  <label for="webinar-amount" class="block font-display text-jacarta-700 dark:text-white">Amount <span class="text-red">*</span></label>
+                  <input type="text" name="amount" id="webinar-amount" placeholder="Enter amount" 
+                         class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white" required>
+                </div>
+              </div>
+          
+              <div class="grid grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label for="webinar-date" class="block font-display text-jacarta-700 dark:text-white">Session Date <span class="text-red">*</span></label>
+                  <input type="date" name="date" id="webinar-date" placeholder="Enter date" 
+                         class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white" required>
+                </div>
+                <div>
+                  <label for="webinar-time" class="block font-display text-jacarta-700 dark:text-white">Session Time<span class="text-red">*</span></label>
+                  <input type="time" name="time" id="webinar-time" placeholder="Enter time" 
+                         class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white" required>
+                </div>
+              </div>
+            </form>
+          </div>
+          
+          
+          <!-- Footer -->
+          <div class="modal-footer">
+            <button type="button" class="rounded-full bg-gray-300 py-3 px-6 text-jacarta-700 dark:text-white" data-bs-dismiss="modal" onclick=resetform()>Cancel</button>
+            <button type="button" class="rounded-full bg-accent py-3 px-8 text-white shadow-accent-volume hover:bg-accent-dark" onclick=updateWebinarSession()>Save Changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+   <script>
+
+    function deleteWebinarSession(id){
+
+        if (confirm("Are you sure you want to delete this webinar session?")) {
+    
+          $.ajax({
+            url:`/deletewebinarSession_api/${id}/`,
+            method:'POST',
+            success: function(data){
+              toastr.success("Webinar session deleted successfully")
+              $(`#session-${id}`).remove();
+    
+            },
+            error: function(xhr) {
+              var errors = xhr.responseJSON;
+              var firstKey = Object.keys(errors)[0];
+              var firstError = errors[firstKey][0];
+              toastr.error(firstError, 'Error');
+          }
+          })
+        }
+      }
+
+
+
+      function editWebinarSession(id, title,duration,amount,session_time,session_date){
+        document.getElementById('webinar-id').value = id
+    
+        document.getElementById('webinar-title').value = title
+        document.getElementById('webinar-duration').value = duration
+        document.getElementById('webinar-amount').value = amount
+        const dateObj = new Date(session_date);
+    const formattedDate = dateObj.toISOString().split('T')[0]; 
+
+    const timeParts = session_time.match(/(\d+):(\d+)\s*(a.m.|p.m.)/i);
+    
+    if (timeParts) {
+        let hours = parseInt(timeParts[1], 10);
+        let minutes = timeParts[2];
+        let period = timeParts[3].toLowerCase();
+
+        if (period === "p.m." && hours !== 12) {
+            hours += 12;
+        } else if (period === "a.m." && hours === 12) {
+            hours = 0;
+        }
+
+        const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes}`;
+        
+        document.getElementById('webinar-date').value = formattedDate;
+        document.getElementById('webinar-time').value = formattedTime;
+
+    
+      }
+    }
+      function resetform(){
+        document.getElementById('webinar-id').value = ""
+    
+        document.getElementById('webinar-title').value = ""
+        document.getElementById('webinar-duration').value = ""
+        document.getElementById('webinar-amount').value = ""
+        document.getElementById('webinar-time').value = ""
+        document.getElementById('webinar-date').value = ""
+
+    
+      }
+    
+      function updateWebinarSession(){
+    
+       const id =  document.getElementById('webinar-id').value
+    
+       const title =  document.getElementById('webinar-title').value
+       const duration =  document.getElementById('webinar-duration').value 
+        const amount = document.getElementById('webinar-amount').value 
+        const session_time = document.getElementById('webinar-time').value 
+        const session_date = document.getElementById('webinar-date').value 
+
+    
+       var formData = new FormData()
+    
+       formData.append("id",id)
+       formData.append('title', title);
+       formData.append('duration', duration);
+       formData.append('amount', amount);
+       formData.append('session_time', session_time);
+       formData.append('session_date', session_date);
+
+       const dateObj = new Date(session_date);
+       const options = { month: 'short', day: 'numeric', year: 'numeric' };
+       const formattedDate = dateObj.toLocaleDateString('en-US', options).replace(',', '.');
+   
+       const [hours, minutes] = session_time.split(':');
+       const dateTime = new Date();
+       dateTime.setHours(hours, minutes);
+       
+       const formattedTime = dateTime.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+    
+       $.ajax({
+        url:"/updateWebinarSession_api/",
+        method:"POST",
+        data:formData,
+        processData: false,
+         contentType: false,
+        success: function(data){
+          toastr.success("session details updated successfully")
+          $(`#session-${id}`).html(`<div class="p-6 flex-grow flex flex-col">
+              <!-- Header with Title and Status -->
+              <div class="flex justify-between items-center mb-4 ">
+                <h1 class="text-xl font-semibold truncate" title="one to one">${title}</h1>
+                <div class="flex items-center gap-2 text-gray-500">
+                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" 
+                          d="M255.66 112c-77.94 0-157.89 45.11-220.83 135.33a16 16 0 0 0-.27 17.77C82.92 340.8 161.8 400 255.66 400c92.84 0 173.34-59.38 221.79-135.25a16.14 16.14 0 0 0 0-17.47C428.89 172.28 347.8 112 255.66 112z"></path>
+                    <circle cx="256" cy="256" r="80" fill="none" stroke-miterlimit="10" stroke-width="32"></circle>
+                  </svg>
+                  <span class="text-sm font-medium">Public</span>
+                </div>
+              </div>
+          
+              <!-- Time and Price -->
+              <div class="text-gray-600 text-lg mb-4 flex-grow">
+                <span>${duration} mins | </span>
+                <span class="text-gray-900 font-semibold">₹${amount}</span>
+              </div>
+              <div class="text-gray-600 text-lg mb-4 flex-grow">
+                <span> Session Time : ${formattedTime} </span><br>
+                <span class="text-gray-900 font-semibold"> Session Date : ${formattedDate}</span>
+              </div>
+          
+              <!-- Action Buttons -->
+              <div class="flex justify-between mt-auto">
+                <button
+                class="font-display text-sm font-semibold text-accent edit-webinar-session"
+                data-bs-toggle="modal"
+                data-bs-target="#editWebinarModal"
+                      data-id="${id}"
+                      data-title="${title}"
+                      data-duration="${duration}"
+                      data-amount="${amount}"  
+                      data-time="${formattedTime}"
+                      data-date="${formattedDate}">   
+                      
+               Edit
+              </button>
+                <button class="bg-red-500 text-black px-4 py-2 rounded-lg shadow-md hover:bg-red-600 transition" onclick="deleteWebinarSession({{ expert.id }})">>
+                  Delete
+                </button>
+              </div>
+            </div>`);
+         
+        },
+        error: function(xhr){
+          var errors = xhr.responseJSON;
+                        var firstKey = Object.keys(errors)[0];
+                        var firstError = errors[firstKey][0];
+                        toastr.error(firstError, 'Error');
+        }
+       })
+      }
+     
+
+      $(document).on("click", ".edit-webinar-session", function () {
+        const id = $(this).data("id");
+        const title = $(this).data("title");
+        const amount = $(this).data("amount");
+        const duration = $(this).data("duration");
+        const sessionTime = $(this).data("time");
+        const sessionDate = $(this).data("date");
+
+    
+        editWebinarSession(id, title,duration,amount,sessionTime,sessionDate);
+    });
+    
+   </script>
+    
+    {% endblock %}
+
+     
+      

@@ -9,16 +9,17 @@
         <img src="{% static 'img/collections/collection_banner.jpg' %}" alt="banner" class="h-[18.75rem] object-cover" />
       </div>
       <!-- end banner -->
-
+      
       <!-- Profile -->
       <section class="relative bg-light-base pb-12 pt-28 dark:bg-jacarta-800">
         <!-- Avatar -->
         <div class="absolute left-1/2 top-0 z-10 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center">
           <figure class="relative">
             <img
-              src="{% static 'img/collections/collection_avatar.jpg' %}"
+            src="{% if expert.profile_picture %}{{ expert.profile_picture.url }}{% else %}{% static 'img/collections/collection_avatar.jpg' %}{% endif %}"
+
               alt="collection avatar"
-              class="rounded-xl border-[5px] border-white dark:border-jacarta-600"
+              class="rounded-xl border-[5px] border-white dark:border-jacarta-600"style="width: 100px; height: 100px; object-fit: cover| contain;"
             />
             <div
               class="absolute -right-3 bottom-0 flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-green dark:border-jacarta-600"
@@ -37,13 +38,14 @@
             </div>
           </figure>
         </div>
-
+       
+          
         <div class="container">
           <div class="text-center">
-            <h2 class="mb-2 font-display text-4xl font-medium text-jacarta-700 dark:text-white">NFT Funny Cat</h2>
+            <h2 class="mb-2 font-display text-4xl font-medium text-jacarta-700 dark:text-white">{{ expert.firstname }} {{ expert.lastname }}</h2>
             <div class="mb-8">
               <span class="text-sm font-bold text-jacarta-400">Created by</span>
-              <a href="{% url 'user' %}" class="text-sm font-bold text-accent">051_Hart</a>
+              <a href="{% url 'user' %}" class="text-sm font-bold text-accent">{{ expert.yourusername }}</a>
             </div>
 
             <div
@@ -53,15 +55,20 @@
                 href="#"
                 class="w-1/2 rounded-l-xl border-r border-jacarta-100 py-4 hover:shadow-md dark:border-jacarta-600 sm:w-32"
               >
-                <div class="mb-1 text-base font-bold text-jacarta-700 dark:text-white">7.2K</div>
-                <div class="text-2xs font-medium tracking-tight dark:text-jacarta-400">Items</div>
+             
+              <div class="mb-1 text-base font-bold text-jacarta-700 dark:text-white">
+                  {{ formatted_followers }}
+              </div> 
+             <div class="text-2xs font-medium tracking-tight dark:text-jacarta-400">Instagram Followers</div>
               </a>
               <a
                 href="#"
                 class="w-1/2 border-jacarta-100 py-4 hover:shadow-md dark:border-jacarta-600 sm:w-32 sm:border-r"
               >
-                <div class="mb-1 text-base font-bold text-jacarta-700 dark:text-white">5.3K</div>
-                <div class="text-2xs font-medium tracking-tight dark:text-jacarta-400">Owners</div>
+                <div class="mb-1 text-base font-bold text-jacarta-700 dark:text-white">
+                    {{ formatted_subscribers }}
+                </div>
+                <div class="text-2xs font-medium tracking-tight dark:text-jacarta-400">Youtube Subscribers</div>
               </a>
               <a
                 href="#"
@@ -119,7 +126,7 @@
             </div>
 
             <p class="mx-auto max-w-xl text-lg dark:text-jacarta-300">
-              Unique, fully 3D and built to unite the design multiverse. Designed and styled by Digimental.
+            {{ expert.aboutyourself }}    
             </p>
 
             <div class="mt-6 flex items-center justify-center space-x-2.5">
@@ -363,7 +370,7 @@
                     d="M13 21V11h8v10h-8zM3 13V3h8v10H3zm6-2V5H5v6h4zM3 21v-6h8v6H3zm2-2h4v-2H5v2zm10 0h4v-6h-4v6zM13 3h8v6h-8V3zm2 2v2h4V5h-4z"
                   />
                 </svg>
-                <span class="font-display text-base font-medium">Items</span>
+                <span class="font-display text-base font-medium">Services</span>
               </button>
             </li>
             <li class="nav-item" role="presentation">
@@ -1245,11 +1252,14 @@
 
               <!-- Grid -->
               <div class="grid grid-cols-1 gap-[1.875rem] md:grid-cols-2 lg:grid-cols-4">
-                <article>
+                {% if expertvideosessiondetails %}
+                {% for expert in expertvideosessiondetails %}
+              <article>
+                 
                   <div
                     class="block rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700"
                   >
-                    <figure class="relative">
+                <figure class="relative">
                       <a href="{% url 'item' %}">
                         <img
                           src="{% static 'img/products/item_5.jpg' %}"
@@ -1301,10 +1311,11 @@
                         </div>
                       </div>
                     </figure>
+                    
                     <div class="mt-7 flex items-center justify-between">
                       <a href="{% url 'item' %}">
                         <span class="font-display text-base text-jacarta-700 hover:text-accent dark:text-white"
-                          >Flourishing Cat #180</span
+                          >{{ expert.title }}</span
                         >
                       </a>
                       <div class="dropup rounded-full hover:bg-jacarta-100 dark:hover:bg-jacarta-600">
@@ -1358,7 +1369,7 @@
                       </div>
                     </div>
                     <div class="mt-2 text-sm">
-                      <span class="mr-1 text-jacarta-700 dark:text-jacarta-200">From 8.49 ETH</span>
+                      <span class="mr-1 text-jacarta-700 dark:text-jacarta-200">From INR {{ expert.amount }}</span>
                       <span class="text-jacarta-500 dark:text-jacarta-300">2/8</span>
                     </div>
 
@@ -1389,7 +1400,14 @@
                       </a>
                     </div>
                   </div>
-                </article>
+              </article>
+                
+                {% endfor %}
+                {% endif %}
+
+                {% if expertwebinarsessiondetails %}
+                {% for expert in expertwebinarsessiondetails %}
+
                 <article>
                   <div
                     class="block rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700"
@@ -1449,7 +1467,7 @@
                     <div class="mt-7 flex items-center justify-between">
                       <a href="{% url 'item' %}">
                         <span class="font-display text-base text-jacarta-700 hover:text-accent dark:text-white"
-                          >Amazing NFT art</span
+                          >{{ expert.title }}</span
                         >
                       </a>
                       <div class="dropup rounded-full hover:bg-jacarta-100 dark:hover:bg-jacarta-600">
@@ -1503,7 +1521,7 @@
                       </div>
                     </div>
                     <div class="mt-2 text-sm">
-                      <span class="mr-1 text-jacarta-700 dark:text-jacarta-200">From 5.9 ETH</span>
+                      <span class="mr-1 text-jacarta-700 dark:text-jacarta-200">From INR {{ expert.amount }}</span>
                       <span class="text-jacarta-500 dark:text-jacarta-300">1/7</span>
                     </div>
 
@@ -1535,6 +1553,12 @@
                     </div>
                   </div>
                 </article>
+                {% endfor %}
+                {% endif %}
+
+                {% if expertpriorityDmdetails %}
+                {% for expert in  expertpriorityDmdetails %}
+
                 <article>
                   <div
                     class="block rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700"
@@ -1594,7 +1618,7 @@
                     <div class="mt-7 flex items-center justify-between">
                       <a href="{% url 'item' %}">
                         <span class="font-display text-base text-jacarta-700 hover:text-accent dark:text-white"
-                          >SwagFox#133</span
+                          >{{ expert.title }}</span
                         >
                       </a>
                       <div class="dropup rounded-full hover:bg-jacarta-100 dark:hover:bg-jacarta-600">
@@ -1648,7 +1672,7 @@
                       </div>
                     </div>
                     <div class="mt-2 text-sm">
-                      <span class="mr-1 text-jacarta-700 dark:text-jacarta-200">0.078 ETH</span>
+                      <span class="mr-1 text-jacarta-700 dark:text-jacarta-200">From INR {{ expert.amount}}</span>
                       <span class="text-jacarta-500 dark:text-jacarta-300">1/3</span>
                     </div>
 
@@ -1680,7 +1704,9 @@
                     </div>
                   </div>
                 </article>
-                <article>
+                {% endfor %}
+                {% endif %}
+                {% comment %} <article>
                   <div
                     class="block rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700"
                   >
@@ -2404,7 +2430,7 @@
                       </a>
                     </div>
                   </div>
-                </article>
+                </article> {% endcomment %}
               </div>
               <!-- end grid -->
             </div>
@@ -2878,7 +2904,7 @@
     </div>
 
     <!-- Buy Now Modal -->
-    <div class="modal fade" id="buyNowModal" tabindex="-1" aria-labelledby="buyNowModalLabel" aria-hidden="true">
+     <div class="modal fade" id="buyNowModal" tabindex="-1" aria-labelledby="buyNowModalLabel" aria-hidden="true">
       <div class="modal-dialog max-w-2xl">
         <div class="modal-content">
           <div class="modal-header">
@@ -2912,7 +2938,7 @@
               </figure>
 
               <div>
-                <a href="{% url 'collection' %}" class="text-sm text-accent">Elon Musk #709</a>
+                <a href="#" class="text-sm text-accent">Elon Musk #709</a>
                 <h3 class="mb-1 font-display text-base font-semibold text-jacarta-700 dark:text-white">
                   Lazyone Panda
                 </h3>

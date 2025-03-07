@@ -42,7 +42,7 @@
                     <span class="font-display text-base font-medium">Account</span>
                   </button>
                 </li>
-              </ul>
+          </ul>
               <div class="tab-content">
                 <!-- Ethereum -->
       <div class="tab-pane fade show active" id="profiletab" role="tabpanel" aria-labelledby="profile-tab">     
@@ -803,7 +803,6 @@
         let reader = new FileReader();
 
         reader.onload = function (e) {
-            // Target the specific profile image using its ID
             document.getElementById('profileImage').src = e.target.result;
         };
 

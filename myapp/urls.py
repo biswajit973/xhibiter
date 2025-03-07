@@ -13,7 +13,7 @@ urlpatterns = [
    path('blog/',views.blog,name="blog"),
    path('careers/',views.careers,name="careers"),
    path('case-studies/',views.case_studies,name="case-studies"),
-   path('collection/',views.collection,name="collection"),
+   path('collection/<int:id>/',views.collection,name="collection"),
    path('collections-wide-sidebar/',views.collection_wide_sidebar,name="collections-wide-sidebar"),
    path('collections/',views.collections,name="collections"),
    path('contact/',views.contact,name="contact"),
@@ -53,7 +53,30 @@ urlpatterns = [
    path('wallet/',views.wallet,name="wallet"),
    path('check-username/',views.check_username,name="check-username"),
    path('update_profile_api/', views.update_profile_details_api, name='update_profile_api'),
-      path('update_account_api/', views.update_account_details_api, name='update_account_api'),
+   path('update_account_api/', views.update_account_details_api, name='update_account_api'),
+   path('services/',views.services,name="services"),
+   path('video/',views.video,name="video"),
+   path('webinar/',views.webinar,name="webinar"),
+   path('priorityDM/',views.priorityDM,name="priorityDM"),
+   path('serviceVideo_api/', views.serviceVideo_api, name='serviceVideo_api'),
+   path('serviceWebinar_api/', views.serviceWebinar_api, name='serviceWebinar_api'),
+   path('servicePrioritydm_api/', views.servicePrioritydm_api, name='servicePrioritydm_api'),
+   path('deletevideoSession_api/<int:id>/', views.deletevideoSession_api, name='deletevideoSession_api'),
+   path('deletewebinarSession_api/<int:id>/', views.deletewebinarSession_api, name='deletewebinarSession_api'),
+   path('deleteprioritydmSession_api/<int:id>/', views.deleteprioritydmSession_api, name='deleteprioritydmSession_api'),
+   path('updateVideoSession_api/', views.updateVideoSession_api, name='updateVideoSession_api'),
+   path('updateWebinarSession_api/', views.updateWebinarSession_api, name='updateWebinarSession_api'),
+   path('updatePriorityDmSession_api/', views.updatePriorityDmSession_api, name='updatePriorityDmSession_api'),
+
+
+
+   
+   
+
+
+
+   
+
 
 
 
