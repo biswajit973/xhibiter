@@ -56,190 +56,47 @@
         <!-- Slider -->
         <div class="swiper coverflow-slider !py-5">
           <div class="swiper-wrapper">
-            <!-- Slides -->
-            <div class="swiper-slide">
-              <article>
-                <div
-                  class="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-700"
-                >
-                  <figure class="relative">
-                    <a href="{% url 'item' %}">
-                      <img
-                        src="{% static 'img/products/item_13_lg.gif' %}"
-                        alt="item 1"
-                        class="swiper-lazy h-[430px] w-full object-cover"
-                        height="430"
-                        width="379"
-                      />
-                      <div class="swiper-lazy-preloader"></div>
-                    </a>
-                  </figure>
-                  <div class="p-6">
-                    <div class="flex">
-                      <a href="{% url 'user' %}" class="shrink-0">
-                        <img src="{% static 'img/avatars/avatar_18_rounded.gif' %}" alt="avatar" class="mr-4 h-10 w-10 rounded-full" />
+            {% for expert in experts %}
+              <div class="swiper-slide">
+                <article>
+                  <div class="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-700">
+                    <figure class="relative">
+                      <a href="{% url 'collection' expert.id %}">
+                        <!-- Lazy Loaded Image -->
+                        <img 
+                          data-src="{% if expert.profile_picture %}{{ expert.profile_picture.url }}{% else %}{% static 'img/user/user_avatar.gif' %}{% endif %}" 
+                          alt="{{ expert.firstname }}" 
+                          class="swiper-lazy h-[430px] w-full object-cover" 
+                          height="430" 
+                          width="379" 
+                        />
+                        <div class="swiper-lazy-preloader"></div>
                       </a>
-                      <div>
-                        <a href="{% url 'item' %}" class="block">
-                          <span
-                            class="font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white"
-                            >Etherium NFT Launching Lab</span
-                          >
+                    </figure>
+                    <div class="p-6">
+                      <div class="flex">
+                        <a href="{% url 'collection' expert.id %}">
+                          <img 
+                            data-src="{% if expert.profile_picture %}{{ expert.profile_picture.url }}{% else %}{% static 'img/user/user_avatar.gif' %}{% endif %}"
+                            alt="avatar" 
+                            class="swiper-lazy mr-4 h-10 w-10 rounded-full" 
+                          />
+                          <div class="swiper-lazy-preloader"></div>
                         </a>
-                        <a href="#" class="text-2xs text-accent">051_Hart</a>
+                        <div>
+                          <a href="{% url 'collection' expert.id %}" class="block">
+                            <span class="font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white">
+                              {{ expert.firstname }} {{ expert.lastname }}
+                            </span>
+                          </a>
+                          <a href="{% url 'collection' expert.id %}" class="text-2xs text-accent">{{ expert.displayname }}</a>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </article>
-            </div>
-            <div class="swiper-slide">
-              <article>
-                <div
-                  class="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-700"
-                >
-                  <figure class="relative">
-                    <a href="{% url 'item' %}">
-                      <img
-                        src="{% static 'img/products/item_16_lg.jpg' %}"
-                        alt="item 1"
-                        class="swiper-lazy h-[430px] w-full object-cover"
-                        height="430"
-                        width="379"
-                      />
-                      <div class="swiper-lazy-preloader"></div>
-                    </a>
-                  </figure>
-                  <div class="p-6">
-                    <div class="flex">
-                      <a href="{% url 'user' %}" class="shrink-0">
-                        <img src="{% static 'img/avatars/avatar_22_rounded.jpg' %}" alt="avatar" class="mr-4 h-10 w-10 rounded-full" />
-                      </a>
-                      <div>
-                        <a href="{% url 'item' %}" class="block">
-                          <span
-                            class="font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white"
-                            >Oceania \\ OVERSEER 017</span
-                          >
-                        </a>
-                        <a href="#" class="text-2xs text-accent">MadeByM1KE</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </article>
-            </div>
-            <div class="swiper-slide">
-              <article>
-                <div
-                  class="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-700"
-                >
-                  <figure class="relative">
-                    <a href="{% url 'item' %}">
-                      <img
-                        src="{% static 'img/products/item_12_lg.jpg' %}"
-                        alt="item 1"
-                        height="430"
-                        width="379"
-                        class="swiper-lazy h-[430px] w-full object-cover"
-                      />
-                      <div class="swiper-lazy-preloader"></div>
-                    </a>
-                  </figure>
-                  <div class="p-6">
-                    <div class="flex">
-                      <a href="{% url 'user' %}" class="shrink-0">
-                        <img src="{% static 'img/avatars/avatar_17_rounded.jpg' %}" alt="avatar" class="mr-4 h-10 w-10 rounded-full" />
-                      </a>
-                      <div>
-                        <a href="{% url 'item' %}" class="block">
-                          <span
-                            class="font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white"
-                            >Light Bars</span
-                          >
-                        </a>
-                        <a href="#" class="text-2xs text-accent">Wow Frens</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </article>
-            </div>
-
-            <div class="swiper-slide">
-              <article>
-                <div
-                  class="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-700"
-                >
-                  <figure class="relative">
-                    <a href="{% url 'item' %}">
-                      <img
-                        src="{% static 'img/pixel.jpg' %}"
-                        data-src="{% static 'img/products/item_14_lg.jpg' %}"
-                        alt="item 1"
-                        class="swiper-lazy h-[430px] w-full object-cover"
-                        height="430"
-                        width="379"
-                      />
-                      <div class="swiper-lazy-preloader"></div>
-                    </a>
-                  </figure>
-                  <div class="p-6">
-                    <div class="flex">
-                      <a href="{% url 'user' %}" class="shrink-0">
-                        <img src="{% static 'img/avatars/avatar_19_rounded.jpg' %}" alt="avatar" class="mr-4 h-10 w-10 rounded-full" />
-                      </a>
-                      <div>
-                        <a href="{% url 'item' %}" class="block">
-                          <span
-                            class="font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white"
-                            >Amazing NFT art</span
-                          >
-                        </a>
-                        <a href="#" class="text-2xs text-accent">Lila Spacex</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </article>
-            </div>
-            <div class="swiper-slide">
-              <article>
-                <div
-                  class="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-700"
-                >
-                  <figure class="relative">
-                    <a href="{% url 'item' %}">
-                      <img
-                        src="{% static 'img/pixel.jpg' %}"
-                        data-src="{% static 'img/products/item_15_lg.jpg' %}"
-                        alt="item 1"
-                        class="swiper-lazy h-[430px] w-full object-cover"
-                        height="430"
-                        width="379"
-                      />
-                      <div class="swiper-lazy-preloader"></div>
-                    </a>
-                  </figure>
-                  <div class="p-6">
-                    <div class="flex">
-                      <a href="{% url 'user' %}" class="shrink-0">
-                        <img src="{% static 'img/avatars/avatar_20_rounded.jpg' %}" alt="avatar" class="mr-4 h-10 w-10 rounded-full" />
-                      </a>
-                      <div>
-                        <a href="{% url 'item' %}" class="block">
-                          <span
-                            class="font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white"
-                            >SwagFox#133</span
-                          >
-                        </a>
-                        <a href="#" class="text-2xs text-accent">Bored Bunny</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </article>
-            </div>
+                </article>
+              </div>
+            {% endfor %}
           </div>
         </div>
 
@@ -889,7 +746,7 @@
                   </div>
                 </div>
                 <figure class="relative">
-                  <a href="{% url 'item' %}">
+                  <a href="#">
                     <img
                       src="{% static 'img/products/item_8.jpg' %}"
                       alt="item 8"
@@ -915,7 +772,7 @@
                   </div>
                 </figure>
                 <div class="mt-7 flex items-center justify-between">
-                  <a href="{% url 'item' %}">
+                  <a href="#">
                     <span class="font-display text-base text-jacarta-700 hover:text-accent dark:text-white"
                       >Monkeyme#155</span
                     >
@@ -1054,7 +911,7 @@
                   </div>
                 </div>
                 <figure class="relative">
-                  <a href="{% url 'item' %}">
+                  <a href="#">
                     <img
                       src="{% static 'img/products/item_6.jpg' %}"
                       alt="item 6"
@@ -1080,7 +937,7 @@
                   </div>
                 </figure>
                 <div class="mt-7 flex items-center justify-between">
-                  <a href="{% url 'item' %}">
+                  <a href="#">
                     <span class="font-display text-base text-jacarta-700 hover:text-accent dark:text-white"
                       >Splendid Girl</span
                     >
@@ -1219,7 +1076,7 @@
                   </div>
                 </div>
                 <figure class="relative">
-                  <a href="{% url 'item' %}">
+                  <a href="#">
                     <img
                       src="{% static 'img/products/item_11.gif' %}"
                       alt="item 6"
@@ -1245,7 +1102,7 @@
                   </div>
                 </figure>
                 <div class="mt-7 flex items-center justify-between">
-                  <a href="{% url 'item' %}">
+                  <a href="#">
                     <span class="font-display text-base text-jacarta-700 hover:text-accent dark:text-white"
                       >Asuna #1649</span
                     >
@@ -1384,7 +1241,7 @@
                   </div>
                 </div>
                 <figure class="relative">
-                  <a href="{% url 'item' %}">
+                  <a href="#">
                     <img
                       src="{% static 'img/products/item_10.jpg' %}"
                       alt="item 6"
@@ -1410,7 +1267,7 @@
                   </div>
                 </figure>
                 <div class="mt-7 flex items-center justify-between">
-                  <a href="{% url 'item' %}">
+                  <a href="#">
                     <span class="font-display text-base text-jacarta-700 hover:text-accent dark:text-white"
                       >Artof Eve</span
                     >
@@ -1549,7 +1406,7 @@
                   </div>
                 </div>
                 <figure class="relative">
-                  <a href="{% url 'item' %}">
+                  <a href="#">
                     <img
                       src="{% static 'img/products/item_17.jpg' %}"
                       alt="item 6"
@@ -1575,7 +1432,7 @@
                   </div>
                 </figure>
                 <div class="mt-7 flex items-center justify-between">
-                  <a href="{% url 'item' %}">
+                  <a href="#">
                     <span class="font-display text-base text-jacarta-700 hover:text-accent dark:text-white"
                       >Azuki #4017</span
                     >
@@ -1714,7 +1571,7 @@
                   </div>
                 </div>
                 <figure class="relative">
-                  <a href="{% url 'item' %}">
+                  <a href="#">
                     <img
                       src="{% static 'img/products/item_18.jpg' %}"
                       alt="item 6"
@@ -1740,7 +1597,7 @@
                   </div>
                 </figure>
                 <div class="mt-7 flex items-center justify-between">
-                  <a href="{% url 'item' %}">
+                  <a href="#">
                     <span class="font-display text-base text-jacarta-700 hover:text-accent dark:text-white"
                       >Block #2788</span
                     >
@@ -1879,7 +1736,7 @@
                   </div>
                 </div>
                 <figure class="relative">
-                  <a href="{% url 'item' %}">
+                  <a href="#">
                     <img
                       src="{% static 'img/products/item_19.jpg' %}"
                       alt="item 6"
@@ -1905,7 +1762,7 @@
                   </div>
                 </figure>
                 <div class="mt-7 flex items-center justify-between">
-                  <a href="{% url 'item' %}">
+                  <a href="#">
                     <span class="font-display text-base text-jacarta-700 hover:text-accent dark:text-white"
                       >Crypto bull #6195</span
                     >
@@ -2044,7 +1901,7 @@
                   </div>
                 </div>
                 <figure class="relative">
-                  <a href="{% url 'item' %}">
+                  <a href="#">
                     <img
                       src="{% static 'img/products/item_20.jpg' %}"
                       alt="item 6"
@@ -2070,7 +1927,7 @@
                   </div>
                 </figure>
                 <div class="mt-7 flex items-center justify-between">
-                  <a href="{% url 'item' %}">
+                  <a href="#">
                     <span class="font-display text-base text-jacarta-700 hover:text-accent dark:text-white"
                       >TSARÉVNA</span
                     >
@@ -2869,5 +2726,24 @@
         </div>
       </div>
     </div>
+
+    <script>
+      var swiper = new Swiper('.coverflow-slider', {
+        slidesPerView: 3,
+        spaceBetween: 20,
+        loop: true,
+        lazy: true, /
+        navigation: {
+          nextEl: '.swiper-button-next-4',
+          prevEl: '.swiper-button-prev-4',
+        },
+        breakpoints: {
+          1024: { slidesPerView: 3 },
+          768: { slidesPerView: 2 },
+          640: { slidesPerView: 1 },
+        },
+      });
+      
+    </script>
 
     {% endblock %}

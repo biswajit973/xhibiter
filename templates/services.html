@@ -95,6 +95,18 @@
                                 required
                             />
                             </div>
+                            <div class="mb-6 description-field">
+                                <label for="description" class="mb-1 block font-display text-left text-jacarta-700 dark:text-white"
+                                    >Description<span class="text-red">*</span></label
+                                >
+                                <input
+                                    name="description" placeholder="description"
+                                    class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300"
+                                    id="video-description"
+                                    type="text"
+                                    required
+                                />
+                                </div>
                             <div class="mb-6 duration-field">
                             <label for="duration" class="mb-1 block font-display  text-left   text-jacarta-700 dark:text-white"
                                 >Duration (mins)<span class="text-red">*</span></label>
@@ -143,6 +155,18 @@
                                 required
                             />
                             </div>
+                            <div class="mb-6 description-field">
+                                <label for="description" class="mb-1 block font-display text-left text-jacarta-700 dark:text-white"
+                                    >Description<span class="text-red">*</span></label
+                                >
+                                <input
+                                    name="description" placeholder="description"
+                                    class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300"
+                                    id="webinar-description"
+                                    type="text"
+                                    required
+                                />
+                                </div>
                             <div class="mb-6 duration-field">
                             <label for="duration" class="mb-1 block font-display  text-left   text-jacarta-700 dark:text-white"
                                 >Duration (mins)<span class="text-red">*</span></label>
@@ -210,6 +234,18 @@
                                 required
                             />
                             </div>
+                            <div class="mb-6 description-field">
+                                <label for="description" class="mb-1 block font-display text-left text-jacarta-700 dark:text-white"
+                                    >Description<span class="text-red">*</span></label
+                                >
+                                <input
+                                    name="description" placeholder="description"
+                                    class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300"
+                                    id="prioritydm-description"
+                                    type="text"
+                                    required
+                                />
+                                </div>
                             <div class="mb-6 amount-field">
                                 <label for="amount" class="mb-1 block font-display  text-left  text-jacarta-700 dark:text-white"
                                     > Amount (₹)<span class="text-red">*</span></label>
@@ -309,10 +345,12 @@
           
           
             var title = document.getElementById("video-title").value;
+            var description = document.getElementById("video-description").value;
+
             var duration = document.getElementById("video-duration").value;
             var amount = document.getElementById("video-amount").value;
         
-            if (!title || !duration || !amount) {
+            if (!title || !duration || !amount || !description) {
                 toastr.error("please fill all the details")
           
                 return
@@ -321,6 +359,8 @@
             var formData = new FormData();
           
             formData.append('title', title);
+            formData.append('description', description);
+
             formData.append('duration', duration);
             formData.append('amount', amount);
             
@@ -350,6 +390,8 @@
           
           
             var title = document.getElementById("webinar-title").value;
+            var description = document.getElementById("webinar-description").value;
+
             var duration = document.getElementById("webinar-duration").value;
             var session_date = document.getElementById("session-date").value;
             var session_time = document.getElementById("session-time").value;
@@ -362,7 +404,7 @@
               return; 
             } */
 
-            if (!title || !duration || !amount || !session_date || !session_time) {
+            if (!title || !duration || !amount || !session_date || !session_time || !description) {
                 toastr.error("please fill all the details")
           
                 return
@@ -371,6 +413,8 @@
             var formData = new FormData();
           
             formData.append('title', title);
+            formData.append('description', description);
+
             formData.append('duration', duration);
             formData.append('amount', amount);
             formData.append('session_date', session_date);
@@ -402,6 +446,8 @@
           
           
             var title = document.getElementById("prioritydm-title").value;
+            var description = document.getElementById("prioritydm-description").value;
+
             var amount = document.getElementById("prioritydm-amount").value;
             
            /* let errorMessage = $("#error-message");
@@ -411,7 +457,7 @@
               return; 
             } */
 
-            if (!title  || !amount) {
+            if (!title  || !amount || !description) {
                 toastr.error("please fill all the details")
           
                 return
@@ -420,6 +466,8 @@
             var formData = new FormData();
           
             formData.append('title', title);
+            formData.append('description', description);
+
             formData.append('amount', amount);
             
             $.ajax({

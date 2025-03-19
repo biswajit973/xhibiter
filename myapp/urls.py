@@ -33,7 +33,9 @@ urlpatterns = [
    path('home-12/',views.home_12,name="home-12"),
    path('home-13/',views.home_13,name="home-13"),
    path('index-rtl/',views.index_rtl,name="index-rtl"),
-   path('item/',views.item,name="item"),
+   path('item/<str:model_type>/<int:id>/',views.item,name="item"),
+
+   # path('item/',views.item,name="item"),
    path('landing/',views.landing,name="landing"),
    path('login/',views.login_view,name="login"),
       path('signup/',views.signup,name="signup"),

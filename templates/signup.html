@@ -852,10 +852,11 @@
             if (!instaInput.value.trim()) {
               instagramurlError.textContent = 'Instagram link is required.';
                 return false;
-            } else if (!/^www\.instagram\.com\//.test(instaInput.value.trim())) {
+            } else if (!/^(https?:\/\/)?(www\.)?instagram\.com\/[a-zA-Z0-9_.]{1,30}\/?$/.test(instaInput.value.trim())) {
               instagramurlError.textContent = 'Enter a valid Instagram URL.';
-                return false;
-            }
+              return false;
+          }
+          
             if (!instaFollowersInput.value.trim()) {
               followerscountError.textContent = 'Instagram followers count is required.';
                 return false;
@@ -892,10 +893,11 @@
             if (!youtubeInput.value.trim()) {
               youtubeurlError.textContent = 'YouTube link is required.';
                 return false;
-            } else if (!/^www\.youtube\.com\//.test(youtubeInput.value.trim())) {
+            }else if (!/^(https?:\/\/)?(www\.)?(youtube\.com\/(c\/|channel\/|user\/|@)?[a-zA-Z0-9_-]+(\?.*)?|youtu\.be\/[a-zA-Z0-9_-]+(\?.*)?)$/.test(youtubeInput.value.trim())) {
               youtubeurlError.textContent = 'Enter a valid YouTube URL.';
-                return false;
-            }
+              return false;
+          }
+          
             if (!youtubeSubscribersInput.value.trim()) {
               subscriberscountError.textContent = 'YouTube subscribers count is required.';
                 return false;

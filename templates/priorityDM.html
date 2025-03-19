@@ -41,7 +41,7 @@
         
       </section>
       {% if expertpriorityDmdetails %}
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 px-4" style="gap:1%">
         {% for expert in expertpriorityDmdetails %}
           <div  id ="session-{{ expert.id }}" class="bg-white shadow-xl rounded-2xl overflow-hidden transform transition hover:scale-105 hover:shadow-2xl h-full flex flex-col">
             <div class="p-6 flex-grow flex flex-col">
@@ -69,7 +69,7 @@
                 class="font-display text-sm font-semibold text-accent"
                 data-bs-toggle="modal"
                 data-bs-target="#editPrioritydmModal"
-              onclick="editPriorityDmSession({{ expert.id }},'{{ expert.title}}','{{ expert.amount}}')" >
+              onclick="editPriorityDmSession({{ expert.id }},'{{ expert.title}}','{{ expert.description}}','{{ expert.amount}}')" >
                 Edit
               </button>
                 <button class="bg-red-500 text-black px-4 py-2 rounded-lg shadow-md hover:bg-red-600 transition" onclick="deletepriorityDmSession({{ expert.id }})">>
@@ -116,7 +116,20 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="editPrioritydmModalLabel">Edit PriorityDM Details</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                width="24"
+                height="24"
+                class="h-6 w-6 fill-jacarta-700 dark:fill-white"
+              >
+                <path fill="none" d="M0 0h24v24H0z" />
+                <path
+                  d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"
+                />
+              </svg>
+            </button>
           </div>
           
           <!-- Body -->
@@ -129,7 +142,11 @@
                        class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white" required>
               </div>
               
-              
+              <div class="mb-4">
+                <label for="prioritydm-description" class="block font-display text-jacarta-700 dark:text-white">Description<span class="text-red">*</span></label>
+                <textarea name="description" id="prioritydm-description" placeholder="Enter description"
+                       class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white" required></textarea>
+              </div>
               <div class="mb-4">
                 <label for="prioritydm-amount" class="block font-display text-jacarta-700 dark:text-white">Amount  <span class="text-red">*</span></label>
                 <input type="text" name="amount" id="prioritydm-amount" placeholder="Enter amount" 
@@ -141,7 +158,7 @@
           </div>
           
           <!-- Footer -->
-          <div class="modal-footer">
+          <div class="modal-footer" style="display:flex; justify-content:space-between">
             <button type="button" class="rounded-full bg-gray-300 py-3 px-6 text-jacarta-700 dark:text-white" data-bs-dismiss="modal" onclick=resetform()>Cancel</button>
             <button type="button" class="rounded-full bg-accent py-3 px-8 text-white shadow-accent-volume hover:bg-accent-dark" onclick=updatePriorityDmSession()>Save Changes</button>
           </div>
@@ -173,10 +190,12 @@
           }
 
 
-          function editPriorityDmSession(id, title,amount){
+          function editPriorityDmSession(id, title,description,amount){
             document.getElementById('prioritydm-id').value = id
         
             document.getElementById('prioritydm-title').value = title
+            document.getElementById('prioritydm-description').value = description
+
             document.getElementById('prioritydm-amount').value = amount
         
           }
@@ -186,6 +205,7 @@
         
             document.getElementById('prioritydm-title').value = ""
             document.getElementById('prioritydm-amount').value = ""
+            document.getElementById('prioritydm-description').value =""
         
           }
         
@@ -194,12 +214,14 @@
            const id =  document.getElementById('prioritydm-id').value
         
            const title =  document.getElementById('prioritydm-title').value
+           const description =  document.getElementById('prioritydm-description').value
             const amount = document.getElementById('prioritydm-amount').value 
         
            var formData = new FormData()
         
            formData.append("id",id)
            formData.append('title', title);
+           formData.append('description', description);
            formData.append('amount', amount);
                     
         
@@ -227,7 +249,7 @@
               
                   <!-- Time and Price -->
                   <div class="text-gray-600 text-lg mb-4 flex-grow">
-                    <span class="text-gray-900 font-semibold">₹${amount }</span>
+                    <span class="text-gray-900 font-semibold">₹${amount}</span>
                   </div>
               
                   <!-- Action Buttons -->
@@ -238,6 +260,7 @@
                             data-bs-target="#editVideoModal"
                           data-id="${id}"
                       data-title="${title}"
+                       data-description="${description}"
                       data-duration="${duration}"
                       data-amount="${amount}" >
                             Edit
@@ -263,9 +286,10 @@
           $(document).on("click", ".edit-prioritydm-session", function () {
             const id = $(this).data("id");
             const title = $(this).data("title");
+            const description = $(this).data("description");
             const amount = $(this).data("amount");
         
-            editPriorityDmSession(id, title,amount);
+            editPriorityDmSession(id,title,description,amount);
         });
         
        </script>

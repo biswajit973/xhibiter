@@ -35,56 +35,54 @@
                     </div>
                 </div>
             </div>
-           
-        
-          
-        
+
       </section>
       {% if expertwebinarsessiondetails %}
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 px-4" style="gap:1%">
         {% for expert in expertwebinarsessiondetails %}
-          <div  id ="session-{{ expert.id }}" class="bg-white shadow-xl rounded-2xl overflow-hidden transform transition hover:scale-105 hover:shadow-2xl h-full flex flex-col">
-            <div class="p-6 flex-grow flex flex-col">
-              <!-- Header with Title and Status -->
-              <div class="flex justify-between items-center mb-4 ">
-                <h1 class="text-xl font-semibold truncate" title="one to one">{{ expert.title }}</h1>
-                <div class="flex items-center gap-2 text-gray-500">
-                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-                    <path fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" 
-                          d="M255.66 112c-77.94 0-157.89 45.11-220.83 135.33a16 16 0 0 0-.27 17.77C82.92 340.8 161.8 400 255.66 400c92.84 0 173.34-59.38 221.79-135.25a16.14 16.14 0 0 0 0-17.47C428.89 172.28 347.8 112 255.66 112z"></path>
-                    <circle cx="256" cy="256" r="80" fill="none" stroke-miterlimit="10" stroke-width="32"></circle>
-                  </svg>
-                  <span class="text-sm font-medium">Public</span>
+        <div id="session-{{ expert.id }}" class="bg-white shadow-xl rounded-2xl overflow-hidden transform transition hover:scale-105 hover:shadow-2xl h-full flex flex-col">
+            <div class="p-6 flex flex-col h-full">
+                <!-- Header with Title and Status -->
+                <div class="flex justify-between items-center mb-4">
+                    <h1 class="text-xl font-semibold truncate" title="one to one">{{ expert.title }}</h1>
+                    <div class="flex items-center gap-2 text-gray-500">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" 
+                                  d="M255.66 112c-77.94 0-157.89 45.11-220.83 135.33a16 16 0 0 0-.27 17.77C82.92 340.8 161.8 400 255.66 400c92.84 0 173.34-59.38 221.79-135.25a16.14 16.14 0 0 0 0-17.47C428.89 172.28 347.8 112 255.66 112z"></path>
+                            <circle cx="256" cy="256" r="80" fill="none" stroke-miterlimit="10" stroke-width="32"></circle>
+                        </svg>
+                        <span class="text-sm font-medium">Public</span>
+                    </div>
                 </div>
-              </div>
-          
-              <!-- Time and Price -->
-              <div class="text-gray-600 text-lg mb-4 flex-grow">
-                <span>{{ expert.duration }} mins | </span>
-                <span class="text-gray-900 font-semibold">₹{{ expert.amount }}</span>
-              </div>
-              <div class="text-gray-600 text-lg mb-4 flex-grow">
-                <span> Session Time : {{ expert.session_time }} </span><br>
-                <span class="text-gray-900 font-semibold"> Session Date : {{ expert.session_date }}</span>
-              </div>
-          
-              <!-- Action Buttons -->
-              <div class="flex justify-between mt-auto">
-                <button
-                class="font-display text-sm font-semibold text-accent"
-                data-bs-toggle="modal"
-                data-bs-target="#editWebinarModal"
-              onclick="editWebinarSession({{ expert.id }},'{{ expert.title}}','{{ expert.duration}}','{{ expert.amount}}',' {{ expert.session_time }}',' {{ expert.session_date }}')" >
-                Edit
-              </button>
-                <button class="bg-red-500 text-black px-4 py-2 rounded-lg shadow-md hover:bg-red-600 transition" onclick="deleteWebinarSession({{ expert.id }})">>
-                  Delete
-                </button>
-              </div>
+    
+                <!-- Time and Price -->
+                <div class="text-gray-600 text-lg mb-4 flex-grow">
+                    <span>{{ expert.duration }} mins | </span>
+                    <span class="text-gray-900 font-semibold">₹{{ expert.amount }}</span>
+                </div>
+                <div class="text-gray-600 text-lg mb-4">
+                    <span> Session Time : {{ expert.session_time }} </span><br>
+                    <span class="text-gray-900 font-semibold"> Session Date : {{ expert.session_date }}</span>
+                </div>
+    
+                <!-- Action Buttons -->
+                <div class="flex justify-between mt-auto">
+                    <button class="font-display text-sm font-semibold text-accent"
+                            data-bs-toggle="modal"
+                            data-bs-target="#editWebinarModal"
+                            onclick="editWebinarSession({{ expert.id }},'{{ expert.title}}','{{ expert.description}}','{{ expert.duration}}','{{ expert.amount}}','{{ expert.session_time }}','{{ expert.session_date }}')">
+                        Edit
+                    </button>
+                    <button class="bg-red-500 text-dark px-4 py-2 rounded-lg shadow-md hover:bg-red-600 transition"
+                            onclick="deleteWebinarSession({{ expert.id }})">
+                        Delete
+                    </button>
+                </div>
             </div>
-          </div>
+        </div>
         {% endfor %}
     </div>
+    
       {% else %}
       <div class="w-full md:w-2/3 p-4 flex flex-col items-center text-center">
         <img 
@@ -121,7 +119,20 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="editVideoModalLabel">Edit Video Details</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                width="24"
+                height="24"
+                class="h-6 w-6 fill-jacarta-700 dark:fill-white"
+              >
+                <path fill="none" d="M0 0h24v24H0z" />
+                <path
+                  d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"
+                />
+              </svg>
+            </button>
           </div>
           
           <!-- Body -->
@@ -134,7 +145,11 @@
                 <input type="text" name="title" id="webinar-title" placeholder="Enter title" 
                        class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white" required>
               </div>
-          
+              <div class="mb-4">
+                <label for="webinar-description" class="block font-display text-jacarta-700 dark:text-white">Description<span class="text-red">*</span></label>
+                <textarea name="description" id="webinar-description" placeholder="Enter description"
+                       class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white" required></textarea>
+              </div>
               <div class="grid grid-cols-2 gap-4 mb-4">
                 <div>
                   <label for="webinar-duration" class="block font-display text-jacarta-700 dark:text-white">Duration (mins)<span class="text-red">*</span></label>
@@ -165,7 +180,7 @@
           
           
           <!-- Footer -->
-          <div class="modal-footer">
+          <div class="modal-footer" style="display:flex; justify-content:space-between">
             <button type="button" class="rounded-full bg-gray-300 py-3 px-6 text-jacarta-700 dark:text-white" data-bs-dismiss="modal" onclick=resetform()>Cancel</button>
             <button type="button" class="rounded-full bg-accent py-3 px-8 text-white shadow-accent-volume hover:bg-accent-dark" onclick=updateWebinarSession()>Save Changes</button>
           </div>
@@ -198,10 +213,12 @@
 
 
 
-      function editWebinarSession(id, title,duration,amount,session_time,session_date){
+      function editWebinarSession(id, title,description,duration,amount,session_time,session_date){
         document.getElementById('webinar-id').value = id
     
         document.getElementById('webinar-title').value = title
+        document.getElementById('webinar-description').value = description
+
         document.getElementById('webinar-duration').value = duration
         document.getElementById('webinar-amount').value = amount
         const dateObj = new Date(session_date);
@@ -232,6 +249,7 @@
         document.getElementById('webinar-id').value = ""
     
         document.getElementById('webinar-title').value = ""
+        document.getElementById('webinar-description').value = ""
         document.getElementById('webinar-duration').value = ""
         document.getElementById('webinar-amount').value = ""
         document.getElementById('webinar-time').value = ""
@@ -245,6 +263,7 @@
        const id =  document.getElementById('webinar-id').value
     
        const title =  document.getElementById('webinar-title').value
+       const description = document.getElementById('webinar-description').value
        const duration =  document.getElementById('webinar-duration').value 
         const amount = document.getElementById('webinar-amount').value 
         const session_time = document.getElementById('webinar-time').value 
@@ -255,6 +274,7 @@
     
        formData.append("id",id)
        formData.append('title', title);
+       formData.append('description', description);
        formData.append('duration', duration);
        formData.append('amount', amount);
        formData.append('session_time', session_time);
@@ -310,6 +330,7 @@
                 data-bs-target="#editWebinarModal"
                       data-id="${id}"
                       data-title="${title}"
+                       data-description="${description}"
                       data-duration="${duration}"
                       data-amount="${amount}"  
                       data-time="${formattedTime}"
@@ -337,13 +358,14 @@
       $(document).on("click", ".edit-webinar-session", function () {
         const id = $(this).data("id");
         const title = $(this).data("title");
+        const description = $(this).data("description");
         const amount = $(this).data("amount");
         const duration = $(this).data("duration");
         const sessionTime = $(this).data("time");
         const sessionDate = $(this).data("date");
 
     
-        editWebinarSession(id, title,duration,amount,sessionTime,sessionDate);
+        editWebinarSession(id, title,description,duration,amount,sessionTime,sessionDate);
     });
     
    </script>

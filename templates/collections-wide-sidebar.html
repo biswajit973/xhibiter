@@ -530,7 +530,7 @@
                         <a href="{% url 'collection' expert.id %}">
                           <img 
                             src="{% if expert.profile_picture %}{{ expert.profile_picture.url }}{% else %}{% static 'img/collections/collection_square_1.jpg' %}{% endif %}"
-                            alt="item 1"
+                            alt="item 1" style="width:143px; height:143px; object-cover"
                             class="w-full rounded-[0.625rem]"
                             loading="lazy"
                           />

@@ -62,6 +62,7 @@ class ExpertUser(AbstractBaseUser,PermissionsMixin):
 class ServiceVideoForm(models.Model):
     expert = models.ForeignKey(ExpertUser, on_delete=models.CASCADE) 
     title = models.CharField(max_length=255,null=True,blank=True)
+    description = models.TextField(null=True,blank=True,default="")
     duration = models.CharField(max_length=2,null=True,blank=True)
     amount = models.CharField(max_length=7,null=True,blank=True)  
     created_at = models.DateTimeField(auto_now_add=True)  
@@ -72,6 +73,8 @@ class ServiceVideoForm(models.Model):
 class ServicePriorityDmForm(models.Model):
     expert = models.ForeignKey(ExpertUser, on_delete=models.CASCADE) 
     title = models.CharField(max_length=255,null=True,blank=True)
+    description = models.TextField(null=True,blank=True,default="")
+
     amount = models.CharField(max_length=7,null=True,blank=True)  
     created_at = models.DateTimeField(auto_now_add=True)  
 
@@ -82,6 +85,7 @@ class ServicePriorityDmForm(models.Model):
 class ServiceWebinarForm(models.Model):
     expert = models.ForeignKey(ExpertUser, on_delete=models.CASCADE) 
     title = models.CharField(max_length=255,null=True,blank=True)
+    description = models.TextField(null=True,blank=True,default="")
     duration = models.CharField(max_length=2,null=True,blank=True)
     session_time = models.TimeField(null=True,blank=True)
     session_date = models.DateField(null=True,blank=True)

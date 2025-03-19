@@ -154,8 +154,8 @@ def home_13(request):
 def index_rtl(request):
   return render(request, 'index-rtl.html')
 
-def item(request):
-  return render(request, 'item.html')
+# def item(request):
+#   return render(request, 'item.html')
 
 def landing(request):
   return render(request, 'landing.html')
@@ -448,6 +448,8 @@ def serviceVideo_api(request):
         try:
             expert = ExpertUser.objects.get(id=request.user.id)  
             title = request.POST.get('title')
+            description = request.POST.get('description')
+
             duration = request.POST.get('duration')
             amount = request.POST.get('amount')
 
@@ -457,6 +459,7 @@ def serviceVideo_api(request):
             service_video = ServiceVideoForm.objects.create(
                 expert=expert,
                 title=title,
+                description = description,
                 duration=duration,
                 amount=amount
             )
@@ -482,6 +485,7 @@ def serviceWebinar_api(request):
         try:
             expert = ExpertUser.objects.get(id=request.user.id)  
             title = request.POST.get('title')
+            description = request.POST.get('description')
             duration = request.POST.get('duration')
             amount = request.POST.get('amount')
             session_date = request.POST.get('session_date')
@@ -504,6 +508,7 @@ def serviceWebinar_api(request):
             service_webinar = ServiceWebinarForm.objects.create(
                 expert=expert,
                 title=title,
+                description =description,
                 duration=duration,
                 amount=amount,
                 session_date=session_date,
@@ -531,6 +536,7 @@ def servicePrioritydm_api(request):
         try:
             expert = ExpertUser.objects.get(id=request.user.id)  
             title = request.POST.get('title')
+            description = request.POST.get('description')
             amount = request.POST.get('amount')
 
             if not title or   not amount:
@@ -539,6 +545,7 @@ def servicePrioritydm_api(request):
             service_prioritydm = ServicePriorityDmForm.objects.create(
                 expert=expert,
                 title=title,
+                description = description,
                 amount=amount
             )
 
@@ -606,6 +613,7 @@ def updateVideoSession_api(request):
   if request.method=="POST":
     id = request.POST.get("id")
     title = request.POST.get("title")
+    description = request.POST.get('description')
     duration = request.POST.get("duration")
     amount = request.POST.get("amount")
 
@@ -614,6 +622,7 @@ def updateVideoSession_api(request):
 
     videosession = ServiceVideoForm.objects.get(id=id)
     videosession.title = title
+    videosession.description = description
     videosession.duration = duration
     videosession.amount = amount
     videosession.save()
@@ -634,6 +643,7 @@ def updateWebinarSession_api(request):
   if request.method=="POST":
     id = request.POST.get("id")
     title = request.POST.get("title")
+    description = request.POST.get('description')
     duration = request.POST.get("duration")
     amount = request.POST.get("amount")
     session_date = request.POST.get('session_date')
@@ -657,6 +667,7 @@ def updateWebinarSession_api(request):
 
     webinarsession = ServiceWebinarForm.objects.get(id=id)
     webinarsession.title = title
+    webinarsession.description = description
     webinarsession.duration = duration
     webinarsession.amount = amount
     webinarsession.session_date=session_date
@@ -677,6 +688,7 @@ def updatePriorityDmSession_api(request):
   if request.method=="POST":
     id = request.POST.get("id")
     title = request.POST.get("title")
+    description = request.POST.get('description')
     amount = request.POST.get("amount")
 
 
@@ -684,6 +696,7 @@ def updatePriorityDmSession_api(request):
 
     priorityDmsession = ServicePriorityDmForm.objects.get(id=id)
     priorityDmsession.title = title
+    priorityDmsession.description = description
     priorityDmsession.amount = amount
     priorityDmsession.save()
     
@@ -693,7 +706,22 @@ def updatePriorityDmSession_api(request):
     
   return JsonResponse({"error":'invalid request method'},status=405) 
 
+from django.shortcuts import render, get_object_or_404
 
+def item(request, model_type, id):
+    model_classes = {
+        'expertvideo': ServiceVideoForm,
+        'expertwebinar': ServiceWebinarForm,
+        'expertpriority': ServicePriorityDmForm,
+    }
+
+    model_class = model_classes.get(model_type.lower())
+
+    if model_class:
+        item = get_object_or_404(model_class, id=id)
+        return render(request, 'item.html', {'item': item, 'model_type': model_type})
+    else:
+        return render(request,status=404)
   
 
 
