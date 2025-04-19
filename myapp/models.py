@@ -28,13 +28,14 @@ class ExpertUser(AbstractBaseUser,PermissionsMixin):
     lastname = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     contact_number = models.CharField(max_length=15)
-    youtubelink = models.URLField(max_length=300)
-    instagramlink = models.URLField(max_length=300)
+    youtubelink = models.URLField(max_length=300,null=True, blank=True)
+    instagramlink = models.URLField(max_length=300,null=True, blank=True)
     subscribersCount = models.BigIntegerField(null=True, blank=True) 
     followersCount = models.BigIntegerField(null=True, blank=True)  
     password = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    is_expert = models.BooleanField(default=False)
     delete1 = models.IntegerField(default=0)
     yourusername = models.CharField(max_length=100,null=True,blank=True)
     profile_picture = models.ImageField(upload_to='profiles/', blank=True, null=True)
@@ -96,4 +97,12 @@ class ServiceWebinarForm(models.Model):
         return f"{self.title} - {self.expert}"             
     
     
-    
+ 
+class BookingStatus(models.Model):
+    session_id = models.IntegerField(max_length=100,null=True,blank=True)  
+    session_name = models.CharField(max_length=7,null=True,blank=True)
+    selectedTime = models.TimeField(null=True,blank=True)
+    selectedDate = models.DateField(null=True,blank=True)  
+    status = models.CharField(max_length=7,null=True,blank=True)   
+    user_id = models.IntegerField(max_length=100,null=True,blank=True)
+    expert_id  = models.IntegerField(max_length=100,null=True,blank=True)

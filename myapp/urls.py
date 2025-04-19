@@ -13,7 +13,7 @@ urlpatterns = [
    path('blog/',views.blog,name="blog"),
    path('careers/',views.careers,name="careers"),
    path('case-studies/',views.case_studies,name="case-studies"),
-   path('collection/<int:id>/',views.collection,name="collection"),
+   path('collection/<str:yourusername>/',views.collection,name="collection"),
    path('collections-wide-sidebar/',views.collection_wide_sidebar,name="collections-wide-sidebar"),
    path('collections/',views.collections,name="collections"),
    path('contact/',views.contact,name="contact"),
@@ -38,8 +38,10 @@ urlpatterns = [
    # path('item/',views.item,name="item"),
    path('landing/',views.landing,name="landing"),
    path('login/',views.login_view,name="login"),
-      path('signup/',views.signup,name="signup"),
-    path('signup_api/', views.signup_api, name='signup_api'),
+   path('signup/',views.signup,name="signup"),
+   path('signup_api/', views.signup_api, name='signup_api'),
+   path('seeker_signup_api/', views.seeker_signup_api, name='seeker_signup_api'),
+
     path('login_api/', views.login_api, name='login_api'),
     path('logout/', views.logout_view, name='logout'),
 
@@ -69,6 +71,12 @@ urlpatterns = [
    path('updateVideoSession_api/', views.updateVideoSession_api, name='updateVideoSession_api'),
    path('updateWebinarSession_api/', views.updateWebinarSession_api, name='updateWebinarSession_api'),
    path('updatePriorityDmSession_api/', views.updatePriorityDmSession_api, name='updatePriorityDmSession_api'),
+   path('book_session_api/', views.book_session_api, name='book_session_api'),
+   path("get-booked-times/", views.get_booked_times, name="get_booked_times"),
+      path("bookings/", views.expert_bookings, name="bookings"),
+
+
+
 
 
 

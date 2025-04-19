@@ -527,7 +527,7 @@
                       <div
                         class="rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700"
                       >
-                        <a href="{% url 'collection' expert.id %}">
+                        <a href="{% url 'collection' expert.yourusername%}">
                           <img 
                             src="{% if expert.profile_picture %}{{ expert.profile_picture.url }}{% else %}{% static 'img/collections/collection_square_1.jpg' %}{% endif %}"
                             alt="item 1" style="width:143px; height:143px; object-cover"
@@ -537,7 +537,7 @@
                         </a>
 
                         <a
-                          href="{% url 'collection' expert.id %}"
+                          href="{% url 'collection' expert.yourusername %}"
                           class="mt-5 mb-2 flex items-center font-display text-base text-jacarta-700 hover:text-accent dark:text-white dark:hover:text-accent"
                         >
                          {{ expert.firstname}} {{ expert.lastname}}

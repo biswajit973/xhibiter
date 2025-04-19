@@ -29,7 +29,7 @@ def case_studies(request):
   return render(request, 'case-studies.html')
 
 
-def collection(request,id):
+def collection(request,yourusername):
   
   expertvideodetails = []
   expertwebinardetails = []
@@ -38,7 +38,8 @@ def collection(request,id):
   formatted_followers = "0"
   formatted_subscribers = "0"
 
-  expert = ExpertUser.objects.get(id=id)
+  expert = ExpertUser.objects.get(yourusername=yourusername)
+  id = expert.id
   
   if expert.followersCount is not None:
         try:
@@ -93,7 +94,8 @@ def collection(request,id):
 
 def collection_wide_sidebar(request):
   
-  experts = ExpertUser.objects.all()
+  user= request.user.id
+  experts = ExpertUser.objects.filter(is_expert=True).exclude(id=user)
   
   return render(request, 'collections-wide-sidebar.html',{"experts":experts})
 
@@ -121,7 +123,8 @@ def home_3(request):
   return render(request, 'home-3.html')
 
 def home_4(request):
-  experts = ExpertUser.objects.exclude(id=None)
+  user= request.user.id
+  experts = ExpertUser.objects.filter(is_expert=True).exclude(id=user)
   return render(request, 'home-4.html',{"experts":experts})
 
 def home_5(request):
@@ -196,9 +199,13 @@ def user(request):
 def wallet(request):
   return render(request, 'wallet.html')
 
-
+@login_required
 def services(request):
-  return render(request, 'services.html')
+  user = request.user
+  if user.is_expert:
+   return render(request, 'services.html')
+  else :
+   return render(request, 'collections-wide-sidebar.html')
 
 @login_required
 def video(request):
@@ -274,7 +281,8 @@ def signup_api(request):
                         lastname=lastname,  
                         email=email,
                         contact_number=contact_number,
-                        yourusername= yourusername
+                        yourusername= yourusername,
+                        is_expert = True
                         )
             user.set_password(password)
             if request.POST.get('youtubelink'):
@@ -314,10 +322,8 @@ def login_api(request):
         if not verify_recaptcha(recaptcha_token):
             return JsonResponse({'error': 'Invalid reCAPTCHA. Please try again.'}, status=400)
 
-        # Authenticate the user
         user = authenticate(request, username=email_or_contact, password=password)
 
-        # Redirect based on user type
         if user is not None:
             login(request, user)
             return JsonResponse({'message': 'Login successful', 'redirect_url': '/create/'})
@@ -353,9 +359,7 @@ def check_username(request):
 def update_profile_details_api(request):
     if request.method == 'POST':
         expert = User.objects.get(id=request.user.id)  
-        
-        
-
+      
         if  request.POST.get('username'):
             expert.username = request.POST.get('username')
         if request.POST.get('firstname'):
@@ -399,10 +403,6 @@ def update_account_details_api(request):
     if request.method == 'POST':
         expert = User.objects.get(id=request.user.id)  
         
-        
-
-        if  request.POST.get('email'):
-            expert.email = request.POST.get('email')
         if request.POST.get('contact_number'):
             expert.contact_number = request.POST.get('contact_number')
         
@@ -707,7 +707,7 @@ def updatePriorityDmSession_api(request):
   return JsonResponse({"error":'invalid request method'},status=405) 
 
 from django.shortcuts import render, get_object_or_404
-
+@login_required
 def item(request, model_type, id):
     model_classes = {
         'expertvideo': ServiceVideoForm,
@@ -724,12 +724,138 @@ def item(request, model_type, id):
         return render(request,status=404)
   
 
+@csrf_exempt
+def seeker_signup_api(request):
+    if request.method == 'POST':
+        firstname = request.POST.get('firstname')
+        lastname = request.POST.get('lastname')
 
-  
-    
-    
-      
+        email = request.POST.get('email')
+        contact_number = request.POST.get('contact_number')
+        password = request.POST.get('password')
+        password2 = request.POST.get('password2')
         
-  
-      
-   
+        recaptcha_token = request.POST.get('recaptcha_token')
+
+        if not verify_recaptcha(recaptcha_token):
+            return JsonResponse({'error': 'Invalid reCAPTCHA. Please try again.'}, status=400)
+
+        if password != password2:
+            return JsonResponse({'error': 'Passwords do not match.'}, status=400)
+
+        if User.objects.filter(email=email).exists():
+                return JsonResponse({"email": ["Email already in use."]}, status=400)
+       
+        try:
+            user = User(firstname=firstname,
+                        lastname=lastname,  
+                        email=email,
+                        contact_number=contact_number,
+                        is_expert = False
+                        )
+            user.set_password(password)
+            user.save()
+            
+            send_mail(
+               subject=f"Welcome {firstname} - Complete Your Profile Now!",
+                message=f"Your account has been successfully created! To enjoy a hassle-free experience and connect with more of your audience, please complete your profile now.",
+                from_email="xhibiter@gmail.com",  
+                recipient_list=[email],  
+                fail_silently=False,  
+            )
+
+            return JsonResponse({'message': 'Registration successful!','redirect_url': '/login/'}, status=201)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
+          
+
+
+@csrf_exempt
+@login_required
+def book_session_api(request):
+    user_id = request.user.id
+
+    if request.method == 'POST':
+        session_id = request.POST.get('session_id')
+        session_name = request.POST.get('session_name')
+        selected_date = request.POST.get('selectedDate')  
+        selected_time = request.POST.get('selectedTime')  
+        expert_id = request.POST.get('expert_id')
+
+        session_date = datetime.strptime(selected_date, "%Y-%m-%d").date()
+        session_time = datetime.strptime(selected_time, "%I:%M %p").time()
+
+        booking_status = BookingStatus.objects.create(
+            user_id=user_id,
+            session_id=session_id,
+            session_name=session_name,
+            selectedDate=session_date,
+            selectedTime=session_time,
+            status="success",
+            expert_id=expert_id
+        )
+
+        return JsonResponse({'message': 'Booking successful', 'booking_id': booking_status.id}, status=201)
+
+    return JsonResponse({'error': 'Invalid request method'}, status=400)
+
+
+@csrf_exempt
+@login_required
+def get_booked_times(request):
+    selected_date = request.GET.get("selectedDate")
+    expert_id = request.GET.get("expert_id")
+    session_name =request.GET.get("session_name")
+    session_id =request.GET.get("session_id")
+    
+    if not selected_date or not expert_id:
+        return JsonResponse({"error": "Date and Expert ID are required"}, status=400)
+
+    booked_slots = BookingStatus.objects.filter(selectedDate=selected_date, expert_id=expert_id,session_name=session_name).values_list("selectedTime", flat=True)
+
+    booked_times = [time.strftime("%I:%M %p") for time in booked_slots]
+
+    return JsonResponse({"booked_times": booked_times}, status=200)
+
+
+
+
+@login_required
+def expert_bookings(request):
+    expert_id = request.user.id 
+    bookings = BookingStatus.objects.filter(expert_id=expert_id)  
+
+    user_bookings = {}
+
+    for booking in bookings:
+        user = ExpertUser.objects.filter(id=booking.user_id).first()  
+
+        if not user:
+            continue  
+
+        session_id = booking.session_id
+        session_name = booking.session_name
+
+        session = None
+        if session_name == "expertvideo":
+            session = ServiceVideoForm.objects.filter(id=session_id).first()
+        elif session_name == "expertpriority":
+            session = ServicePriorityDmForm.objects.filter(id=session_id).first()
+        elif session_name == "expertwebinar":
+            session = ServiceWebinarForm.objects.filter(id=session_id).first()
+
+        if user not in user_bookings:
+            user_bookings[user] = []  
+
+        user_bookings[user].append({
+            "booking_id": booking.id,
+            "session_name": booking.session_name,
+            "selected_date": booking.selectedDate,
+            "selected_time": booking.selectedTime,
+            "status": booking.status,
+            "session_title": session.title if session else "Session Not Found"
+        })
+        print("bookings",user_bookings)
+    return render(request, 'bookings.html', {
+        "user_bookings": user_bookings,
+    })
