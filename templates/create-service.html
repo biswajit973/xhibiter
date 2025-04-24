@@ -1,0 +1,626 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <main>
+      <!-- Create -->
+      <section class="relative py-24">
+        <picture class="pointer-events-none absolute inset-0 -z-10 dark:hidden">
+          <img src="{% static 'img/gradient_light.jpg' %}" alt="gradient" class="h-full w-full" />
+        </picture>
+        <div class = "container">
+            <h1 class="py-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
+                What are you creating today ?
+              </h1>
+              <p class=" font-display text-2xl font-medium text-jacarta-700 dark:text-white">Select Type</p><br>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+                        <div class="p-1">
+                            <div class="p-4 border rounded-lg shadow-md bg-gray-100"data-type="1:1_Call">
+                                <div class="flex flex-col items-start space-y-2">
+                                    <svg class="h-6 w-6 text-yellow-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M8 2v4"></path>
+                                        <path d="M16 2v4"></path>
+                                        <rect width="18" height="18" x="3" y="4" rx="2"></rect>
+                                        <path d="M3 10h18"></path>
+                                    </svg>
+                                    <div class="text-lg font-medium text-jacarta-700">1:1 Call</div>
+                                    <div class="text-sm text-gray-600">Conduct 1:1 video sessions</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-1">
+                            <div class="p-4 border rounded-lg shadow-md bg-gray-100" data-type="Priority_DM">
+                                <div class="flex flex-col items-start space-y-2">
+                                    <svg class="h-6 w-6 text-gray-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                                        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                                    </svg>
+                                    <div class="text-lg font-medium text-jacarta-700">Priority DM</div>
+                                    <div class="text-sm text-gray-600">Setup your priority inbox</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-1">
+                            <div class="p-4 border rounded-lg shadow-md bg-gray-100"  data-type="Webinar">
+                                <div class="flex flex-col items-start space-y-2">
+                                    <svg class="h-6 w-6 text-gray-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect width="20" height="15" x="2" y="7" rx="2" ry="2"></rect>
+                                        <polyline points="17 2 12 7 7 2"></polyline>
+                                    </svg>
+                                    <div class="text-lg font-medium text-jacarta-700">Webinar</div>
+                                    <div class="text-sm text-gray-600">Host one time or recurring group sessions</div>
+                                </div>
+                            </div>
+                        </div>
+                        {% comment %} <div class="p-1">
+                            <div class="p-4 border rounded-lg shadow-md bg-gray-100" data-type="Digital Product">
+                                <div class="flex flex-col items-start space-y-2">
+                                    <svg class="h-6 w-6 text-gray-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
+                                        <path d="M3 6h18"></path>
+                                        <path d="M16 10a4 4 0 0 1-8 0"></path>
+                                    </svg>
+                                    <div class="text-lg font-medium text-jacarta-700">Digital Product</div>
+                                    <div class="text-sm text-gray-600">Sell digital products, courses, paid videos & more</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-1">
+                            <div class="p-4 border rounded-lg shadow-md bg-gray-100"data-type="Package">
+                                <div class="flex flex-col items-start space-y-2">
+                                    <svg class="h-6 w-6 text-gray-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect width="20" height="5" x="2" y="3" rx="1"></rect>
+                                        <path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"></path>
+                                        <path d="M10 12h4"></path>
+                                    </svg>
+                                    <div class="text-lg font-medium text-jacarta-700">Package</div>
+                                    <div class="text-sm text-gray-600">Bundle your offerings into one</div>
+                                </div>
+                            </div>
+                        </div> {% endcomment %}
+                    </div>
+                    
+                    <form id="serviceVideoForm" class="mt-10">
+                        <div class="mx-auto max-w-[48.125rem]">
+                            <div class="mb-6 title-field">
+                            <label for="title" class="mb-1 block font-display text-left text-jacarta-700 dark:text-white"
+                                >Title<span class="text-red">*</span></label
+                            >
+                            <input
+                                name="title" placeholder="title"
+                                class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300"
+                                id="video-title"
+                                type="text"
+                                required
+                            />
+                            </div>
+                            <div class="mb-6 description-field">
+                                <label for="description" class="mb-1 block font-display text-left text-jacarta-700 dark:text-white"
+                                    >Description<span class="text-red">*</span></label
+                                >
+                                <input
+                                    name="description" placeholder="description"
+                                    class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300"
+                                    id="video-description"
+                                    type="text"
+                                    required
+                                />
+                                </div>
+                            <div class="mb-6 duration-field">
+                            <label for="duration" class="mb-1 block font-display  text-left   text-jacarta-700 dark:text-white"
+                                >Duration (mins)<span class="text-red">*</span></label>
+                            <input
+                                name="duration" placeholder="duration" 
+                                class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300"
+                                id="video-duration"
+                                type="text"
+                                required
+                            />
+                            </div>
+                           
+                            <div class="mb-6 amount-field">
+                                <label for="amount" class="mb-1 block font-display  text-left  text-jacarta-700 dark:text-white"
+                                    > Amount (₹)<span class="text-red">*</span></label>
+                                <input
+                                    name="amount" placeholder="amount" 
+                                    class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300"
+                                    id="video-amount"
+                                    type="text"
+                                    required
+                                />
+                                </div>   
+                                <!-- Date picker -->
+                            <div class="relative overflow-x-auto whitespace-nowrap space-x-4 p-2" id="dateSlider"></div>
+
+                            <!-- Hidden field to hold selected dates -->
+                            <input type="hidden" id="selectedDates" name="selected_dates">
+
+                            <!-- Time slot selection -->
+                            <div class="mt-4" id="timeSlotsWrapper">
+                            <h4 class="mb-2 font-semibold text-gray-700">Select Time Slot</h4>
+                            <div id="timeSlots" class="flex flex-wrap gap-2"></div>
+                            <input type="hidden" id="selectedTime" name="selected_time">
+                            </div>
+                            <div class="mb-6 bufferTime-field">
+                                <label for="buffer-time" class="mb-1 block font-display text-left text-jacarta-700 dark:text-white"
+                                    >Buffer Time(mins)<span class="text-red">*</span></label
+                                >
+                                <input
+                                    name="bufferTime" placeholder="buffer time"
+                                    class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300"
+                                    id="video-buffer-time"
+                                    type="number"
+                                    required
+                                />
+                                </div>
+                            <div class="mb-6 maxBookings-field">
+                            <label for="maxBookings" class="mb-1 block font-display  text-left   text-jacarta-700 dark:text-white"
+                                >Maximum Bookings<span class="text-red">*</span></label>
+                            <input
+                                name="maxBookings" placeholder="maximum bookings" 
+                                class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300"
+                                id="video-max-bookings"
+                                type="number"
+                                required
+                            />
+                            </div>
+                            
+                        <!-- Submit -->
+                        <button
+                                    type="submit"
+                                    class="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark mt-6"
+                                    id="profile-form-submit"
+                                >
+                                    Submit
+                                </button>
+                        </div>
+                    </form>
+
+                    <form id="serviceWebinarForm" class="mt-10">
+                        <div class="mx-auto max-w-[48.125rem]">
+                            <div class="mb-6 title-field">
+                            <label for="title" class="mb-1 block font-display text-left text-jacarta-700 dark:text-white"
+                                >Title<span class="text-red">*</span></label
+                            >
+                            <input
+                                name="title" placeholder="title"
+                                class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300"
+                                id="webinar-title"
+                                type="text"
+                                required
+                            />
+                            </div>
+                            <div class="mb-6 description-field">
+                                <label for="description" class="mb-1 block font-display text-left text-jacarta-700 dark:text-white"
+                                    >Description<span class="text-red">*</span></label
+                                >
+                                <input
+                                    name="description" placeholder="description"
+                                    class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300"
+                                    id="webinar-description"
+                                    type="text"
+                                    required
+                                />
+                                </div>
+                            <div class="mb-6 duration-field">
+                            <label for="duration" class="mb-1 block font-display  text-left   text-jacarta-700 dark:text-white"
+                                >Duration (mins)<span class="text-red">*</span></label>
+                            <input
+                                name="duration" placeholder="duration" 
+                                class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300"
+                                id="webinar-duration"
+                                type="text"
+                                required
+                            />
+                            </div>
+                             <label for="session" class="mb-2 block font-display text-jacarta-700 dark:text-white session-field"
+                                >Session (Date & Time)</label>
+                               
+                                <div class="flex space-x-7 session-field">
+                                    <div class="mb-6 w-1/2">
+                                    <input
+                                        type="date"
+                                        id="session-date"
+                                        class="w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300"
+                                        placeholder="session date" 
+                                    />
+                                    </div>
+                                    <div class="mb-6 w-1/2">
+                                    <input
+                                        type="time"
+                                        id="session-time"
+                                        class="w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300"
+                                        placeholder="session time" 
+                                    />
+                                    </div>
+                                </div>
+                            <div class="mb-6 amount-field">
+                                <label for="amount" class="mb-1 block font-display  text-left  text-jacarta-700 dark:text-white"
+                                    > Amount (₹)<span class="text-red">*</span></label>
+                                <input
+                                    name="amount" placeholder="amount" 
+                                    class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300"
+                                    id="webinar-amount"
+                                    type="text"
+                                    required
+                                />
+                                </div>    
+                        <!-- Submit -->
+                        <button
+                                    type="submit"
+                                    class="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark mt-6"
+                                    id="profile-form-submit"
+                                >
+                                    Submit
+                                </button>
+                        </div>
+                    </form>
+                    <form id="servicePrioritydmForm" class="mt-10">
+                        <div class="mx-auto max-w-[48.125rem]">
+                            <div class="mb-6 title-field">
+                            <label for="title" class="mb-1 block font-display text-left text-jacarta-700 dark:text-white"
+                                >Title<span class="text-red">*</span></label
+                            >
+                            <input
+                                name="title" placeholder="title"
+                                class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300"
+                                id="prioritydm-title"
+                                type="text"
+                                required
+                            />
+                            </div>
+                            <div class="mb-6 description-field">
+                                <label for="description" class="mb-1 block font-display text-left text-jacarta-700 dark:text-white"
+                                    >Description<span class="text-red">*</span></label
+                                >
+                                <input
+                                    name="description" placeholder="description"
+                                    class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300"
+                                    id="prioritydm-description"
+                                    type="text"
+                                    required
+                                />
+                                </div>
+                            <div class="mb-6 amount-field">
+                                <label for="amount" class="mb-1 block font-display  text-left  text-jacarta-700 dark:text-white"
+                                    > Amount (₹)<span class="text-red">*</span></label>
+                                <input
+                                    name="amount" placeholder="amount" 
+                                    class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300"
+                                    id="prioritydm-amount"
+                                    type="text"
+                                    required
+                                />
+                                </div>    
+                        <!-- Submit -->
+                        <button
+                                    type="submit"
+                                    class="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark mt-6"
+                                    id="profile-form-submit"
+                                >
+                                    Submit
+                                </button>
+                        </div>
+                    </form>
+        </div>
+      </section>
+     
+      
+      <!-- end create -->
+    </main>
+   
+    <script>
+
+
+        const timeSlots = [
+    '09:00 AM - 01:00 PM',
+    '02:00 PM - 06:00 PM',
+    '07:00 PM - 10:00 PM',
+    '09:00 AM - 10:00 PM'
+  ];
+
+  const dateSlider = document.getElementById('dateSlider');
+  const selectedDatesInput = document.getElementById('selectedDates');
+  const selectedTimeInput = document.getElementById('selectedTime');
+  const timeSlotsContainer = document.getElementById('timeSlots');
+
+  let selectedDates = [];
+
+  const today = new Date();
+  for (let i = 0; i < 14; i++) {
+    const date = new Date(today);
+    date.setDate(today.getDate() + i);
+
+    const dayName = date.toLocaleDateString('en-US', { weekday: 'short' });
+    const monthDay = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+
+    const button = document.createElement('button');
+    button.type ="button"
+    button.className = "inline-block px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-700 bg-white hover:bg-blue-100 transition";
+    button.innerHTML = `<div class="font-semibold">${dayName}</div><div>${monthDay}</div>`;
+    button.dataset.date = date.toISOString().split('T')[0];
+
+    button.addEventListener('click', function () {
+      const dateValue = this.dataset.date;
+      const index = selectedDates.indexOf(dateValue);
+
+      if (index === -1) {
+        // Add to selected
+        selectedDates.push(dateValue);
+        this.classList.remove('bg-white', 'text-gray-700'); // Remove default
+        this.classList.add("bg-accent", "text-white");    // Add active
+      } else {
+        // Remove from selected
+        selectedDates.splice(index, 1);
+        this.classList.remove("bg-accent", "text-white"); // Remove active
+        this.classList.add('bg-white', 'text-gray-700');    // Restore default
+      }
+    
+      selectedDatesInput.value = selectedDates.join(',');
+      console.log('dates',selectedDatesInput.value)
+    });
+
+    dateSlider.appendChild(button);
+  }
+
+  // Create time slot buttons (single-select)
+  timeSlots.forEach(slot => {
+    const slotBtn = document.createElement('button');
+    slotBtn.type = "button";
+    slotBtn.textContent = slot;
+    slotBtn.className = "px-3 py-1 border border-gray-300 rounded-md bg-white text-gray-700 hover:bg-blue-100 text-sm transition focus:outline-none";
+    slotBtn.dataset.time = slot;
+  
+    slotBtn.addEventListener('click', function () {
+      // If already selected, unselect
+      if (selectedTimeInput.value === this.dataset.time) {
+        this.classList.remove("bg-accent", "text-white");
+        this.classList.add('bg-white', 'text-gray-700');
+        selectedTimeInput.value = '';
+      } else {
+        // Deselect all first
+        timeSlotsContainer.querySelectorAll('button').forEach(btn => {
+          btn.classList.remove("bg-accent", "text-white");
+          btn.classList.add('bg-white', 'text-gray-700');
+        });
+  
+        // Select clicked
+        this.classList.remove('bg-white', 'text-gray-700');
+        this.classList.add("bg-accent", "text-white");
+        selectedTimeInput.value = this.dataset.time;
+      }
+    });
+  
+    timeSlotsContainer.appendChild(slotBtn);
+  });
+   
+            const defaultBgColor = $(".p-4").css("background-color");
+
+            $(".p-4").css("transition", "background-color 0.3s ease");
+
+        
+            $(".p-4").click(function () {
+                $(".p-4").removeClass("bg-accent  text-white border-2 border-accent");
+
+        
+                $(this).addClass("bg-accent text-white border-2 border-accent");
+        
+              let selectedOption = $(this).attr("data-type");
+
+                $("#serviceVideoForm").hide();
+                $("#serviceWebinarForm").hide();
+                $("#servicePrioritydmForm").hide();
+            
+                if (selectedOption === "1:1_Call") {
+                    $("#serviceVideoForm").show();
+
+                } else if (selectedOption === "Priority_DM") {
+                    $("#servicePrioritydmForm").show();
+
+                } else if (selectedOption === "Webinar") {
+                  $("#serviceWebinarForm").show();
+                }
+            });
+        
+            $("#serviceVideoForm").hide();
+                $("#serviceWebinarForm").hide();
+                $("#servicePrioritydmForm").hide();
+                
+    
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const params = new URLSearchParams(window.location.search);
+            const selectedType = params.get("type"); 
+        
+            if (selectedType) {
+                const serviceBoxes = document.querySelectorAll("[data-type]");
+                console.log(selectedType)
+        
+                serviceBoxes.forEach((box) => {
+                    if (box.getAttribute("data-type") === selectedType) {
+                        if (selectedType =="1:1_Call") {
+                            $("#serviceVideoForm").show();
+
+                        } else if (selectedType ==="Priority_DM") {
+                            $("#servicePrioritydmForm").show();
+
+                        } else if (selectedType =="Webinar") {
+                          
+                            $("#serviceWebinarForm").show();
+                        }
+                        box.classList.add("bg-accent", "text-white", "border-2", "border-accent");
+                    } else {
+                        box.classList.remove("bg-accent", "text-white", "border-2", "border-accent");
+                    }
+                });
+            }
+        });
+
+
+        $('#serviceVideoForm').on('submit', function(e) {
+            console.log("hi");
+            e.preventDefault();
+          
+          
+            var title = document.getElementById("video-title").value;
+            var description = document.getElementById("video-description").value;
+
+            var duration = document.getElementById("video-duration").value;
+            var amount = document.getElementById("video-amount").value;
+            var selectedDates = document.getElementById("selectedDates").value;
+            var selectedTime = document.getElementById("selectedTime").value;
+            var bufferTime = document.getElementById("video-buffer-time").value;
+            var maxBookings = document.getElementById("video-max-bookings").value;
+        
+            if (!title || !duration || !amount || !description || !selectedDates || !selectedTime ||!bufferTime ||!maxBookings) {
+                toastr.error("please fill all the details")
+          
+                return
+            }
+          
+            var formData = new FormData();
+          
+            formData.append('title', title);
+            formData.append('description', description);
+
+            formData.append('duration', duration);
+            formData.append('amount', amount);
+            formData.append('selectedDates', selectedDates);
+            formData.append('selectedTime', selectedTime);
+            formData.append('bufferTime', bufferTime);
+            formData.append('maxBookings', maxBookings);
+
+            
+            $.ajax({
+                url: '/serviceVideo_api/',
+                type: 'POST',
+                data: formData,
+                processData: false, 
+                contentType: false, 
+                success: function(response) {
+                    toastr.success('Service Created Successfully!', 'Success');
+                   window.location.href = "/service/video/"
+                },
+                error: function(xhr) {
+                    var errors = xhr.responseJSON;
+                    var firstKey = Object.keys(errors)[0];
+                    var firstError = errors[firstKey][0];
+                    toastr.error(firstError, 'Error');
+                }
+            });
+        });
+        
+
+        $('#serviceWebinarForm').on('submit', function(e) {
+            console.log("hi");
+            e.preventDefault();
+          
+          
+            var title = document.getElementById("webinar-title").value;
+            var description = document.getElementById("webinar-description").value;
+
+            var duration = document.getElementById("webinar-duration").value;
+            var session_date = document.getElementById("session-date").value;
+            var session_time = document.getElementById("session-time").value;
+            var amount = document.getElementById("webinar-amount").value;
+            
+           /* let errorMessage = $("#error-message");
+          
+            if (errorMessage.hasClass("text-red-500")) {
+              alert("Username Already Exists!")
+              return; 
+            } */
+
+            if (!title || !duration || !amount || !session_date || !session_time || !description) {
+                toastr.error("please fill all the details")
+          
+                return
+            }
+          
+            var formData = new FormData();
+          
+            formData.append('title', title);
+            formData.append('description', description);
+
+            formData.append('duration', duration);
+            formData.append('amount', amount);
+            formData.append('session_date', session_date);
+            formData.append('session_time', session_time);
+            $.ajax({
+                url: '/serviceWebinar_api/',
+                type: 'POST',
+                data: formData,
+                processData: false, 
+                contentType: false, 
+                success: function(response) {
+                    toastr.success('Service Created Successfully!', 'Success');
+                    window.location.href = "/service/webinar"
+
+                   
+                },
+                error: function(xhr) {
+                    var errors = xhr.responseJSON;
+                    var firstKey = Object.keys(errors)[0];
+                    var firstError = errors[firstKey][0];
+                    toastr.error(firstError, 'Error');
+                }
+            });
+        });
+
+        $('#servicePrioritydmForm').on('submit', function(e) {
+            console.log("hi");
+            e.preventDefault();
+          
+          
+            var title = document.getElementById("prioritydm-title").value;
+            var description = document.getElementById("prioritydm-description").value;
+
+            var amount = document.getElementById("prioritydm-amount").value;
+            
+           /* let errorMessage = $("#error-message");
+          
+            if (errorMessage.hasClass("text-red-500")) {
+              alert("Username Already Exists!")
+              return; 
+            } */
+
+            if (!title  || !amount || !description) {
+                toastr.error("please fill all the details")
+          
+                return
+            }
+          
+            var formData = new FormData();
+          
+            formData.append('title', title);
+            formData.append('description', description);
+
+            formData.append('amount', amount);
+            
+            $.ajax({
+                url: '/servicePrioritydm_api/',
+                type: 'POST',
+                data: formData,
+                processData: false, 
+                contentType: false, 
+                success: function(response) {
+                    toastr.success('Service Created Successfully!', 'Success');
+                    window.location.href = "/service/priorityDM/"
+
+                },
+                error: function(xhr) {
+                    var errors = xhr.responseJSON;
+                    var firstKey = Object.keys(errors)[0];
+                    var firstError = errors[firstKey][0];
+                    toastr.error(firstError, 'Error');
+                }
+            });
+        });
+
+        
+    </script>
+
+    {% endblock %}
+
+  

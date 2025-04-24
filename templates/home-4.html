@@ -56,16 +56,17 @@
         <!-- Slider -->
         <div class="swiper coverflow-slider !py-5">
           <div class="swiper-wrapper">
-            {% for expert in experts %}
+            {% for creator in creators %}
               <div class="swiper-slide">
                 <article>
                   <div class="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-700">
                     <figure class="relative">
-                      <a href="{% url 'collection' expert.yourusername %}">
+                      <a href="{{ creator.get_absolute_url }}"></a>
+
                         <!-- Lazy Loaded Image -->
                         <img 
-                          data-src="{% if expert.profile_picture %}{{ expert.profile_picture.url }}{% else %}{% static 'img/user/user_avatar.gif' %}{% endif %}" 
-                          alt="{{ expert.firstname }}" 
+                          data-src="{% if creator.profile_picture %}{{ creator.profile_picture.url }}{% else %}{% static 'img/user/user_avatar.gif' %}{% endif %}" 
+                          alt="{{ creator.firstname }}" 
                           class="swiper-lazy h-[430px] w-full object-cover" 
                           height="430" 
                           width="379" 
@@ -75,21 +76,21 @@
                     </figure>
                     <div class="p-6">
                       <div class="flex">
-                        <a href="{% url 'collection' expert.yourusername %}">
+                        <a href="{{ creator.get_absolute_url }}">
                           <img 
-                            data-src="{% if expert.profile_picture %}{{ expert.profile_picture.url }}{% else %}{% static 'img/user/user_avatar.gif' %}{% endif %}"
+                            data-src="{% if creator.profile_picture %}{{ creator.profile_picture.url }}{% else %}{% static 'img/user/user_avatar.gif' %}{% endif %}"
                             alt="avatar" 
                             class="swiper-lazy mr-4 h-10 w-10 rounded-full" 
                           />
                           <div class="swiper-lazy-preloader"></div>
                         </a>
                         <div>
-                          <a href="{% url 'collection' expert.yourusername %}" class="block">
+                          <a href="{{ creator.get_absolute_url }}" class="block">
                             <span class="font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white">
-                              {{ expert.firstname }} {{ expert.lastname }}
+                              {{ creator.firstname }} {{ creator.lastname }}
                             </span>
                           </a>
-                          <a href="{% url 'collection' expert.yourusername %}" class="text-2xs text-accent">{{ expert.displayname }}</a>
+                          <a href="{{ creator.get_absolute_url }}" class="text-2xs text-accent">{{ creator.displayname }}</a>
                         </div>
                       </div>
                     </div>
@@ -185,12 +186,12 @@
           </div>
 
           <div class="grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-[1.875rem] lg:grid-cols-4">
-            {% for expert in experts %}
+            {% for creator in creators %}
             <div
               class="flex rounded-2.5xl border border-jacarta-100 bg-white py-4 px-7 transition-shadow hover:shadow-lg dark:border-transparent dark:bg-jacarta-700"
             >
               <figure class="mr-4 shrink-0">
-                <a href="{% url 'collection' expert.yourusername %}" class="relative block">
+                <a href="{{ creator.get_absolute_url }}" class="relative block">
                   <img src="{% static 'img/avatars/avatar_1.jpg' %}" alt="avatar 1" class="rounded-2lg" loading="lazy" />
                   <div
                     class="absolute -left-3 top-1/2 flex h-6 w-6 -translate-y-2/4 items-center justify-center rounded-full border-2 border-white bg-jacarta-700 text-xs text-white dark:border-jacarta-600"
@@ -215,9 +216,9 @@
                 </a>
               </figure>
               <div>
-                <a href="{% url 'collection' expert.yourusername %}" class="block">
+                <a href="{{ creator.get_absolute_url }}" class="block">
                   <span class="font-display font-semibold text-jacarta-700 hover:text-accent dark:text-white"
-                    >{{ expert.firstname }} {{ expert.lastname }}</span
+                    >{{ creator.firstname }} {{ creator.lastname }}</span
                   >
                 </a>
                 <span class="text-sm dark:text-jacarta-300">7,080.95 ETH</span>
@@ -228,7 +229,7 @@
               class="flex rounded-2.5xl border border-jacarta-100 bg-white py-4 px-7 transition-shadow hover:shadow-lg dark:border-transparent dark:bg-jacarta-700"
             >
               <figure class="mr-4 shrink-0">
-                 <a href="{% url 'collection' expert.yourusername %}" class="relative block">
+                 <a href="{{ creator.get_absolute_url }}" class="relative block">
                   <img src="{% static 'img/avatars/avatar_2.jpg' %}" alt="avatar 2" class="rounded-2lg" loading="lazy" />
                   <div
                     class="absolute -left-3 top-1/2 flex h-6 w-6 -translate-y-2/4 items-center justify-center rounded-full border-2 border-white bg-jacarta-700 text-sm text-white dark:border-jacarta-600"
@@ -253,7 +254,7 @@
                 </a>
               </figure>
               <div>
-                 <a href="{% url 'collection' expert.yourusername %}" class="block">
+                 <a href="{{ creator.get_absolute_url }}" class="block">
                   <span class="font-display font-semibold text-jacarta-700 hover:text-accent dark:text-white"
                     >Cryptopank</span
                   >
@@ -265,7 +266,7 @@
               class="flex rounded-2.5xl border border-jacarta-100 bg-white py-4 px-7 transition-shadow hover:shadow-lg dark:border-transparent dark:bg-jacarta-700"
             >
               <figure class="mr-4 shrink-0">
-                 <a href="{% url 'collection' expert.yourusername %}" class="relative block">
+                 <a href="{{ creator.get_absolute_url }}" class="relative block">
                   <img src="{% static 'img/avatars/avatar_3.jpg' %}" alt="avatar 3" class="rounded-2lg" loading="lazy" />
                   <div
                     class="absolute -left-3 top-1/2 flex h-6 w-6 -translate-y-2/4 items-center justify-center rounded-full border-2 border-white bg-jacarta-700 text-xs text-white dark:border-jacarta-600"
@@ -275,7 +276,7 @@
                 </a>
               </figure>
               <div>
-                 <a href="{% url 'collection' expert.yourusername %}" class="block">
+                 <a href="{{ creator.get_absolute_url }}" class="block">
                   <span class="font-display font-semibold text-jacarta-700 hover:text-accent dark:text-white"
                     >Prince Ape Planet</span
                   >
@@ -287,7 +288,7 @@
               class="flex rounded-2.5xl border border-jacarta-100 bg-white py-4 px-7 transition-shadow hover:shadow-lg dark:border-transparent dark:bg-jacarta-700"
             >
               <figure class="mr-4 shrink-0">
-                 <a href="{% url 'collection' expert.yourusername %}" class="relative block">
+                 <a href="{{ creator.get_absolute_url }}" class="relative block">
                   <img src="{% static 'img/avatars/avatar_4.jpg' %}" alt="avatar 4" class="rounded-2lg" loading="lazy" />
                   <div
                     class="absolute -left-3 top-1/2 flex h-6 w-6 -translate-y-2/4 items-center justify-center rounded-full border-2 border-white bg-jacarta-700 text-xs text-white dark:border-jacarta-600"
@@ -297,7 +298,7 @@
                 </a>
               </figure>
               <div>
-                 <a href="{% url 'collection' expert.yourusername %}" class="block">
+                 <a href="{{ creator.get_absolute_url }}" class="block">
                   <span class="font-display font-semibold text-jacarta-700 hover:text-accent dark:text-white"
                     >Hey Mrsmeseks</span
                   >
@@ -309,7 +310,7 @@
               class="flex rounded-2.5xl border border-jacarta-100 bg-white py-4 px-7 transition-shadow hover:shadow-lg dark:border-transparent dark:bg-jacarta-700"
             >
               <figure class="mr-4 shrink-0">
-                 <a href="{% url 'collection' expert.yourusername %}" class="relative block">
+                 <a href="{{ creator.get_absolute_url }}" class="relative block">
                   <img src="{% static 'img/avatars/avatar_5.jpg' %}" alt="avatar 5" class="rounded-2lg" loading="lazy" />
                   <div
                     class="absolute -left-3 top-1/2 flex h-6 w-6 -translate-y-2/4 items-center justify-center rounded-full border-2 border-white bg-jacarta-700 text-xs text-white dark:border-jacarta-600"
@@ -319,7 +320,7 @@
                 </a>
               </figure>
               <div>
-                 <a href="{% url 'collection' expert.yourusername %}" class="block">
+                 <a href="{{ creator.get_absolute_url }}" class="block">
                   <span class="font-display font-semibold text-jacarta-700 hover:text-accent dark:text-white"
                     >Bored Bunny</span
                   >
@@ -331,7 +332,7 @@
               class="flex rounded-2.5xl border border-jacarta-100 bg-white py-4 px-7 transition-shadow hover:shadow-lg dark:border-transparent dark:bg-jacarta-700"
             >
               <figure class="mr-4 shrink-0">
-                 <a href="{% url 'collection' expert.yourusername %}" class="relative block">
+                 <a href="{{ creator.get_absolute_url }}" class="relative block">
                   <img src="{% static 'img/avatars/avatar_6.gif' %}" alt="avatar 6" class="rounded-2lg" loading="lazy" />
                   <div
                     class="absolute -left-3 top-1/2 flex h-6 w-6 -translate-y-2/4 items-center justify-center rounded-full border-2 border-white bg-jacarta-700 text-xs text-white dark:border-jacarta-600"
@@ -341,7 +342,7 @@
                 </a>
               </figure>
               <div>
-                 <a href="{% url 'collection' expert.yourusername %}" class="block">
+                 <a href="{{ creator.get_absolute_url }}" class="block">
                   <span class="font-display font-semibold text-jacarta-700 hover:text-accent dark:text-white"
                     >Wow Frens</span
                   >
@@ -353,7 +354,7 @@
               class="flex rounded-2.5xl border border-jacarta-100 bg-white py-4 px-7 transition-shadow hover:shadow-lg dark:border-transparent dark:bg-jacarta-700"
             >
               <figure class="mr-4 shrink-0">
-                 <a href="{% url 'collection' expert.yourusername %}" class="relative block">
+                 <a href="{{ creator.get_absolute_url }}" class="relative block">
                   <img src="{% static 'img/avatars/avatar_7.jpg' %}" alt="avatar 7" class="rounded-2lg" loading="lazy" />
                   <div
                     class="absolute -left-3 top-1/2 flex h-6 w-6 -translate-y-2/4 items-center justify-center rounded-full border-2 border-white bg-jacarta-700 text-xs text-white dark:border-jacarta-600"
@@ -378,7 +379,7 @@
                 </a>
               </figure>
               <div>
-                 <a href="{% url 'collection' expert.yourusername %}" class="block">
+                 <a href="{{ creator.get_absolute_url }}" class="block">
                   <span class="font-display font-semibold text-jacarta-700 hover:text-accent dark:text-white"
                     >Origin Morish</span
                   >
@@ -390,7 +391,7 @@
               class="flex rounded-2.5xl border border-jacarta-100 bg-white py-4 px-7 transition-shadow hover:shadow-lg dark:border-transparent dark:bg-jacarta-700"
             >
               <figure class="mr-4 shrink-0">
-                 <a href="{% url 'collection' expert.yourusername %}" class="relative block">
+                 <a href="{{ creator.get_absolute_url }}" class="relative block">
                   <img src="{% static 'img/avatars/avatar_8.jpg' %}" alt="avatar 8" class="rounded-2lg" loading="lazy" />
                   <div
                     class="absolute -left-3 top-1/2 flex h-6 w-6 -translate-y-2/4 items-center justify-center rounded-full border-2 border-white bg-jacarta-700 text-xs text-white dark:border-jacarta-600"
@@ -415,7 +416,7 @@
                 </a>
               </figure>
               <div>
-                 <a href="{% url 'collection' expert.yourusername %}" class="block">
+                 <a href="{{ creator.get_absolute_url }}" class="block">
                   <span class="font-display font-semibold text-jacarta-700 hover:text-accent dark:text-white"
                     >Superdo</span
                   >
@@ -427,7 +428,7 @@
               class="flex rounded-2.5xl border border-jacarta-100 bg-white py-4 px-7 transition-shadow hover:shadow-lg dark:border-transparent dark:bg-jacarta-700"
             >
               <figure class="mr-4 shrink-0">
-                 <a href="{% url 'collection' expert.yourusername %}" class="relative block">
+                 <a href="{{ creator.get_absolute_url }}" class="relative block">
                   <img src="{% static 'img/avatars/avatar_9.jpg' %}" alt="avatar 9" class="rounded-2lg" loading="lazy" />
                   <div
                     class="absolute -left-3 top-1/2 flex h-6 w-6 -translate-y-2/4 items-center justify-center rounded-full border-2 border-white bg-jacarta-700 text-xs text-white dark:border-jacarta-600"
@@ -437,7 +438,7 @@
                 </a>
               </figure>
               <div>
-                 <a href="{% url 'collection' expert.yourusername %}" class="block">
+                 <a href="{{ creator.get_absolute_url }}" class="block">
                   <span class="font-display font-semibold text-jacarta-700 hover:text-accent dark:text-white"
                     >NFT stars</span
                   >
@@ -449,7 +450,7 @@
               class="flex rounded-2.5xl border border-jacarta-100 bg-white py-4 px-7 transition-shadow hover:shadow-lg dark:border-transparent dark:bg-jacarta-700"
             >
               <figure class="mr-4 shrink-0">
-                 <a href="{% url 'collection' expert.yourusername %}" class="relative block">
+                 <a href="{{ creator.get_absolute_url }}" class="relative block">
                   <img src="{% static 'img/avatars/avatar_10.jpg' %}" alt="avatar 10" class="rounded-2lg" loading="lazy" />
                   <div
                     class="absolute -left-3 top-1/2 flex h-6 w-6 -translate-y-2/4 items-center justify-center rounded-full border-2 border-white bg-jacarta-700 text-xs text-white dark:border-jacarta-600"
@@ -474,7 +475,7 @@
                 </a>
               </figure>
               <div>
-                 <a href="{% url 'collection' expert.yourusername %}" class="block">
+                 <a href="{{ creator.get_absolute_url }}" class="block">
                   <span class="font-display font-semibold text-jacarta-700 hover:text-accent dark:text-white"
                     >Asumitsu</span
                   >
@@ -486,7 +487,7 @@
               class="flex rounded-2.5xl border border-jacarta-100 bg-white py-4 px-7 transition-shadow hover:shadow-lg dark:border-transparent dark:bg-jacarta-700"
             >
               <figure class="mr-4 shrink-0">
-                 <a href="{% url 'collection' expert.yourusername %}" class="relative block">
+                 <a href="{{ creator.get_absolute_url }}" class="relative block">
                   <img src="{% static 'img/avatars/avatar_11.jpg' %}" alt="avatar 11" class="rounded-2lg" loading="lazy" />
                   <div
                     class="absolute -left-3 top-1/2 flex h-6 w-6 -translate-y-2/4 items-center justify-center rounded-full border-2 border-white bg-jacarta-700 text-xs text-white dark:border-jacarta-600"
@@ -496,7 +497,7 @@
                 </a>
               </figure>
               <div>
-                 <a href="{% url 'collection' expert.yourusername %}" class="block">
+                 <a href="{{ creator.get_absolute_url }}" class="block">
                   <span class="font-display font-semibold text-jacarta-700 hover:text-accent dark:text-white"
                     >Pank Skull</span
                   >
@@ -508,7 +509,7 @@
               class="flex rounded-2.5xl border border-jacarta-100 bg-white py-4 px-7 transition-shadow hover:shadow-lg dark:border-transparent dark:bg-jacarta-700"
             >
               <figure class="mr-4 shrink-0">
-                 <a href="{% url 'collection' expert.yourusername %}" class="relative block">
+                 <a href="{{ creator.get_absolute_url }}" class="relative block">
                   <img src="{% static 'img/avatars/avatar_12.jpg' %}" alt="avatar 12" class="rounded-2lg" loading="lazy" />
                   <div
                     class="absolute -left-3 top-1/2 flex h-6 w-6 -translate-y-2/4 items-center justify-center rounded-full border-2 border-white bg-jacarta-700 text-xs text-white dark:border-jacarta-600"
@@ -518,7 +519,7 @@
                 </a>
               </figure>
               <div>
-                 <a href="{% url 'collection' expert.yourusername %}" class="block">
+                 <a href="{{ creator.get_absolute_url }}" class="block">
                   <span class="font-display font-semibold text-jacarta-700 hover:text-accent dark:text-white"
                     >Lazy Panda</span
                   >
@@ -530,7 +531,7 @@
               class="flex rounded-2.5xl border border-jacarta-100 bg-white py-4 px-7 transition-shadow hover:shadow-lg dark:border-transparent dark:bg-jacarta-700"
             >
               <figure class="mr-4 shrink-0">
-                 <a href="{% url 'collection' expert.yourusername %}" class="relative block">
+                 <a href="{{ creator.get_absolute_url }}" class="relative block">
                   <img src="{% static 'img/avatars/avatar_13.jpg' %}" alt="avatar 13" class="rounded-2lg" loading="lazy" />
                   <div
                     class="absolute -left-3 top-1/2 flex h-6 w-6 -translate-y-2/4 items-center justify-center rounded-full border-2 border-white bg-jacarta-700 text-xs text-white dark:border-jacarta-600"
@@ -555,7 +556,7 @@
                 </a>
               </figure>
               <div>
-                 <a href="{% url 'collection' expert.yourusername %}" class="block">
+                 <a href="{{ creator.get_absolute_url }}" class="block">
                   <span class="font-display font-semibold text-jacarta-700 hover:text-accent dark:text-white"
                     >Arcahorizons</span
                   >
@@ -567,7 +568,7 @@
               class="flex rounded-2.5xl border border-jacarta-100 bg-white py-4 px-7 transition-shadow hover:shadow-lg dark:border-transparent dark:bg-jacarta-700"
             >
               <figure class="mr-4 shrink-0">
-                 <a href="{% url 'collection' expert.yourusername %}" class="relative block">
+                 <a href="{{ creator.get_absolute_url }}" class="relative block">
                   <img src="{% static 'img/avatars/avatar_14.jpg' %}" alt="avatar 14" class="rounded-2lg" loading="lazy" />
                   <div
                     class="absolute -left-3 top-1/2 flex h-6 w-6 -translate-y-2/4 items-center justify-center rounded-full border-2 border-white bg-jacarta-700 text-xs text-white dark:border-jacarta-600"
@@ -577,7 +578,7 @@
                 </a>
               </figure>
               <div>
-                 <a href="{% url 'collection' expert.yourusername %}" class="block">
+                 <a href="{{ creator.get_absolute_url }}" class="block">
                   <span class="font-display font-semibold text-jacarta-700 hover:text-accent dark:text-white"
                     >Sussygirl</span
                   >
@@ -589,7 +590,7 @@
               class="flex rounded-2.5xl border border-jacarta-100 bg-white py-4 px-7 transition-shadow hover:shadow-lg dark:border-transparent dark:bg-jacarta-700"
             >
               <figure class="mr-4 shrink-0">
-                 <a href="{% url 'collection' expert.yourusername %}" class="relative block">
+                 <a href="{{ creator.get_absolute_url }}" class="relative block">
                   <img src="{% static 'img/avatars/avatar_15.jpg' %}" alt="avatar 15" class="rounded-2lg" loading="lazy" />
                   <div
                     class="absolute -left-3 top-1/2 flex h-6 w-6 -translate-y-2/4 items-center justify-center rounded-full border-2 border-white bg-jacarta-700 text-xs text-white dark:border-jacarta-600"
@@ -614,7 +615,7 @@
                 </a>
               </figure>
               <div>
-                 <a href="{% url 'collection' expert.yourusername %}" class="block">
+                 <a href="{{ creator.get_absolute_url }}" class="block">
                   <span class="font-display font-semibold text-jacarta-700 hover:text-accent dark:text-white"
                     >Smilebin</span
                   >
@@ -626,7 +627,7 @@
               class="flex rounded-2.5xl border border-jacarta-100 bg-white py-4 px-7 transition-shadow hover:shadow-lg dark:border-transparent dark:bg-jacarta-700"
             >
               <figure class="mr-4 shrink-0">
-                 <a href="{% url 'collection' expert.yourusername %}" class="relative block">
+                 <a href="{{ creator.get_absolute_url }}" class="relative block">
                   <img src="{% static 'img/avatars/avatar_16.jpg' %}" alt="avatar 16" class="rounded-2lg" loading="lazy" />
                   <div
                     class="absolute -left-3 top-1/2 flex h-6 w-6 -translate-y-2/4 items-center justify-center rounded-full border-2 border-white bg-jacarta-700 text-xs text-white dark:border-jacarta-600"
@@ -636,7 +637,7 @@
                 </a>
               </figure>
               <div>
-                 <a href="{% url 'collection' expert.yourusername %}" class="block">
+                 <a href="{{ creator.get_absolute_url }}" class="block">
                   <span class="font-display font-semibold text-jacarta-700 hover:text-accent dark:text-white"
                     >Pankysmoke</span
                   >
@@ -2147,12 +2148,12 @@
               <div class="swiper-wrapper">
                 <!-- Slides -->
                 <div class="swiper-slide">
-                {% for expert in experts %}
+                {% for creator in creators %}
                   <article>
                     <div
                       class="rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700"
                     >
-                       <a href="{% url 'collection' expert.yourusername %}" class="flex space-x-[0.625rem]">
+                       <a href="{{ creator.get_absolute_url }}" class="flex space-x-[0.625rem]">
                         <span class="w-[74.5%]">
                           <img
                             src="{% static 'img/collections/collection_1_1.jpg' %}"
@@ -2185,7 +2186,7 @@
                       
 
                       <a
-                        href="{% url 'collection' expert.yourusername %}"
+                        href="{{ creator.get_absolute_url }}"
                         class="mt-4 block font-display text-base text-jacarta-700 hover:text-accent dark:text-white dark:hover:text-accent"
                       >
                         Art Me Outside
@@ -2212,7 +2213,7 @@
                     <div
                       class="rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700"
                     >
-                       <a href="{% url 'collection' expert.yourusername %}" class="flex space-x-[0.625rem]">
+                       <a href="{{ creator.get_absolute_url }}" class="flex space-x-[0.625rem]">
                         <span class="w-[74.5%]">
                           <img
                             src="{% static 'img/collections/collection_2_1.jpg' %}"
@@ -2270,7 +2271,7 @@
                     <div
                       class="rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700"
                     >
-                       <a href="{% url 'collection' expert.yourusername %}" class="flex space-x-[0.625rem]">
+                       <a href="{{ creator.get_absolute_url }}" class="flex space-x-[0.625rem]">
                         <span class="w-[74.5%]">
                           <img
                             src="{% static 'img/collections/collection_3_1.jpg' %}"
@@ -2328,7 +2329,7 @@
                     <div
                       class="rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700"
                     >
-                       <a href="{% url 'collection' expert.yourusername %}" class="flex space-x-[0.625rem]">
+                       <a href="{{ creator.get_absolute_url }}" class="flex space-x-[0.625rem]">
                         <span class="w-[74.5%]">
                           <img
                             src="{% static 'img/collections/collection_4_1.jpg' %}"
@@ -2386,7 +2387,7 @@
                     <div
                       class="rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700"
                     >
-                       <a href="{% url 'collection' expert.yourusername %}" class="flex space-x-[0.625rem]">
+                       <a href="{{ creator.get_absolute_url }}" class="flex space-x-[0.625rem]">
                         <span class="w-[74.5%]">
                           <img
                             src="{% static 'img/collections/collection_5_1.jpg' %}"

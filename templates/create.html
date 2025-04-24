@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-
+{% load utils %}
 {% block content %}
 
     <main>
@@ -46,7 +46,7 @@
               <div class="tab-content">
                 <!-- Ethereum -->
       <div class="tab-pane fade show active" id="profiletab" role="tabpanel" aria-labelledby="profile-tab">   
-        {% if user.is_expert %}  
+        {% if user.is_creator %}  
         <form id="profileForm">
           <div class="mx-auto max-w-[48.125rem]">
             <!-- File Upload -->
@@ -83,21 +83,22 @@
             </div>
             <div class="flex items-center space-x-2 mb-6">
               <div class="w-full">
+                {% get_domain as domain %}
                 <label for="username" class="block text-sm font-medium  font-display text-jacarta-700 dark:text-white">
                   Your page link
                 </label>
                 <div class="relative mt-1 flex rounded-md shadow-sm">
-                  <span class="inline-flex items-center px-3 text-gray-500 bg-gray-100 border border-gray-300 rounded-l-md">
-                    https://sandbox.wemakesoftwares.com/
+                  <span class="inline-flex domain-name items-center px-3 text-gray-500 bg-gray-100 border border-gray-300 rounded-l-md">
+                   {{ domain }}
                   </span>
                   <input type="text" id="userName"
                     class="flex-1 block w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300"
-                    placeholder="Enter your username" value="{{ user.yourusername|default:'' }}">
+                    placeholder="Enter your username" value="{{ user.get_absolute_url|default:'' }}" readonly>
                   <span class="absolute inset-y-0 right-0 flex items-center pr-3" style="width:3%" id="status-icon"></span>
                 </div>
                 <p id="error-message" class="mt-1 text-sm"></p>
               </div>
-              <a href="#" class="text-gray-500 hover:text-gray-700">
+              <a href="#" class="text-gray-500 hover:text-gray-700" id="shareLink">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
                   stroke-linecap="round" stroke-linejoin="round">
                   <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
@@ -238,7 +239,7 @@
           </div>
         </form>
         {% else %}
-        <form id="profileForm">
+        <form id="profileFormUser">
           <div class="mx-auto max-w-[48.125rem]">
             <!-- File Upload -->
               <figure class="relative inline-block">
@@ -822,7 +823,7 @@
         </div>
       </div>
     </div>
-
+   
 
 <script>
   $(document).ready(function () {
@@ -959,6 +960,52 @@ $('#profileForm').on('submit', function(e) {
   });
 });
 
+
+
+$('#profileFormUser').on('submit', function(e) {
+  console.log("hi");
+  e.preventDefault();
+
+  var profile_picture = document.getElementById("imageupload").files[0];
+  var firstname = document.getElementById("firstName").value;
+  var lastname = document.getElementById("lastName").value;
+  var displayname = document.getElementById("displayName").value;
+  var aboutyourself = document.getElementById("aboutYourself").value;
+  
+  if (!firstname || !lastname || !displayname || !aboutyourself ) {
+      toastr.error("please fill all the details")
+
+      return
+  }
+
+  var formData = new FormData();
+
+  formData.append('profile_picture', profile_picture);
+  formData.append('firstname', firstname);
+  formData.append('lastname', lastname);
+  formData.append('displayname', displayname);
+  formData.append('aboutyourself', aboutyourself);
+  $.ajax({
+      url: '/update_profile_api/',
+      type: 'POST',
+      data: formData,
+      processData: false, 
+      contentType: false, 
+      success: function(response) {
+          toastr.success('Details Updated Successfully!', 'Success');
+         
+      },
+      error: function(xhr) {
+          var errors = xhr.responseJSON;
+          var firstKey = Object.keys(errors)[0];
+          var firstError = errors[firstKey][0];
+          toastr.error(firstError, 'Error');
+      }
+  });
+});
+
+
+
 $('#accountForm').on('submit', function(e) {
   console.log("hi");
   e.preventDefault();
@@ -1008,6 +1055,34 @@ $('#accountForm').on('submit', function(e) {
       }
   });
 });
+
+
+
+
+const shareBtn = document.getElementById('shareLink');
+
+if (shareBtn) {
+  shareBtn.addEventListener('click', function (e) {
+    e.preventDefault();
+
+    const baseUrl = document.querySelector(".domain-name").textContent.trim();
+    const username = document.getElementById("userName").value.trim();
+    const fullUrl = baseUrl + username;
+
+    if (navigator.share) {
+      navigator.share({
+        title: 'Share Profile Link',
+        text: 'Check out this profile link:',
+        url: fullUrl
+      })
+      .then(() => console.log('Link shared successfully'))
+      .catch((error) => console.error('Error sharing:', error));
+    } else {
+      alert("Web Share API not supported on this browser.");
+    }
+  });
+}
+
 
 </script>
 

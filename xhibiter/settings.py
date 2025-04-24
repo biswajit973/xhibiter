@@ -71,7 +71,7 @@ TEMPLATES = [
 
 RECAPTCHA_SECRET_KEY = '6LeAV5oqAAAAAL40pJA0L-cSwYlDCA07ZyWWflXc'
 # settings.py
-AUTH_USER_MODEL = 'myapp.ExpertUser' 
+AUTH_USER_MODEL = 'myapp.UserProfile' 
 LOGIN_URL = '/login/'
 
 import os

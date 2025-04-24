@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load utils %}
 
 {% block content %}
 
@@ -17,19 +18,19 @@
         <div class="w-full flex  items-center px-4 md:px-6 xl:px-8" style="justify-content: space-around;">
            
             <div class="flex items-center gap-4">
-                        <a href="{% url 'video' %}" class="tab px-4 py-2 rounded-lg bg-jacarta-100 font-display text-sm font-semibold text-jacarta-700 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:bg-jacarta-700 dark:text-white dark:hover:bg-accent">
+                        <a href="{% url 'service/video' %}" class="tab px-4 py-2 rounded-lg bg-jacarta-100 font-display text-sm font-semibold text-jacarta-700 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:bg-jacarta-700 dark:text-white dark:hover:bg-accent">
                             <span class="whitespace-nowrap">1:1 Call</span>
                         </a>
-                        <a href="{% url 'webinar' %}" class="rounded-lg  font-display text-sm font-semibold text-jacarta-700 transition-colors border-transparent bg-accent text-white dark:bg-jacarta-700 dark:text-white dark:bg-accent px-6 py-3">
+                        <a href="{% url 'service/webinar' %}" class="rounded-lg  font-display text-sm font-semibold text-jacarta-700 transition-colors border-transparent bg-accent text-white dark:bg-jacarta-700 dark:text-white dark:bg-accent px-6 py-3">
                             <span class="whitespace-nowrap">Webinar</span>
                         </a>
-                        <a  href="{% url 'priorityDM' %}" class="tab px-4 py-2 rounded-lg bg-jacarta-100 font-display text-sm font-semibold text-jacarta-700 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:bg-jacarta-700 dark:text-white dark:hover:bg-accent">
+                        <a  href="{% url 'service/priorityDM' %}" class="tab px-4 py-2 rounded-lg bg-jacarta-100 font-display text-sm font-semibold text-jacarta-700 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:bg-jacarta-700 dark:text-white dark:hover:bg-accent">
                             <span class="whitespace-nowrap">Priority DM</span>
                         </a>
                     </div>
         
                     <div class="flex gap-3">
-                        <a href="{% url 'services' %}?type=Webinar" class="px-4 py-2 rounded-lg bg-jacarta-100 font-display text-sm font-semibold text-jacarta-700 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:bg-jacarta-700 dark:text-white dark:hover:bg-accent inline-block">
+                        <a href="{% url 'create-service' %}?type=Webinar" class="px-4 py-2 rounded-lg bg-jacarta-100 font-display text-sm font-semibold text-jacarta-700 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:bg-jacarta-700 dark:text-white dark:hover:bg-accent inline-block">
                             + Add New
                         </a>
                     </div>
@@ -37,32 +38,43 @@
             </div>
 
       </section>
-      {% if expertwebinarsessiondetails %}
+      {% if creatorwebinarsessiondetails %}
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 px-4" style="gap:1%">
-        {% for expert in expertwebinarsessiondetails %}
-        <div id="session-{{ expert.id }}" class="bg-white shadow-xl rounded-2xl overflow-hidden transform transition hover:scale-105 hover:shadow-2xl h-full flex flex-col">
+        {% for creator in creatorwebinarsessiondetails %}
+        <div id="session-{{ creator.id }}" class="bg-white shadow-xl rounded-2xl overflow-hidden transform transition hover:scale-105 hover:shadow-2xl h-full flex flex-col">
             <div class="p-6 flex flex-col h-full">
                 <!-- Header with Title and Status -->
                 <div class="flex justify-between items-center mb-4">
-                    <h1 class="text-xl font-semibold truncate" title="one to one">{{ expert.title }}</h1>
+                    <h1 class="text-xl font-semibold truncate" title="one to one">{{ creator.title }}</h1>
                     <div class="flex items-center gap-2 text-gray-500">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-                            <path fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" 
-                                  d="M255.66 112c-77.94 0-157.89 45.11-220.83 135.33a16 16 0 0 0-.27 17.77C82.92 340.8 161.8 400 255.66 400c92.84 0 173.34-59.38 221.79-135.25a16.14 16.14 0 0 0 0-17.47C428.89 172.28 347.8 112 255.66 112z"></path>
-                            <circle cx="256" cy="256" r="80" fill="none" stroke-miterlimit="10" stroke-width="32"></circle>
-                        </svg>
-                        <span class="text-sm font-medium">Public</span>
+                      {% get_domain as domain %}
+    
+                      <button data-tippy-content="Share session" onclick="shareSession('{{ creator.title }}', '{{ domain  }}{{ creator.get_absolute_url }}')" >
+                        <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        width="24"
+                        height="24"
+                        class="h-7 w-7 fill-jacarta-500 dark:fill-jacarta-200"
+                      >
+                        <path fill="none" d="M0 0h24v24H0z" />
+                        <path
+                          d="M13.576 17.271l-5.11-2.787a3.5 3.5 0 1 1 0-4.968l5.11-2.787a3.5 3.5 0 1 1 .958 1.755l-5.11 2.787a3.514 3.514 0 0 1 0 1.458l5.11 2.787a3.5 3.5 0 1 1-.958 1.755z"
+                        />
+                      </svg>
+                      
+                    </button>
                     </div>
                 </div>
     
                 <!-- Time and Price -->
                 <div class="text-gray-600 text-lg mb-4 flex-grow">
-                    <span>{{ expert.duration }} mins | </span>
-                    <span class="text-gray-900 font-semibold">₹{{ expert.amount }}</span>
+                    <span>{{ creator.duration }} mins | </span>
+                    <span class="text-gray-900 font-semibold">₹{{ creator.amount }}</span>
                 </div>
                 <div class="text-gray-600 text-lg mb-4">
-                    <span> Session Time : {{ expert.session_time }} </span><br>
-                    <span class="text-gray-900 font-semibold"> Session Date : {{ expert.session_date }}</span>
+                    <span> Session Time : {{ creator.session_time }} </span><br>
+                    <span class="text-gray-900 font-semibold"> Session Date : {{ creator.session_date }}</span>
                 </div>
     
                 <!-- Action Buttons -->
@@ -70,11 +82,18 @@
                     <button class="font-display text-sm font-semibold text-accent"
                             data-bs-toggle="modal"
                             data-bs-target="#editWebinarModal"
-                            onclick="editWebinarSession({{ expert.id }},'{{ expert.title}}','{{ expert.description}}','{{ expert.duration}}','{{ expert.amount}}','{{ expert.session_time }}','{{ expert.session_date }}')">
-                        Edit
+                            data-id="{{ creator.id }}"
+        data-title="{{ creator.title|escapejs }}"
+        data-description="{{ creator.description|escapejs }}"
+        data-duration="{{ creator.duration }}"
+        data-amount="{{ creator.amount }}"
+        data-session_time="{{ creator.session_time|escapejs }}"
+        data-session_date="{{ creator.session_date }}"
+        onclick="populateEditWebinarModal(this)">
+    Edit
                     </button>
                     <button class="bg-red-500 text-dark px-4 py-2 rounded-lg shadow-md hover:bg-red-600 transition"
-                            onclick="deleteWebinarSession({{ expert.id }})">
+                            onclick="deleteWebinarSession({{ creator.id }})">
                         Delete
                     </button>
                 </div>
@@ -99,7 +118,7 @@
             <h5 class="text-lg font-semibold text-gray-800 dark:text-white">Host a webinar</h5>
             
             <div class="flex justify-center gap-6 mt-4">
-                <a href="{% url 'services' %}?type=Webinar" class="px-4 py-2 rounded-lg bg-jacarta-100 font-display text-sm font-semibold text-jacarta-700 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:bg-jacarta-700 dark:text-white dark:hover:bg-accent inline-block">
+                <a href="{% url 'create-service' %}?type=Webinar" class="px-4 py-2 rounded-lg bg-jacarta-100 font-display text-sm font-semibold text-jacarta-700 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:bg-jacarta-700 dark:text-white dark:hover:bg-accent inline-block">
                     + Add New
                 </a>
                
@@ -118,7 +137,7 @@
       <div class="modal-dialog max-w-2xl">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="editVideoModalLabel">Edit Video Details</h5>
+            <h5 class="modal-title" id="editVideoModalLabel">Edit Webinar Details</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -211,40 +230,49 @@
         }
       }
 
-
-
-      function editWebinarSession(id, title,description,duration,amount,session_time,session_date){
-        document.getElementById('webinar-id').value = id
+      function populateEditWebinarModal(button) {
+        const id = button.dataset.id;
+        const title = button.dataset.title;
+        const description = button.dataset.description;
+        const duration = button.dataset.duration;
+        const amount = button.dataset.amount;
+        const session_time = button.dataset.session_time;
+        const session_date = button.dataset.session_date;
     
-        document.getElementById('webinar-title').value = title
-        document.getElementById('webinar-description').value = description
-
-        document.getElementById('webinar-duration').value = duration
-        document.getElementById('webinar-amount').value = amount
-        const dateObj = new Date(session_date);
-    const formattedDate = dateObj.toISOString().split('T')[0]; 
-
-    const timeParts = session_time.match(/(\d+):(\d+)\s*(a.m.|p.m.)/i);
-    
-    if (timeParts) {
-        let hours = parseInt(timeParts[1], 10);
-        let minutes = timeParts[2];
-        let period = timeParts[3].toLowerCase();
-
-        if (period === "p.m." && hours !== 12) {
-            hours += 12;
-        } else if (period === "a.m." && hours === 12) {
-            hours = 0;
-        }
-
-        const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes}`;
-        
-        document.getElementById('webinar-date').value = formattedDate;
-        document.getElementById('webinar-time').value = formattedTime;
-
-    
-      }
+        editWebinarSession(id, title, description, duration, amount, session_time, session_date);
     }
+    
+
+  function editWebinarSession(id,title,description,duration,amount,session_time,session_date){
+          document.getElementById('webinar-id').value = id
+      
+          document.getElementById('webinar-title').value = title
+          document.getElementById('webinar-description').value = description
+
+          document.getElementById('webinar-duration').value = duration
+          document.getElementById('webinar-amount').value = amount
+        // Convert "April 24, 2025" to "2025-04-24" without using Date()
+        const parts = session_date.replace(',', '').split(' '); // ["April", "24", "2025"]
+        const months = {
+            January: "01", February: "02", March: "03", April: "04",
+            May: "05", June: "06", July: "07", August: "08",
+            September: "09", October: "10", November: "11", December: "12"
+        };
+        const year = parts[2];
+        const month = months[parts[0]];
+        const day = parts[1].padStart(2, '0');
+        const formattedDate = `${year}-${month}-${day}`;
+        document.getElementById('webinar-date').value = formattedDate;
+    if (session_time) {
+        const timeParts = session_time.split(':'); // ["12", "48", "00"]
+        if (timeParts.length >= 2) {
+            const formattedTime = `${timeParts[0].padStart(2, '0')}:${timeParts[1].padStart(2, '0')}`;
+            document.getElementById('webinar-time').value = formattedTime;
+        }
+    } else {
+        console.warn("Invalid time:", session_time);
+    }
+  }
       function resetform(){
         document.getElementById('webinar-id').value = ""
     
@@ -298,7 +326,7 @@
          contentType: false,
         success: function(data){
           toastr.success("session details updated successfully")
-          $(`#session-${id}`).html(`<div class="p-6 flex-grow flex flex-col">
+    /*      $(`#session-${id}`).html(`<div class="p-6 flex-grow flex flex-col">
               <!-- Header with Title and Status -->
               <div class="flex justify-between items-center mb-4 ">
                 <h1 class="text-xl font-semibold truncate" title="one to one">${title}</h1>
@@ -338,12 +366,13 @@
                       
                Edit
               </button>
-                <button class="bg-red-500 text-black px-4 py-2 rounded-lg shadow-md hover:bg-red-600 transition" onclick="deleteWebinarSession({{ expert.id }})">>
+                <button class="bg-red-500 text-black px-4 py-2 rounded-lg shadow-md hover:bg-red-600 transition" onclick="deleteWebinarSession({{ creator.id }})">>
                   Delete
                 </button>
               </div>
-            </div>`);
-         
+            </div>`); */
+            window.location.reload();
+
         },
         error: function(xhr){
           var errors = xhr.responseJSON;
@@ -355,7 +384,7 @@
       }
      
 
-      $(document).on("click", ".edit-webinar-session", function () {
+   /*   $(document).on("click", ".edit-webinar-session", function () {
         const id = $(this).data("id");
         const title = $(this).data("title");
         const description = $(this).data("description");
@@ -367,6 +396,21 @@
     
         editWebinarSession(id, title,description,duration,amount,sessionTime,sessionDate);
     });
+
+    */
+  function shareSession(title, url) {
+    if (navigator.share) {
+      navigator.share({
+        title: title,
+        text: 'Check out this session:',
+        url: url
+      })
+      .then(() => console.log('Shared successfully'))
+      .catch((error) => console.error('Error sharing:', error));
+    } else {
+      alert("Sharing is not supported in this browser.");
+    }
+  }
     
    </script>
     

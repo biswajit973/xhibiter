@@ -13,14 +13,29 @@
           <!-- Item -->
           <div class="md:flex md:flex-wrap">
             <!-- Image -->
-            <figure class="mb-8 md:w-2/5 md:flex-shrink-0 md:flex-grow-0 md:basis-auto lg:w-1/2">
-              <img
-                src="{{ item.expert.profile_picture.url }}"
-                alt="item"
-                class="cursor-pointer rounded-2.5xl"
-                data-bs-toggle="modal"
-                data-bs-target="#imageModal"
-              />
+
+
+<figure class="mb-8 md:w-2/5 md:flex-shrink-0 md:flex-grow-0 md:basis-auto lg:w-1/2">
+  {% if item.creator.profile_picture %}
+    <img
+      src="{{ item.creator.profile_picture.url }}"
+      alt="Profile Picture"
+      class="cursor-pointer rounded-2.5xl"
+      data-bs-toggle="modal"
+      data-bs-target="#imageModal"
+    />
+  {% else %}
+    <img
+      src="{% static 'img/collections/collection_square_1.jpg' %}"
+      alt="Default Profile Picture"
+      class="cursor-pointer rounded-2.5xl"
+      data-bs-toggle="modal"
+      data-bs-target="#imageModal"
+    />
+  {% endif %}
+</figure>
+
+            
 
               <!-- Modal -->
               <div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
@@ -57,7 +72,7 @@
               <div class="mb-3 flex">
                 <!-- Collection -->
                 <div class="flex items-center">
-                  <a href="#" class="mr-2 text-sm font-bold text-accent">{{ item.expert.yourusername }}</a>
+                  <a href="#" class="mr-2 text-sm font-bold text-accent">{{ item.creator.yourusername }}</a>
                   <span
                     class="inline-flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-green dark:border-jacarta-600"
                     data-tippy-content="Verified Collection"
@@ -125,7 +140,7 @@
                 </div>
               </div>
 
-              <h1 class="mb-4 font-display text-4xl font-semibold text-jacarta-700 dark:text-white">{{ item.expert.firstname }} {{ item.expert.lastname }}</h1>
+              <h1 class="mb-4 font-display text-4xl font-semibold text-jacarta-700 dark:text-white">{{ item.creator.firstname }} {{ item.creator.lastname }}</h1>
 
               <div class="mb-8 flex items-center space-x-4 whitespace-nowrap">
                 <div class="flex items-center">
@@ -164,6 +179,7 @@
                             <span class="text-lg font-medium">₹</span>
                             <span class="text-lg font-semibold">{{item.amount}}</span>
                         </div>
+                        {% if item.duration %}
                         <div class="flex items-center space-x-2 border-r-0">
                             <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M8 2v4"></path>
@@ -171,9 +187,12 @@
                                 <rect width="18" height="18" x="3" y="4" rx="2"></rect>
                                 <path d="M3 10h18"></path>
                             </svg>
+                           
                             <h3>Duration :</h3>
                             <span class="text-gray-700">{{ item.duration }} minutes</span>
+                          
                         </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -181,6 +200,7 @@
                 <!-- Main Container -->
     <div class="max-w-lg mx-auto bg-white p-4 rounded-xl shadow-lg space-y-6">
       <!-- Section Title -->
+      {% if session_type == "open" %}
       <h2 class="text-xl font-bold text-gray-700">When should we meet?</h2>
 
       <!-- Date Slider -->
@@ -190,17 +210,33 @@
 
       <!-- Time Section -->
       <div>
-          <h3 class="text-lg font-semibold text-gray-600 mb-2">Select time of day</h3>
-          <div class="flex space-x-4" id="timeOptions">
-              <button class="time-btn bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300"
-                  data-time="06:00 PM">06:00 PM</button>
-              <button class="time-btn bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300"
-                  data-time="07:15 PM">07:15 PM</button>
-              <button class="time-btn bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300"
-                  data-time="08:30 PM">08:30 PM</button>
-          </div>
+        
+            <h3 class="text-lg font-semibold text-gray-600 mb-2">Select time of day</h3>
+            <div id="timeOptions" class="flex space-x-2 overflow-x-auto whitespace-nowrap scrollbar-thin">
+                <!-- Time buttons will be dynamically added here -->
+            </div>
+       
+        
       </div>
-
+      <div>
+        
+        <h3 class="text-lg font-semibold text-gray-600 mb-2">Additional Details (optional)</h3>
+        <textarea id="additional-details" maxlength="2000" class="w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300" required="" placeholder="enter details if any "></textarea>
+  </div>
+      {% elif session_type == "fixed" %}
+  <!-- Show only the fixed datetime -->
+  <div class="w-1/2 mt-4">
+      <h6 class="text-sm font-semibold text-jacarta-700 dark:text-white">Session Date & Time</h6>
+      <div class="relative flex items-center overflow-hidden rounded-lg border border-jacarta-100 dark:border-jacarta-600 p-2">
+        <span class="text-sm">
+          {{ item.session_date }}-{{ item.session_time|time:"h:i A" }}
+        </span>
+      </div>
+  </div>
+  {% else %}
+  
+{% endif %} 
+    
       <!-- Timezone Section -->
       {% comment %} <div>
           <h3 class="text-lg font-semibold text-gray-600 mb-2">Timezone</h3>
@@ -360,7 +396,7 @@
                     </div>
                   </div>
                 </div> border border-jacarta-100{% endcomment %}
-
+                {% if session_type == "open" %}
                 <a
                   href="#"
                   id ="openBidModal"
@@ -371,7 +407,28 @@
                   class="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                   >Check Out</a
                 >
+                {% elif session_type == "fixed" %}
               </div>
+              <a
+                  href="#"
+                  id ="openBidModal"
+                  data-bs-toggle="modal"
+                  data-bs-target="#placeBidModal"
+                  data-date="{{ item.session_date }}"
+                  data-time="{{ item.session_time }}"
+                  class="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                  >Check Out</a
+                >
+                {% else %}
+                <a
+                href="#"
+                id ="openBidModal"
+                data-bs-toggle="modal"
+                data-bs-target="#placeBidModal"
+                class="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                >Check Out</a
+              >
+              {% endif %}
               <!-- end bid -->
             </div>
             <!-- end details -->
@@ -2260,7 +2317,7 @@
               </div>
     
               <!-- Date & Time -->
-              <div class="w-1/2">
+              <div class="w-1/2" id="sessionDisplay">
                 <h6 class="text-sm font-semibold text-jacarta-700 dark:text-white">Session Date & Time</h6>
                 <div class="relative flex items-center overflow-hidden rounded-lg border border-jacarta-100 dark:border-jacarta-600 p-2">
                   <span class="text-sm" id="auctionDateTime"></span>
@@ -2284,156 +2341,228 @@
    
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script>
-      const dateSlider = document.getElementById("dateSlider");
-      let selectedDate = null;
-      let selectedTime = null;
-     
-      const fetchBookedTimes = async (date) => {
-        let expertId ="{{ item.expert.id }}"
-        let model_type ="{{ model_type}}"
-        let model_id = "{{ item.id }}"
-        if (!date || !expertId) return;
-    
-        try {
-            const response = await fetch(`/get-booked-times/?selectedDate=${date}&expert_id=${expertId}&session_name=${model_type}`);
-            const data = await response.json();
-    
-            if (data.booked_times) {
-                hideBookedTimes(data.booked_times);
-            }
-        } catch (error) {
-            console.error("Error fetching booked times:", error);
-        }
-    };
-    
-      // Generate Dates for 14 Days
-      const generateDates = () => {
-          const today = new Date();
-          for (let i = 0; i < 14; i++) {
-              const futureDate = new Date();
-              futureDate.setDate(today.getDate() + i);
-              const day = futureDate.toLocaleDateString("en-US", { weekday: "short" });
-              const date = futureDate.toLocaleDateString("en-US", {
-                  day: "2-digit",
-                  month: "short",
-              });
 
-              const dateBtn = document.createElement("button");
-              dateBtn.className =
-                  "date-btn inline-block w-20 text-center bg-gray-200 rounded-lg p-2 hover:bg-blue-200 transition";
-              dateBtn.innerHTML = `
-                  <div class="text-sm font-bold">${day}</div>
-                  <div class="text-xs text-gray-600">${date}</div>
-              `;
-              dateBtn.dataset.date = futureDate.toISOString().split("T")[0];
-              dateBtn.addEventListener("click", () => selectDate(dateBtn));
-              dateSlider.appendChild(dateBtn);
+
+  {% if session_type == "open" %}
+  <script>
+      const itemSelectedDates = '{{ item.selectedDates }}'; 
+      const itemSelectedTime = '{{ item.selectedTime }}'; 
+    const dateSlider = document.getElementById("dateSlider");
+    const timeOptions = document.getElementById("timeOptions");
+    const auctionDateTime = document.getElementById("auctionDateTime");
+    let bufferTime = parseInt("{{ item.bufferTime }}");
+    let duration = parseInt("{{ item.duration }}");
+    let bufferTimeInterval = bufferTime + duration
+    console.log(bufferTime)
+    let selectedDate = null;
+    let selectedTime = null;
+
+    const fetchBookedTimes = async (date) => {
+      let creatorId = "{{ item.creator.id }}";
+      let model_type = "{{ model_type_label }}";
+      let model_id = "{{ item.id }}";
+  
+      if (!date || !creatorId) return;
+  
+      try {
+          const response = await fetch(`/get-booked-times/?selectedDate=${date}&creator_id=${creatorId}&session_name=${model_type}&model_id=${model_id}`);
+          const data = await response.json();
+  
+          if (data.booking_count >= data.max_bookings) {
+              timeOptions.innerHTML = `<p class="text-red-500 text-sm">No bookings available</p>`;
+              return;
           }
-      };
-      const hideBookedTimes = (bookedTimes) => {
-        // Re-fetch time buttons dynamically
+  
+          if (data.booked_times) {
+              hideBookedTimes(data.booked_times);
+          }
+      } catch (error) {
+          console.error("Error fetching booked times:", error);
+      }
+  };
+  
+
+    // Convert 12-hour format to Date object
+    function parseTimeToDate(timeStr) {
+        const [time, modifier] = timeStr.trim().split(' ');
+        let [hours, minutes] = time.split(':').map(Number);
+        if (modifier === "PM" && hours !== 12) hours += 12;
+        if (modifier === "AM" && hours === 12) hours = 0;
+
+        const date = new Date();
+        date.setHours(hours, minutes, 0, 0);
+        return date;
+    }
+
+    // Convert Date to 12-hour time string
+    function formatTime12hr(date) {
+        let hours = date.getHours();
+        let minutes = date.getMinutes().toString().padStart(2, '0');
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12 || 12;
+        return `${hours.toString().padStart(2, '0')}:${minutes} ${ampm}`;
+    }
+
+    function generateTimeSlots(startStr, endStr, interval=bufferTimeInterval) {
+        const start = parseTimeToDate(startStr);
+        const end = parseTimeToDate(endStr);
+        const slots = [];
+
+        const current = new Date(start);
+        while (current <= end) {
+            slots.push(formatTime12hr(current));
+            current.setMinutes(current.getMinutes() + interval);
+        }
+
+        return slots;
+    }
+
+    function renderTimeOptions() {
+      if (!selectedDate) return;
+  
+      const [startTime, endTime] = itemSelectedTime.split(' - ');
+      const timeSlots = generateTimeSlots(startTime, endTime);
+  
+      const now = new Date();
+      const today = new Date(selectedDate);
+      today.setHours(0, 0, 0, 0);
+      const isToday = now.toDateString() === today.toDateString();
+  
+      timeOptions.innerHTML = '';
+      timeSlots.forEach(time => {
+          const timeDate = parseTimeToDate(time);
+          const isPastTime = isToday && timeDate <= now;
+  
+          if (isPastTime) return; // Skip past times
+  
+          const btn = document.createElement('button');
+          btn.className = "time-btn bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300";
+          btn.dataset.time = time;
+          btn.textContent = time;
+          btn.addEventListener("click", () => selectTime(btn));
+          timeOptions.appendChild(btn);
+      });
+  }
+  
+
+    function renderDateButtons() {
+      const dates = itemSelectedDates.split(',');
+      const now = new Date();
+  
+      dates.forEach(dateStr => {
+          const d = new Date(dateStr);
+          d.setHours(0, 0, 0, 0); // Normalize for comparison
+  
+          if (d < now.setHours(0, 0, 0, 0)) return; // Skip past dates
+  
+          const day = d.toLocaleDateString("en-US", { weekday: "short" });
+          const dateLabel = d.toLocaleDateString("en-US", { day: "2-digit", month: "short" });
+  
+          const dateBtn = document.createElement("button");
+          dateBtn.className = "date-btn inline-block w-20 text-center bg-gray-200 rounded-lg p-2 hover:bg-blue-200 transition";
+          dateBtn.innerHTML = `
+              <div class="text-sm font-bold">${day}</div>
+              <div class="text-xs text-gray-600">${dateLabel}</div>
+          `;
+          dateBtn.dataset.date = dateStr;
+          dateBtn.addEventListener("click", () => selectDate(dateBtn));
+          dateSlider.appendChild(dateBtn);
+      });
+  }
+  
+
+    function hideBookedTimes(bookedTimes) {
         const timeButtons = document.querySelectorAll(".time-btn");
-    
         timeButtons.forEach((btn) => {
             const time = btn.dataset.time;
             if (bookedTimes.includes(time)) {
-                btn.classList.add("opacity-50", "cursor-not-allowed");
+                btn.classList.add("opacity-50",'bg-gray-100', "cursor-not-allowed");
                 btn.disabled = true;
-                btn.style.display = "none"; 
+                btn.textContent ="NA"
+                
+
+                
             } else {
                 btn.classList.remove("opacity-50", "cursor-not-allowed");
                 btn.disabled = false;
-                btn.style.display = "inline-block"; 
+                
+                
             }
         });
-    };
-    
-    document.addEventListener("DOMContentLoaded", () => {
-        document.querySelectorAll(".time-btn").forEach((btn) => {
-            btn.addEventListener("click", () => {
-                if (btn.disabled) return;
-    
-                document.querySelectorAll(".time-btn").forEach((el) => {
-                    el.classList.remove("bg-accent", "text-white");
-                    el.classList.add("bg-gray-200", "text-gray-700");
-                });
-    
-                btn.classList.add("bg-accent", "text-white");
-                selectedTime = btn.dataset.time;
-                console.log(`Selected Time: ${selectedTime}`);
-    
-                fetchBookedTimes(selectedDate);
-                updateAuctionDateTime();
-            });
+    }
+
+    function selectTime(btn) {
+        if (btn.disabled) return;
+
+        document.querySelectorAll(".time-btn").forEach((el) => {
+            el.classList.remove("bg-accent", "text-white");
+            el.classList.add("bg-gray-200", "text-gray-700");
         });
+
+        btn.classList.add("bg-accent", "text-white");
+        selectedTime = btn.dataset.time;
+        console.log(`Selected Time: ${selectedTime}`);
+
+        updateAuctionDateTime();
+    }
+
+    function selectDate(btn) {
+        document.querySelectorAll(".date-btn").forEach((el) => {
+            el.classList.remove("bg-accent", "text-white");
+            el.classList.add("bg-gray-200", "text-gray-700");
+        });
+
+        btn.classList.add("bg-accent", "text-white");
+        selectedDate = btn.dataset.date;
+        console.log(`Selected Date: ${selectedDate}`);
+        renderTimeOptions();
+
+        fetchBookedTimes(selectedDate);
+
+        updateAuctionDateTime();
+    }
+
+    function updateAuctionDateTime() {
+        if (selectedDate && selectedTime) {
+            auctionDateTime.textContent = `${selectedDate} - ${selectedTime}`;
+        }
+    }
+
+
+
+    document.addEventListener("DOMContentLoaded", () => {
+        renderDateButtons();
+        renderTimeOptions();
     });
-    
-      // Select Date
-      const selectDate = (btn) => {
-          document.querySelectorAll(".date-btn").forEach((el) => {
-              el.classList.remove("bg-accent", "text-white");
-              el.classList.add("bg-gray-200", "text-gray-700");
-          });
-          btn.classList.add("bg-accent", "text-white");
-          selectedDate = btn.dataset.date;
-          console.log(`Selected Date: ${selectedDate}`);
-          fetchBookedTimes(selectedDate);
-          updateAuctionDateTime();
-
-      };
-
-      // Select Time
-   /*   const timeButtons = document.querySelectorAll(".time-btn");
-      timeButtons.forEach((btn) => {
-          btn.addEventListener("click", () => {
-              timeButtons.forEach((el) => {
-                  el.classList.remove("bg-blue-500", "text-white");
-                  el.classList.add("bg-gray-200", "text-gray-700");
-              });
-              btn.classList.add("bg-accent", "text-white");
-              selectedTime = btn.dataset.time;
-              console.log(`Selected Time: ${selectedTime}`);
-              updateAuctionDateTime();
-
-          });
-      }); */
-      generateDates();
-
-    
-      
-function updateAuctionDateTime() {
-  if (selectedDate && selectedTime) {
-      auctionDateTime.textContent = `${selectedDate} - ${selectedTime}`;
-      
-  }
-}
 
 
 
 document.querySelector('.book_session').addEventListener('click',function(){
-let model_type = "{{ model_type}}"   
+let session_title = "{{ item.title|escapejs }}"  
+let model_type = "{{ model_type_label}}"   
 let model_id = "{{ item.id }}"
-let expert_id = "{{ item.expert.id }}"
-
+let creator_id = "{{ item.creator.id }}"
+let selected_Date = selectedDate
+let selected_Time = selectedTime
 console.log('session_type',model_type)
 console.log('session_id',model_id)
 console.log(selectedDate)
 console.log(selectedTime)
-
-console.log('expert_id',expert_id)
+let additionalDetails = document.getElementById('additional-details').value
+console.log('creator_id',creator_id)
 
 const formData = new FormData();
 
 
-
+formData.append('session_title',session_title)
 formData.append('session_id',model_id)
 formData.append('session_name',model_type)
-formData.append('expert_id',expert_id)
-formData.append('selectedDate',selectedDate)
-formData.append('selectedTime',selectedTime)
+formData.append('creator_id',creator_id)
+formData.append('selectedDate',selected_Date)
+formData.append('selectedTime',selected_Time)
+formData.append('additionalDetails',additionalDetails)
 
-if(!selectedDate || !selectedTime){
+if(!selected_Date || !selected_Time){
   alert("please select date and time")
   return
 }
@@ -2454,9 +2583,138 @@ if(!selectedDate || !selectedTime){
 
 
 }) 
-
-
 })
+
+const textarea = document.getElementById("additional-details");
+
+textarea.addEventListener("input", function () {
+  const maxLength = 2000;
+  const currentLength = textarea.value.length;
+
+
+  if (currentLength > maxLength) {
+    alert("Maximum of 2000 characters allowed!");
+    textarea.value = textarea.value.slice(0, maxLength); 
+  }
+});
+</script>
+
+{% endif %}
+
+{% if session_type == "fixed" %}
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    
+    let selectedDate = "{{ item.session_date|date:"Y-m-d" }}"
+    let selectedTime = "{{ item.session_time|time:"h:i A" }}"
+
+    const auctionDateTime = document.getElementById("auctionDateTime");
+    if (selectedDate && selectedTime) {
+      auctionDateTime.textContent = `${selectedDate} - ${selectedTime}`;
+  }
+   
+});
+
+  document.querySelector('.book_session').addEventListener('click',function(){
+    let session_title = "{{ item.title|escapejs }}"
+    let model_type = "{{ model_type_label}}"   
+    let model_id = "{{ item.id }}"
+    let creator_id = "{{ item.creator.id }}"
+    let selectedDate = "{{ item.session_date|date:"Y-m-d" }}"
+    let selectedTime = "{{ item.session_time|time:"h:i A" }}"
+    
+    console.log('session_type',model_type)
+    console.log('session_id',model_id)
+    console.log(selectedDate)
+    console.log(selectedTime)
+    
+    console.log('creator_id',creator_id)
+    
+    const formData = new FormData();
+    
+    
+    formData.append('session_title',session_title)
+    formData.append('session_id',model_id)
+    formData.append('session_name',model_type)
+    formData.append('creator_id',creator_id)
+    formData.append('selectedDate',selectedDate)
+    formData.append('selectedTime',selectedTime)
+    
+    if(!selectedDate || !selectedTime){
+      alert("please select date and time")
+      return
+    }
+    
+            $.ajax({
+    
+              url:'/book_session_api/',
+              method:'POST',
+              data:formData,
+              processData: false, 
+              contentType: false,
+              success: function(response) {
+                  alert("session booked")
+              },
+              error: function(error) {
+                 alert("session booking failed")
+              }
+    
+    
+    }) 
+    })
+</script>
+{% endif %}
+
+
+{% if session_type == "none" %}
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const sessionDisplay = document.getElementById("sessionDisplay");
+    sessionDisplay.style.display = "none"
+   
+});
+
+  document.querySelector('.book_session').addEventListener('click',function(){
+    let session_title = "{{ item.title|escapejs }}"
+    let model_type = "{{ model_type_label}}"   
+    let model_id = "{{ item.id }}"
+    let creator_id = "{{ item.creator.id }}"
+ 
+    
+    console.log('session_type',model_type)
+    console.log('session_id',model_id)
+    
+    console.log('creator_id',creator_id)
+    
+    const formData = new FormData();
+    
+    
+    formData.append('session_title',session_title)
+    formData.append('session_id',model_id)
+    formData.append('session_name',model_type)
+    formData.append('creator_id',creator_id)
+    
+            $.ajax({
+    
+              url:'/book_session_api/',
+              method:'POST',
+              data:formData,
+              processData: false, 
+              contentType: false,
+              success: function(response) {
+                  alert("session booked")
+              },
+              error: function(error) {
+                 alert("session booking failed")
+              }
+    
+    
+    }) 
+    })
+</script>
+{% endif %}
+
+<script>
   document.getElementById('shareButton').addEventListener('click', async () => {
     if (navigator.share) {
       try {
@@ -2475,4 +2733,4 @@ if(!selectedDate || !selectedTime){
 
 </script>
 
-    {% endblock %}
+{% endblock %}

@@ -29,7 +29,6 @@
     <link rel="apple-touch-icon" href="{% static 'img/apple-touch-icon.png' %}" />
     <link rel="apple-touch-icon" sizes="72x72" href="{% static 'img/apple-touch-icon-72x72.png' %}" />
     <link rel="apple-touch-icon" sizes="114x114" href="{% static 'img/apple-touch-icon-114x114.png' %}" />
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <style>
       .form-step { display: none; }
       .form-step.active { display: block; }
@@ -100,7 +99,7 @@
                       <path fill="#62688F" d="M959.8 1397.6v441.7l540.1-760.6z"></path>
                     </svg>
 
-                    <span class="font-display text-base font-medium">Seekers</span>
+                    <span class="font-display text-base font-medium">Buyers</span>
                   </button>
                 </li>
                 <li class="nav-item" role="presentation">
@@ -130,7 +129,7 @@
                       />
                     </svg>
 
-                    <span class="font-display text-base font-medium">Experts</span>
+                    <span class="font-display text-base font-medium">Creators</span>
                   </button>
                 </li>
                 {% comment %} <li class="nav-item" role="presentation">
@@ -168,7 +167,7 @@
                 <!-- Ethereum -->
                 <div class="tab-pane fade show active" id="ethereum" role="tabpanel" aria-labelledby="ethereum-tab">
                   
-                  <form id="seeker-contact-form">
+                  <form id="buyer-contact-form">
                     <div class="flex space-x-7">
                       <div class="mb-6 w-1/2">
                         <label for="firstname" class="mb-1 block font-display text-sm  text-left text-jacarta-700 dark:text-white"
@@ -177,11 +176,13 @@
                         <input
                           name="firstname" placeholder="firstname"
                           class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300"
-                          id="seeker-firstname"
+                          id="buyer-firstname"
                           type="text"
                           required
                         />
                       </div>
+                      <span id="buyer-first-name-error" class="text-red-500 text-sm block text-left"></span>
+
                       <div class="mb-6 w-1/2">
                         <label for="lastname" class="mb-1 block font-display  text-left  text-sm text-jacarta-700 dark:text-white"
                           >Last Name<span class="text-red">*</span></label
@@ -189,11 +190,13 @@
                         <input
                           name="lastname" placeholder="lastname"
                           class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300"
-                          id="seeker-lastname"
+                          id="buyer-lastname"
                           type="text"
                           required
                         />
                       </div>
+                      <span id="buyer-last-name-error" class="text-red-500 text-sm block text-left"></span>
+
                     </div>
                     <div class="flex space-x-7">
                       <div class="mb-6 w-1/2">
@@ -203,11 +206,14 @@
                         <input
                           name="email" placeholder="email"
                           class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300"
-                          id="seeker-email"
+                          id="buyer-email"
                           type="email"
                           required
                         />
+                
                       </div>
+                      <span id="buyer-email-error" class="text-red-500 text-sm block text-left"></span>
+
                       <div class="mb-6 w-1/2">
                         <label for="contact" class="mb-1 block font-display text-sm  text-left text-jacarta-700 dark:text-white"
                           > Contact Number<span class="text-red">*</span></label
@@ -215,11 +221,13 @@
                         <input
                           name="contact" placeholder="contact number"
                           class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300"
-                          id="seeker-contact"
+                          id="buyer-contact"
                           type="text"
                           required
                         />
                       </div>
+                      <span id="buyer-contact-error" class="text-red-500 text-sm block text-left"></span>
+
                     </div>
                     <div class="flex space-x-7">
                       <div class="mb-6 w-1/2">
@@ -229,11 +237,13 @@
                         <input
                           name="password" placeholder="password"
                           class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300"
-                          id="seeker-password"
+                          id="buyer-password"
                           type="password"
                           required
                         />
                       </div>
+                      <span id="buyer-password-error" class="text-red-500 text-sm block text-left"></span>
+
                       <div class="mb-6 w-1/2">
                         <label for="confirmPassword" class="mb-1 block font-display text-sm  text-left text-jacarta-700 dark:text-white"
                           > Confirm Password<span class="text-red">*</span></label
@@ -241,15 +251,19 @@
                         <input
                           name="confirmPassword" placeholder="confirm password"
                           class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300"
-                          id="seeker-confirmPassword"
+                          id="buyer-confirmPassword"
                           type="password"
                           required
                         />
                       </div>
+                      <span id="buyer-confirmpassword-error" class="text-red-500 text-sm block text-left"></span>
+
                     </div>
-                    <div class="g-recaptcha mb-3" 
-                    style="margin-top:10px; width: 100%; display: flex;justify-content:center;" data-sitekey="6LeAV5oqAAAAAGvSIJX-vuouZSzXMljjRzmGEk6u"></div>
-                      <input type="hidden" name="recaptcha_token" id="recaptcha_token">
+                    <div id="buyer-recaptcha" class="mb-3"
+                      style="margin-top:10px; width: 100%; display: flex; justify-content:center;"></div>
+
+                      <input type="hidden" name="buyer_recaptcha_token" id="buyer_recaptcha_token">
+
               
                     {% comment %} <div class="mb-6 flex items-center space-x-2">
                       <input
@@ -266,7 +280,7 @@
                     <button
                       type="submit"
                       class="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark mt-6"
-                      id="seeker-contact-form-submit"
+                      id="buyer-contact-form-submit"
                     >
                       Submit
                     </button>
@@ -281,7 +295,7 @@
 
                 <!-- Torus -->
                 <div class="tab-pane fade" id="torus" role="tabpanel" aria-labelledby="torus-tab">
-                  <form id="expert-contact-form">
+                  <form id="creator-contact-form">
                     <!-- Step 1: Name -->
                     <div class="form-step active" id="step-1">
                       <div class="mb-6">
@@ -291,7 +305,7 @@
                         <input
                           name="firstname" placeholder="firstname"
                           class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300"
-                          id="expert-firstname"
+                          id="creator-firstname"
                           type="text"
                           required
                         />
@@ -304,7 +318,7 @@
                         <input
                           name="lastname" placeholder="lastname"
                           class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300"
-                          id="expert-lastname"
+                          id="creator-lastname"
                           type="text"
                           required
                         />
@@ -324,7 +338,7 @@
                         <input
                           name="email" placeholder="email"
                           class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300"
-                          id="expert-email"
+                          id="creator-email"
                           type="email"
                           required
                         />
@@ -338,7 +352,7 @@
                         <input
                           name="contact" placeholder="contact number"
                           class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300"
-                          id="expert-contact"
+                          id="creator-contact"
                           type="text"
                           required
                         />
@@ -470,7 +484,7 @@
                         <input
                           name="password" placeholder="password"
                           class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300"
-                          id="expert-password"
+                          id="creator-password"
                           type="password"
                           required
                         />
@@ -484,18 +498,19 @@
                         <input
                           name="confirmPassword" placeholder="confirm password"
                           class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300"
-                          id="expert-confirmPassword"
+                          id="creator-confirmPassword"
                           type="password"
                           required
                         />
                         <span id="confirmPassword-error" class="text-red-500 text-sm block text-left"></span>
 
                       </div>
-                      <div class="g-recaptcha mb-3" 
-                      style="margin-top:10px; width: 100%; display: flex;justify-content:center;" data-sitekey="6LeAV5oqAAAAAGvSIJX-vuouZSzXMljjRzmGEk6u"></div>
-                        <input type="hidden" name="recaptcha_token" id="recaptcha_token">
-                
-                  
+                      <!-- Creator Form reCAPTCHA -->
+                      <div id="creator-recaptcha" class="mb-3"
+                      style="margin-top:10px; width: 100%; display: flex; justify-content:center;"></div>
+
+                      <input type="hidden" name="creator_recaptcha_token" id="creator_recaptcha_token">
+
                       <button type="button" class="prev-step rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">Back</button>
                       <button type="submit" class=" rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"  id="submit-button-form">Submit</button>
                     </div>
@@ -689,12 +704,33 @@
     <script src="{% static 'js/app.bundle.js' %}"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
 
 
     <script>
       let currentStep = 1;
       const totalSteps = 5;
+
+      let creatorWidgetId;
+      let buyerWidgetId;
+
+
+      var onloadCallback = function () {
+        creatorWidgetId = grecaptcha.render('creator-recaptcha', {
+          'sitekey': '6LeAV5oqAAAAAGvSIJX-vuouZSzXMljjRzmGEk6u',
+          'callback': function (token) {
+            document.getElementById('creator_recaptcha_token').value = token;
+          }
+        });
     
+        buyerWidgetId = grecaptcha.render('buyer-recaptcha', {
+          'sitekey': '6LeAV5oqAAAAAGvSIJX-vuouZSzXMljjRzmGEk6u',
+          'callback': function (token) {
+            document.getElementById('buyer_recaptcha_token').value = token;
+          }
+        });
+      };
+
       function showStep(step) {
         document.querySelectorAll('.form-step').forEach(el => el.classList.remove('active'));
         document.getElementById(`step-${step}`).classList.add('active');
@@ -721,8 +757,8 @@
       function validateStep(step) {
         if (step === 1) {
 
-          let firstName = document.getElementById('expert-firstname');
-          let lastName = document.getElementById('expert-lastname');
+          let firstName = document.getElementById('creator-firstname');
+          let lastName = document.getElementById('creator-lastname');
           let firstNameError = document.getElementById('first-name-error');
           let lastNameError = document.getElementById('last-name-error');
 
@@ -763,8 +799,8 @@
         } else if (step === 2) {
               
 
-          let email = document.getElementById('expert-email');
-          let contact = document.getElementById('expert-contact');
+          let email = document.getElementById('creator-email');
+          let contact = document.getElementById('creator-contact');
           let emailError = document.getElementById('email-error');
           let contactError = document.getElementById('contact-error');
           let emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -982,8 +1018,8 @@
 
       $(document).ready(function () {
         function generateUsername() {
-            let firstName = $("#expert-firstname").val().trim().toLowerCase();
-            let lastName = $("#expert-lastname").val().trim().toLowerCase();
+            let firstName = $("#creator-firstname").val().trim().toLowerCase();
+            let lastName = $("#creator-lastname").val().trim().toLowerCase();
     
             if (firstName && lastName) {
                 let username = firstName + lastName;
@@ -1018,7 +1054,7 @@
             });
         }
     
-        $("#expert-firstname, #expert-lastname").on("input", function () {
+        $("#creator-firstname, #creator-lastname").on("input", function () {
             generateUsername();
         });
     
@@ -1033,8 +1069,8 @@
         });
     });
 
-    let password = document.getElementById('expert-password');
-          let confirmPassword = document.getElementById('expert-confirmPassword');
+    let password = document.getElementById('creator-password');
+          let confirmPassword = document.getElementById('creator-confirmPassword');
           let passwordError = document.getElementById('password-error');
           let confirmPasswordError = document.getElementById('confirmPassword-error');
 
@@ -1058,20 +1094,22 @@
           })
 
     
-      $('#expert-contact-form').on('submit', function(event) {
+      $('#creator-contact-form').on('submit', function(event) {
 
 
 
         event.preventDefault();
+
+       
     
-            var firstname = document.getElementById("expert-firstname").value;
-            var lastname = document.getElementById("expert-lastname").value;
-            var email = document.getElementById("expert-email").value;
+            var firstname = document.getElementById("creator-firstname").value;
+            var lastname = document.getElementById("creator-lastname").value;
+            var email = document.getElementById("creator-email").value;
             var username = document.getElementById("userName").value;
 
-            var contact_number = document.getElementById("expert-contact").value;
-            var password = document.getElementById("expert-password").value;
-            var confirmPassword = document.getElementById("expert-confirmPassword").value;
+            var contact_number = document.getElementById("creator-contact").value;
+            var password = document.getElementById("creator-password").value;
+            var confirmPassword = document.getElementById("creator-confirmPassword").value;
             var youtubelink = document.getElementById("youtube").value;
             var instagramlink = document.getElementById("instagram").value;
             var subscribersCount = document.getElementById("subscribers_count").value;
@@ -1082,8 +1120,8 @@
 
 
 
-            var recaptcha_token = grecaptcha.getResponse();
-        
+            var creator_recaptcha_token =  grecaptcha.getResponse(creatorWidgetId);
+          console.log("gg",creator_recaptcha_token)
 
             if (!password.trim() && !confirmPassword.trim()) {
               passwordError.textContent = 'Password is required.';
@@ -1103,7 +1141,7 @@
                 confirmPasswordError.textContent = 'Confirm Password is required.';
                 return ;
               }
-            if(!recaptcha_token){
+            if(!creator_recaptcha_token){
                 alert('Please complete the reCAPTCHA.');
                 return;
             }
@@ -1126,7 +1164,7 @@
 
         formData.append('password', password);
         formData.append('password2', confirmPassword);
-        formData.append('recaptcha_token', recaptcha_token);
+        formData.append('creator_recaptcha_token', creator_recaptcha_token);
 
         // Send data via AJAX
         $.ajax({
@@ -1139,7 +1177,7 @@
                 toastr.success('Registration successful!', 'Success');
                 window.location.href = response.redirect_url; 
 
-                const inputFields = ["firstname","lastname","expert-contact","expert-email", "expert-password", "expert-confirmPassword"];
+                const inputFields = ["firstname","lastname","creator-contact","creator-email", "creator-password", "creator-confirmPassword"];
                 inputFields.forEach(fieldId => {
                     document.getElementById(fieldId).value = "";
                   
@@ -1163,27 +1201,159 @@
 
 
 
-    $('#seeker-contact-form').on('submit', function(event) {
+
+
+          let buyerPassword = document.getElementById('buyer-password');
+          let buyerConfirmPassword = document.getElementById('buyer-confirmPassword');
+          let buyerPasswordError = document.getElementById('buyer-password-error');
+          let buyerConfirmPasswordError = document.getElementById('buyer-confirmpassword-error');
+          let buyerEmail = document.getElementById('buyer-email');
+          let buyerContact = document.getElementById('buyer-contact');
+          let buyerEmailError = document.getElementById('email-error');
+          let buyerContactError = document.getElementById('buyer-contact-error');
+          let emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+          let contactRegex = /^[0-9]{10}$/;
+          let buyerFirstName = document.getElementById('buyer-firstname');
+          let buyerLastName = document.getElementById('buyer-lastname');
+          let buyerFirstNameError = document.getElementById('buyer-first-name-error');
+          let buyerLastNameError = document.getElementById('buyer-last-name-error');
+
+          buyerFirstName.addEventListener("input",function(){
+            if (!buyerFirstName.value.trim()) {
+              buyerFirstNameError.textContent = 'First Name is required.';
+                    }
+                    else{
+                      buyerFirstNameError.textContent = '';
+
+                    }
+          })
+          buyerLastName.addEventListener("input",function(){
+            if (!buyerLastName.value.trim()) {
+              buyerLastNameError.textContent = 'Last Name is required.';
+                    }
+                    else{
+                      buyerLastNameError.textContent = '';
+
+                    }
+          })
+
+          buyerPassword.addEventListener("input",function(){
+            if (!buyerPassword.value.trim()) {
+              buyerPasswordError.textContent = 'Password is required.';
+                    }
+                    else{
+                      buyerPasswordError.textContent = '';
+
+                    }
+          })
+          buyerConfirmPassword.addEventListener("input",function(){
+            if (!buyerConfirmPassword.value.trim()) {
+              buyerConfirmPasswordError.textContent = 'Confirm Password is required.';
+                    }
+                    else{
+                      buyerConfirmPasswordError.textContent = '';
+
+                    }
+          })
+
+          
+
+          buyerEmail.addEventListener("input",function(){
+            if (!buyerEmail.value.trim()) {
+              buyerEmailError.textContent = 'Email is required.';
+                    }
+                    else{
+                      buyerEmailError.textContent = '';
+
+                    }
+          })
+          buyerContact.addEventListener("input",function(){
+            if (!buyerContact.value.trim()) {
+              buyerContactError.textContent = 'Contact Number is required.';
+                    }
+                    else{
+                      buyerContactError.textContent = '';
+
+                    }
+          })
+            
+    $('#buyer-contact-form').on('submit', function(event) {
 
 
 
       event.preventDefault();
   
-          var firstname = document.getElementById("seeker-firstname").value;
-          var lastname = document.getElementById("seeker-lastname").value;
-          var email = document.getElementById("seeker-email").value;
+          var firstname = document.getElementById("buyer-firstname").value;
+          var lastname = document.getElementById("buyer-lastname").value;
+          var email = document.getElementById("buyer-email").value;
 
-          var contact_number = document.getElementById("seeker-contact").value;
-          var password = document.getElementById("seeker-password").value;
-          var confirmPassword = document.getElementById("seeker-confirmPassword").value;
+          var contact_number = document.getElementById("buyer-contact").value;
+          var password = document.getElementById("buyer-password").value;
+          var confirmPassword = document.getElementById("buyer-confirmPassword").value;
+          let passwordError = document.getElementById('buyer-password-error');
+          let confirmPasswordError = document.getElementById('buyer-confirmpassword-error');
+          var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+          var emailError = document.getElementById('buyer-email-error');
+          var contactError = document.getElementById('buyer-contact-error');
+          var emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+          var contactRegex = /^[0-9]{10}$/;
           
+          let firstNameError = document.getElementById('buyer-first-name-error');
+          let lastNameError = document.getElementById('buyer-last-name-error');
+
+
          
 
-          var recaptcha_token = grecaptcha.getResponse();
-      
+          var buyer_recaptcha_token =  grecaptcha.getResponse(buyerWidgetId);
 
+          if (!firstname.trim()) {
+            firstNameError.textContent = 'Firstname is required.';
+            return ;
+                  }
+
+          if (!lastname.trim()) {
+            lastNameError.textContent = 'lastname  is required.';
+            return ;
+                  }
+                          
+          if (!email.trim()) {
+            emailError.textContent = 'Email is required.';
+            return ;
+                  }
+          if (!emailRegex.test(email.trim())) {
+            emailError.textContent = 'please enter a valid email'
+            return ;
+        }
+        if (!contact_number.trim()) {
+          contact_number.textContent = 'contact number is required.';
+          return ;
+                }
+
+        if (!contactRegex.test(contact_number.trim())) {
+          contactError.textContent = 'please enter a valid contact number'
+          return ;
+      } 
+
+          if (!password.trim() && !confirmPassword.trim()) {
+            passwordError.textContent = 'Password is required.';
+            confirmPasswordError.textContent = 'Confirm Password is required.';
+            return ;
+          }
+          if (!password.trim()) {
+            passwordError.textContent = 'Password is required.';
+            return ;
+            }
+          if (!passwordPattern.test(password.trim())) {
+              passwordError.textContent = 'Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, a number, and a special character.';
+              return ;
+          }
+
+            if (!confirmPassword.trim()) {
+              confirmPasswordError.textContent = 'Confirm Password is required.';
+              return ;
+            }    
           
-          if(!recaptcha_token){
+            if(!buyer_recaptcha_token){
               alert('Please complete the reCAPTCHA.');
               return;
           }
@@ -1199,11 +1369,11 @@
       formData.append('email', email);
       formData.append('password', password);
       formData.append('password2', confirmPassword);
-      formData.append('recaptcha_token', recaptcha_token);
+      formData.append('buyer_recaptcha_token', buyer_recaptcha_token);
 
       // Send data via AJAX
       $.ajax({
-          url: '/seeker_signup_api/',
+          url: '/buyer_signup_api/',
           type: 'POST',
           data: formData,
           processData: false, 
@@ -1212,7 +1382,7 @@
               toastr.success('Registration successful!', 'Success');
               window.location.href = response.redirect_url; 
 
-              const inputFields = ["seeker-firstname","seeker-lastname","seeker-contact","seeker-email", "seeker-password", "seeker-confirmPassword"];
+              const inputFields = ["buyer-firstname","buyer-lastname","buyer-contact","buyer-email", "buyer-password", "buyer-confirmPassword"];
               inputFields.forEach(fieldId => {
                   document.getElementById(fieldId).value = "";
                 

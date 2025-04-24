@@ -29,21 +29,21 @@ def case_studies(request):
   return render(request, 'case-studies.html')
 
 
-def collection(request,yourusername):
+def collection(request,slug):
   
-  expertvideodetails = []
-  expertwebinardetails = []
-  expertpriorityDmdetails = []
+  creatorvideodetails = []
+  creatorwebinardetails = []
+  creatorpriorityDmdetails = []
 
   formatted_followers = "0"
   formatted_subscribers = "0"
 
-  expert = ExpertUser.objects.get(yourusername=yourusername)
-  id = expert.id
+  creator = get_object_or_404(UserProfile, slug=slug, is_creator=True)
+  id = creator.id
   
-  if expert.followersCount is not None:
+  if creator.followersCount is not None:
         try:
-            followers_count = int(float(expert.followersCount))  
+            followers_count = int(float(creator.followersCount))  
             if followers_count >= 1000000:
                 formatted_followers = f"{followers_count / 1000000:.1f}".rstrip('0').rstrip('.') + "M"
             elif followers_count >= 1000:
@@ -53,9 +53,9 @@ def collection(request,yourusername):
         except ValueError:
             formatted_followers = "0"  
 
-  if expert.subscribersCount is not None:
+  if creator.subscribersCount is not None:
       try:
-          subscribers_count = int(float(expert.subscribersCount))  
+          subscribers_count = int(float(creator.subscribersCount))  
           if subscribers_count >= 1000000:
               formatted_subscribers = f"{subscribers_count / 1000000:.1f}".rstrip('0').rstrip('.') + "M"
           elif subscribers_count >= 1000:
@@ -66,28 +66,28 @@ def collection(request,yourusername):
           formatted_subscribers = "0"    
 
   
-  expertvideosessiondetails =  ServiceVideoForm.objects.filter(expert=id)
+  creatorvideosessiondetails =  ServiceVideoForm.objects.filter(creator=id)
   
-  for expertvideosession in expertvideosessiondetails:
-    expertvideodetails.append(expertvideosession)
+  for creatorvideosession in creatorvideosessiondetails:
+    creatorvideodetails.append(creatorvideosession)
     
-  expertwebinarsessiondetails =  ServiceWebinarForm.objects.filter(expert=id)
+  creatorwebinarsessiondetails =  ServiceWebinarForm.objects.filter(creator=id)
   
-  for expertwebinarsession in expertwebinarsessiondetails:
-    expertwebinardetails.append(expertwebinarsession) 
+  for creatorwebinarsession in creatorwebinarsessiondetails:
+    creatorwebinardetails.append(creatorwebinarsession) 
       
-  expertprioritydmsessiondetails =  ServicePriorityDmForm.objects.filter(expert=id)
+  creatorprioritydmsessiondetails =  ServicePriorityDmForm.objects.filter(creator=id)
   
-  for expertprioritydmsession in expertprioritydmsessiondetails:
-    expertpriorityDmdetails.append(expertprioritydmsession)   
+  for creatorprioritydmsession in creatorprioritydmsessiondetails:
+    creatorpriorityDmdetails.append(creatorprioritydmsession)   
     
   context = {
-      "expert": expert,
+      "creator": creator,
       "formatted_followers": formatted_followers,
       "formatted_subscribers": formatted_subscribers,
-      "expertvideosessiondetails": expertvideodetails,
-      "expertwebinarsessiondetails": expertwebinardetails,
-      "expertpriorityDmdetails": expertpriorityDmdetails,
+      "creatorvideosessiondetails": creatorvideodetails,
+      "creatorwebinarsessiondetails": creatorwebinardetails,
+      "creatorpriorityDmdetails": creatorpriorityDmdetails,
   }
   
   return render(request, 'collection.html',context)
@@ -95,9 +95,9 @@ def collection(request,yourusername):
 def collection_wide_sidebar(request):
   
   user= request.user.id
-  experts = ExpertUser.objects.filter(is_expert=True).exclude(id=user)
+  creators = UserProfile.objects.filter(is_creator=True).exclude(id=user)
   
-  return render(request, 'collections-wide-sidebar.html',{"experts":experts})
+  return render(request, 'collections-wide-sidebar.html',{"creators":creators})
 
 def collections(request):
   return render(request, 'collections.html')
@@ -124,8 +124,8 @@ def home_3(request):
 
 def home_4(request):
   user= request.user.id
-  experts = ExpertUser.objects.filter(is_expert=True).exclude(id=user)
-  return render(request, 'home-4.html',{"experts":experts})
+  creators = UserProfile.objects.filter(is_creator=True).exclude(id=user)
+  return render(request, 'home-4.html',{"creators":creators})
 
 def home_5(request):
   return render(request, 'home-5.html')
@@ -200,44 +200,71 @@ def wallet(request):
   return render(request, 'wallet.html')
 
 @login_required
-def services(request):
-  user = request.user
-  if user.is_expert:
-   return render(request, 'services.html')
-  else :
-   return render(request, 'collections-wide-sidebar.html')
+def create_service(request):
+  try:
+        profile = UserProfile.objects.get(id=request.user.id)
+  except UserProfile.DoesNotExist:
+        return HttpResponseForbidden("Access denied.")  # Or redirect to home/login
+
+  if not profile.is_creator:
+      return HttpResponseForbidden("Only creators can access this page.")
+    
+  return render(request, 'create-service.html')
 
 @login_required
 def video(request):
-  expertvideodetails = []
-  expertvideosessiondetails =  ServiceVideoForm.objects.filter(expert = request.user.id)
+  creatorvideodetails = []
   
-  for expert in expertvideosessiondetails:
-    expertvideodetails.append(expert)
+  try:
+        profile = UserProfile.objects.get(id=request.user.id)
+  except UserProfile.DoesNotExist:
+        return HttpResponseForbidden("Access denied.")  # Or redirect to home/login
+
+  if not profile.is_creator:
+      return HttpResponseForbidden("Only creators can access this page.")
+    
+  creatorvideosessiondetails =  ServiceVideoForm.objects.filter(creator = request.user.id)
   
-  return render(request, 'video.html',{'expertvideosessiondetails':expertvideodetails})
+  for creator in creatorvideosessiondetails:
+    creatorvideodetails.append(creator)
+  
+  return render(request, 'video.html',{'creatorvideosessiondetails':creatorvideodetails})
 
 def webinar(request):
-  expertwebinardetails = []
-  expertwebinarsessiondetails =  ServiceWebinarForm.objects.filter(expert = request.user.id)
+  creatorwebinardetails = []
+  try:
+        profile = UserProfile.objects.get(id=request.user.id)
+  except UserProfile.DoesNotExist:
+        return HttpResponseForbidden("Access denied.")  
+
+  if not profile.is_creator:
+      return HttpResponseForbidden("Only creators can access this page.")
+  creatorwebinarsessiondetails =  ServiceWebinarForm.objects.filter(creator = request.user.id)
   
-  for expert in expertwebinarsessiondetails:
-    expertwebinardetails.append(expert)
+  for creator in creatorwebinarsessiondetails:
+    creatorwebinardetails.append(creator)
     
-  return render(request, 'webinar.html',{'expertwebinarsessiondetails':expertwebinardetails})
+  return render(request, 'webinar.html',{'creatorwebinarsessiondetails':creatorwebinardetails})
 
 def priorityDM(request):
-  expertpriorityDmdetails = []
-  expertprioritydmsessiondetails =  ServicePriorityDmForm.objects.filter(expert = request.user.id)
+  creatorpriorityDmdetails = []
+  try:
+        profile = UserProfile.objects.get(id=request.user.id)
+  except UserProfile.DoesNotExist:
+        return HttpResponseForbidden("Access denied.")  
+
+  if not profile.is_creator:
+      return HttpResponseForbidden("Only creators can access this page.")
+  creatorprioritydmsessiondetails =  ServicePriorityDmForm.objects.filter(creator = request.user.id)
   
-  for expert in expertprioritydmsessiondetails:
-    expertpriorityDmdetails.append(expert)
-  return render(request, 'priorityDM.html',{'expertpriorityDmdetails':expertpriorityDmdetails})
+  for creator in creatorprioritydmsessiondetails:
+    creatorpriorityDmdetails.append(creator)
+  return render(request, 'priorityDM.html',{'creatorpriorityDmdetails':creatorpriorityDmdetails})
 
 
 import requests
 from django.conf import settings
-from django.http import JsonResponse
+from django.http import HttpResponseForbidden, JsonResponse
 from django.contrib.auth import get_user_model
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login
@@ -265,9 +292,9 @@ def signup_api(request):
         password = request.POST.get('password')
         password2 = request.POST.get('password2')
         
-        recaptcha_token = request.POST.get('recaptcha_token')
+        creator_recaptcha_token = request.POST.get('creator_recaptcha_token')
 
-        if not verify_recaptcha(recaptcha_token):
+        if not verify_recaptcha(creator_recaptcha_token):
             return JsonResponse({'error': 'Invalid reCAPTCHA. Please try again.'}, status=400)
 
         if password != password2:
@@ -282,7 +309,7 @@ def signup_api(request):
                         email=email,
                         contact_number=contact_number,
                         yourusername= yourusername,
-                        is_expert = True
+                        is_creator = True
                         )
             user.set_password(password)
             if request.POST.get('youtubelink'):
@@ -349,7 +376,7 @@ def logout_view(request):
 
 def check_username(request):
     yourusername = request.GET.get("username", "").strip()
-    exists = ExpertUser.objects.filter(yourusername=yourusername).exists()
+    exists = UserProfile.objects.filter(yourusername=yourusername).exists()
     return JsonResponse({"exists": exists})
             
 
@@ -358,38 +385,38 @@ def check_username(request):
 @csrf_exempt
 def update_profile_details_api(request):
     if request.method == 'POST':
-        expert = User.objects.get(id=request.user.id)  
+        creator = User.objects.get(id=request.user.id)  
       
         if  request.POST.get('username'):
-            expert.username = request.POST.get('username')
+            creator.username = request.POST.get('username')
         if request.POST.get('firstname'):
-            expert.firstname = request.POST.get('firstname')
+            creator.firstname = request.POST.get('firstname')
         if request.POST.get('lastname'):
-            expert.lastname =  request.POST.get('lastname')
+            creator.lastname =  request.POST.get('lastname')
         
         if  request.POST.get('displayname'):
-            expert.displayname = request.POST.get('displayname')
+            creator.displayname = request.POST.get('displayname')
         if request.POST.get('introduction'):
-            expert.introduction = request.POST.get('introduction')
+            creator.introduction = request.POST.get('introduction')
         if request.POST.get('aboutyourself'):
-            expert.aboutyourself =  request.POST.get('aboutyourself')
+            creator.aboutyourself =  request.POST.get('aboutyourself')
         if request.POST.get('youtubeLink'):
-            expert.youtubeLink =  request.POST.get('youtubeLink')
+            creator.youtubeLink =  request.POST.get('youtubeLink')
         
         if request.POST.get('instagramLink'):
-            expert.instagramLink =  request.POST.get('instagramLink')
+            creator.instagramLink =  request.POST.get('instagramLink')
         
         if request.POST.get('followersCount'):
-            expert.followersCount =  request.POST.get('followersCount')            
+            creator.followersCount =  request.POST.get('followersCount')            
             
         if  request.POST.get('subscribersCount'):
-            expert.subscribersCount = request.POST.get('subscribersCount')
+            creator.subscribersCount = request.POST.get('subscribersCount')
     
 
         if 'profile_picture' in request.FILES:
-            expert.profile_picture = request.FILES['profile_picture']
+            creator.profile_picture = request.FILES['profile_picture']
             
-        expert.save()
+        creator.save()
 
 
         return JsonResponse({'message': ' details updated successfully'})
@@ -401,37 +428,37 @@ def update_profile_details_api(request):
 @csrf_exempt
 def update_account_details_api(request):
     if request.method == 'POST':
-        expert = User.objects.get(id=request.user.id)  
+        creator = User.objects.get(id=request.user.id)  
         
         if request.POST.get('contact_number'):
-            expert.contact_number = request.POST.get('contact_number')
+            creator.contact_number = request.POST.get('contact_number')
         
         dob_input = request.POST.get('dob')
         
         if dob_input:
             try:
                 dob = datetime.strptime(dob_input, '%Y-%m-%d').date()
-                expert.dob = dob
+                creator.dob = dob
             except ValueError:
                 return JsonResponse({'error': 'Invalid date format. It must be in YYYY-MM-DD format.'}, status=400)    
         
         if  request.POST.get('state'):
-            expert.state = request.POST.get('state')
+            creator.state = request.POST.get('state')
         if request.POST.get('city'):
-            expert.city = request.POST.get('city')
+            creator.city = request.POST.get('city')
         if request.POST.get('personalAddress'):
-            expert.personalAddress =  request.POST.get('personalAddress')
+            creator.personalAddress =  request.POST.get('personalAddress')
         if request.POST.get('officeAddress'):
-            expert.officeAddress =  request.POST.get('officeAddress')
+            creator.officeAddress =  request.POST.get('officeAddress')
         
         if request.POST.get('alternateContactNumber'):
-            expert.alternateContactNumber =  request.POST.get('alternateContactNumber')
+            creator.alternateContactNumber =  request.POST.get('alternateContactNumber')
         
         if request.POST.get('alternateEmail'):
-            expert.alternateEmail =  request.POST.get('alternateEmail')            
+            creator.alternateEmail =  request.POST.get('alternateEmail')            
             
             
-        expert.save()
+        creator.save()
 
 
         return JsonResponse({'message': ' details updated successfully'})
@@ -446,22 +473,28 @@ def update_account_details_api(request):
 def serviceVideo_api(request):
     if request.method == 'POST':
         try:
-            expert = ExpertUser.objects.get(id=request.user.id)  
+            creator = UserProfile.objects.get(id=request.user.id)  
             title = request.POST.get('title')
             description = request.POST.get('description')
-
             duration = request.POST.get('duration')
             amount = request.POST.get('amount')
-
-            if not title or not duration or not amount:
-                return JsonResponse({'error': 'All fields are required (title, duration, amount).'}, status=400)
+            selectedDates = request.POST.get('selectedDates')
+            selectedTime = request.POST.get('selectedTime')
+            bufferTime = request.POST.get('bufferTime')
+            maxBookings = request.POST.get('maxBookings')
+            if not title or not duration or not amount or not selectedTime or not selectedDates or not bufferTime or not maxBookings:
+                return JsonResponse({'error': 'All fields are required (title, duration, amount, date, time).'}, status=400)
 
             service_video = ServiceVideoForm.objects.create(
-                expert=expert,
+                creator=creator,
                 title=title,
                 description = description,
                 duration=duration,
-                amount=amount
+                amount=amount,
+                selectedDates=selectedDates,
+                selectedTime=selectedTime,
+                bufferTime=bufferTime,
+                maxBookings=maxBookings
             )
 
             return JsonResponse({
@@ -469,8 +502,8 @@ def serviceVideo_api(request):
                 'service_id': service_video.id
             }, status=201)
 
-        except ExpertUser.DoesNotExist:
-            return JsonResponse({'error': 'Expert user not found.'}, status=404)
+        except UserProfile.DoesNotExist:
+            return JsonResponse({'error': 'creator user not found.'}, status=404)
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
 
@@ -483,7 +516,7 @@ def serviceVideo_api(request):
 def serviceWebinar_api(request):
     if request.method == 'POST':
         try:
-            expert = ExpertUser.objects.get(id=request.user.id)  
+            creator = UserProfile.objects.get(id=request.user.id)  
             title = request.POST.get('title')
             description = request.POST.get('description')
             duration = request.POST.get('duration')
@@ -506,7 +539,7 @@ def serviceWebinar_api(request):
                 return JsonResponse({'error': 'Invalid time format. Use HH:MM.'}, status=400)
 
             service_webinar = ServiceWebinarForm.objects.create(
-                expert=expert,
+                creator=creator,
                 title=title,
                 description =description,
                 duration=duration,
@@ -520,8 +553,8 @@ def serviceWebinar_api(request):
             }, status=201)
 
 
-        except ExpertUser.DoesNotExist:
-            return JsonResponse({'error': 'Expert user not found.'}, status=404)
+        except UserProfile.DoesNotExist:
+            return JsonResponse({'error': 'creator user not found.'}, status=404)
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
 
@@ -534,7 +567,7 @@ def serviceWebinar_api(request):
 def servicePrioritydm_api(request):
     if request.method == 'POST':
         try:
-            expert = ExpertUser.objects.get(id=request.user.id)  
+            creator = UserProfile.objects.get(id=request.user.id)  
             title = request.POST.get('title')
             description = request.POST.get('description')
             amount = request.POST.get('amount')
@@ -543,7 +576,7 @@ def servicePrioritydm_api(request):
                 return JsonResponse({'error': 'All fields are required (title, duration, amount).'}, status=400)
 
             service_prioritydm = ServicePriorityDmForm.objects.create(
-                expert=expert,
+                creator=creator,
                 title=title,
                 description = description,
                 amount=amount
@@ -554,8 +587,8 @@ def servicePrioritydm_api(request):
                 'service_id': service_prioritydm.id
             }, status=201)
 
-        except ExpertUser.DoesNotExist:
-            return JsonResponse({'error': 'Expert user not found.'}, status=404)
+        except UserProfile.DoesNotExist:
+            return JsonResponse({'error': 'creator user not found.'}, status=404)
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
 
@@ -616,6 +649,10 @@ def updateVideoSession_api(request):
     description = request.POST.get('description')
     duration = request.POST.get("duration")
     amount = request.POST.get("amount")
+    selectedTime = request.POST.get("selectedTime")
+    selectedDates = request.POST.get("selectedDates")
+    bufferTime = request.POST.get("bufferTime")
+    maxBookings = request.POST.get("maxBookings")
 
 
 
@@ -625,6 +662,10 @@ def updateVideoSession_api(request):
     videosession.description = description
     videosession.duration = duration
     videosession.amount = amount
+    videosession.selectedDates = selectedDates
+    videosession.selectedTime = selectedTime
+    videosession.bufferTime = bufferTime
+    videosession.maxBookings = maxBookings
     videosession.save()
     
     
@@ -707,25 +748,41 @@ def updatePriorityDmSession_api(request):
   return JsonResponse({"error":'invalid request method'},status=405) 
 
 from django.shortcuts import render, get_object_or_404
+
 @login_required
-def item(request, model_type, id):
-    model_classes = {
-        'expertvideo': ServiceVideoForm,
-        'expertwebinar': ServiceWebinarForm,
-        'expertpriority': ServicePriorityDmForm,
+def item(request, slug):
+    slug_entry = get_object_or_404(ServiceSlugRouter, slug=slug)
+    
+    model_map = {
+        'video': ServiceVideoForm,
+        'webinar': ServiceWebinarForm,
+        'priority': ServicePriorityDmForm,
+    }
+    label_map = {
+        'video': 'Video',
+        'webinar': 'Webinar',
+        'priority': 'Priority Demo',
     }
 
-    model_class = model_classes.get(model_type.lower())
-
-    if model_class:
-        item = get_object_or_404(model_class, id=id)
-        return render(request, 'item.html', {'item': item, 'model_type': model_type})
-    else:
+    model_class = model_map.get(slug_entry.model_type)
+    if not model_class:
         return render(request,status=404)
-  
+
+    item = get_object_or_404(model_class, pk=slug_entry.object_id)
+    model_type_label = label_map.get(slug_entry.model_type, 'Service')
+    
+    if hasattr(item, 'selectedDates') and item.selectedDates and hasattr(item, 'selectedTime') and item.selectedTime:
+        session_type = "open"
+    elif hasattr(item, 'session_date') and item.session_date and hasattr(item, 'session_time') and item.session_time:
+        session_type = "fixed"
+    else:
+        session_type = "none"
+
+    return render(request, 'item.html', {'item': item,'model_type': slug_entry.model_type,
+        'model_type_label': model_type_label,'session_type': session_type})
 
 @csrf_exempt
-def seeker_signup_api(request):
+def buyer_signup_api(request):
     if request.method == 'POST':
         firstname = request.POST.get('firstname')
         lastname = request.POST.get('lastname')
@@ -735,9 +792,9 @@ def seeker_signup_api(request):
         password = request.POST.get('password')
         password2 = request.POST.get('password2')
         
-        recaptcha_token = request.POST.get('recaptcha_token')
+        buyer_recaptcha_token = request.POST.get('buyer_recaptcha_token')
 
-        if not verify_recaptcha(recaptcha_token):
+        if not verify_recaptcha(buyer_recaptcha_token):
             return JsonResponse({'error': 'Invalid reCAPTCHA. Please try again.'}, status=400)
 
         if password != password2:
@@ -751,7 +808,7 @@ def seeker_signup_api(request):
                         lastname=lastname,  
                         email=email,
                         contact_number=contact_number,
-                        is_expert = False
+                        is_creator = False
                         )
             user.set_password(password)
             user.save()
@@ -773,62 +830,156 @@ def seeker_signup_api(request):
 @csrf_exempt
 @login_required
 def book_session_api(request):
-    user_id = request.user.id
+    session_date = None
+    session_time = None
+    user = request.user 
+    user_id = user.id
 
     if request.method == 'POST':
         session_id = request.POST.get('session_id')
+        session_title = request.POST.get('session_title')
         session_name = request.POST.get('session_name')
-        selected_date = request.POST.get('selectedDate')  
-        selected_time = request.POST.get('selectedTime')  
-        expert_id = request.POST.get('expert_id')
 
-        session_date = datetime.strptime(selected_date, "%Y-%m-%d").date()
-        session_time = datetime.strptime(selected_time, "%I:%M %p").time()
+        if request.POST.get('selectedDate'):
+            selected_date = request.POST.get('selectedDate')  
+            session_date = datetime.strptime(selected_date, "%Y-%m-%d").date()
 
+        if request.POST.get('selectedTime'):
+            selected_time = request.POST.get('selectedTime')  
+            session_time = datetime.strptime(selected_time, "%I:%M %p").time()
+
+        creator_id = request.POST.get('creator_id')
+        
+        if request.POST.get('additionalDetails'):
+            additionalDetails = request.POST.get('additionalDetails')  
+            
         booking_status = BookingStatus.objects.create(
             user_id=user_id,
+            session_title=session_title,
             session_id=session_id,
             session_name=session_name,
             selectedDate=session_date,
             selectedTime=session_time,
+            additionalDetails=additionalDetails,
             status="success",
-            expert_id=expert_id
+            creator_id=creator_id
+        )
+
+        # Get creator and user objects
+        try:
+            creator = UserProfile.objects.get(id=creator_id)
+        except UserProfile.DoesNotExist:
+            return JsonResponse({'error': 'Creator not found'}, status=404)
+
+        # Format date and time for display
+        formatted_date = session_date.strftime('%B %d, %Y')
+        formatted_time = session_time.strftime('%I:%M %p')
+
+        # Email content for creator
+        creator_subject = "New Session Booking Alert"
+        creator_message = f"""
+Hello {creator.firstname},
+
+{user.firstname} {user.lastname} has booked your session.
+
+Session Title: {session_title}
+Date: {formatted_date}
+Time: {formatted_time}
+
+Please log in to your dashboard to view details.
+
+Thank you!
+"""
+        send_mail(
+            subject=creator_subject,
+            message=creator_message,
+            from_email='xhibiter@gmail.com',
+            recipient_list=[creator.email],
+            fail_silently=False,
+        )
+
+        # Email content for user
+        user_subject = "Session Booking Confirmation"
+        user_message = f"""
+Hello {user.firstname} {user.lastname},
+
+Your session booking with {creator.firstname} {creator.lastname} is confirmed.
+
+Session Title: {session_title}
+Date: {formatted_date}
+Time: {formatted_time}
+
+Thank you for booking!
+
+Best regards,
+Team
+"""
+        send_mail(
+            subject=user_subject,
+            message=user_message,
+            from_email='xhibiter@gmail.com',
+            recipient_list=[user.email],
+            fail_silently=False,
         )
 
         return JsonResponse({'message': 'Booking successful', 'booking_id': booking_status.id}, status=201)
 
     return JsonResponse({'error': 'Invalid request method'}, status=400)
 
-
 @csrf_exempt
 @login_required
 def get_booked_times(request):
-    selected_date = request.GET.get("selectedDate")
-    expert_id = request.GET.get("expert_id")
-    session_name =request.GET.get("session_name")
-    session_id =request.GET.get("session_id")
-    
-    if not selected_date or not expert_id:
-        return JsonResponse({"error": "Date and Expert ID are required"}, status=400)
+    selected_date = request.GET.get('selectedDate')
+    creator_id = request.GET.get('creator_id')
+    session_name = request.GET.get('session_name')
 
-    booked_slots = BookingStatus.objects.filter(selectedDate=selected_date, expert_id=expert_id,session_name=session_name).values_list("selectedTime", flat=True)
+    if not selected_date or not creator_id:
+        return JsonResponse({'error': 'Missing parameters'}, status=400)
 
-    booked_times = [time.strftime("%I:%M %p") for time in booked_slots]
+    # Get all booked times
+    booked = BookingStatus.objects.filter(
+        selectedDate=selected_date,
+        creator_id=creator_id,
+        session_name=session_name
+    )
+    print("bookingtimes",booked)
+    booked_times = booked.values_list('selectedTime', flat=True)
+    booked_times_str = [bt.strftime('%I:%M %p') for bt in booked_times]  
 
-    return JsonResponse({"booked_times": booked_times}, status=200)
+    try:
+        service_form = ServiceVideoForm.objects.get(id=request.GET.get('model_id'))
+        max_bookings = int(service_form.maxBookings or 0)
+    except ServiceVideoForm.DoesNotExist:
+        max_bookings = 0
+
+    booking_count = booked.count()
+
+    return JsonResponse({
+        'booked_times': booked_times_str,
+        'booking_count': booking_count,
+        'max_bookings': max_bookings
+    })
+
 
 
 
 
 @login_required
-def expert_bookings(request):
-    expert_id = request.user.id 
-    bookings = BookingStatus.objects.filter(expert_id=expert_id)  
+def creator_bookings(request):
+    try:
+          profile = UserProfile.objects.get(id=request.user.id)
+    except UserProfile.DoesNotExist:
+          return HttpResponseForbidden("Access denied.")  
+
+    if not profile.is_creator:
+        return HttpResponseForbidden("Only creators can access this page.")
+    creator_id = request.user.id 
+    bookings = BookingStatus.objects.filter(creator_id=creator_id)  
 
     user_bookings = {}
 
     for booking in bookings:
-        user = ExpertUser.objects.filter(id=booking.user_id).first()  
+        user = UserProfile.objects.filter(id=booking.user_id).first()  
 
         if not user:
             continue  
@@ -837,11 +988,11 @@ def expert_bookings(request):
         session_name = booking.session_name
 
         session = None
-        if session_name == "expertvideo":
+        if session_name == "Video":
             session = ServiceVideoForm.objects.filter(id=session_id).first()
-        elif session_name == "expertpriority":
+        elif session_name == "Priority Demo":
             session = ServicePriorityDmForm.objects.filter(id=session_id).first()
-        elif session_name == "expertwebinar":
+        elif session_name == "Webinar":
             session = ServiceWebinarForm.objects.filter(id=session_id).first()
 
         if user not in user_bookings:
@@ -853,9 +1004,65 @@ def expert_bookings(request):
             "selected_date": booking.selectedDate,
             "selected_time": booking.selectedTime,
             "status": booking.status,
-            "session_title": session.title if session else "Session Not Found"
+            'additional_details':booking.additionalDetails if booking.additionalDetails else "NA",
+            "session_title": booking.session_title if session else "Session Not Found"
         })
-        print("bookings",user_bookings)
-    return render(request, 'bookings.html', {
+    return render(request, 'creator-bookings.html', {
         "user_bookings": user_bookings,
+    })
+
+
+from datetime import datetime
+from django.utils.timezone import make_aware
+
+@login_required
+def buyer_bookings(request):
+    try:
+          profile = UserProfile.objects.get(id=request.user.id)
+    except UserProfile.DoesNotExist:
+          return HttpResponseForbidden("Access denied.")  
+
+    if  profile.is_creator:
+        return HttpResponseForbidden("Only buyers can access this page.")
+    user_id = request.user.id
+    bookings = BookingStatus.objects.filter(user_id=user_id)
+
+    now = make_aware(datetime.now())
+
+    upcoming_bookings = []
+    past_bookings = []
+
+    for booking in bookings:
+        session = None
+        if booking.session_name == "Video":
+            session = ServiceVideoForm.objects.filter(id=booking.session_id).first()
+        elif booking.session_name == "Priority Demo":
+            session = ServicePriorityDmForm.objects.filter(id=booking.session_id).first()
+        elif booking.session_name == "Webinar":
+            session = ServiceWebinarForm.objects.filter(id=booking.session_id).first()
+        creator = UserProfile.objects.filter(id=booking.creator_id).first()
+        
+        creator_full_name = f"{creator.firstname} {creator.lastname}" if creator else "Unknown"
+        item = {
+            "booking_id": booking.id,
+            "session_name": booking.session_name,
+            "selected_date": booking.selectedDate,
+            "selected_time": booking.selectedTime,
+            "status": booking.status,
+            "session_title": booking.session_title if session else "Session Not Found",
+            "creator": creator_full_name
+        }
+
+        if booking.selectedDate and booking.selectedTime:
+            booking_datetime = make_aware(datetime.combine(booking.selectedDate, booking.selectedTime))
+            if booking_datetime >= now:
+                upcoming_bookings.append(item)
+            else:
+                past_bookings.append(item)
+        else:
+            past_bookings.append(item)
+
+    return render(request, 'buyer-bookings.html', {
+        "upcoming_bookings": upcoming_bookings,
+        "past_bookings": past_bookings
     })

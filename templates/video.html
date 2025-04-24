@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load utils %}
 
 {% block content %}
 
@@ -17,19 +18,19 @@
         <div class="w-full flex  items-center px-4 md:px-6 xl:px-8" style="justify-content: space-around;">
            
             <div class="flex items-center gap-4">
-                        <a href="{% url 'video' %}" class="rounded-lg  font-display text-sm font-semibold text-jacarta-700 transition-colors border-transparent bg-accent text-white dark:bg-jacarta-700 dark:text-white dark:bg-accent px-6 py-3">
+                        <a href="{% url 'service/video' %}" class="rounded-lg  font-display text-sm font-semibold text-jacarta-700 transition-colors border-transparent bg-accent text-white dark:bg-jacarta-700 dark:text-white dark:bg-accent px-6 py-3">
                             <span class="whitespace-nowrap">1:1 Call</span>
                         </a>
-                        <a href="{% url 'webinar' %}" class="tab px-4 py-2 rounded-lg bg-jacarta-100  font-display text-sm font-semibold text-jacarta-700 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:bg-jacarta-700 dark:text-white dark:hover:bg-accent">
+                        <a href="{% url 'service/webinar' %}" class="tab px-4 py-2 rounded-lg bg-jacarta-100  font-display text-sm font-semibold text-jacarta-700 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:bg-jacarta-700 dark:text-white dark:hover:bg-accent">
                             <span class="whitespace-nowrap">Webinar</span>
                         </a>
-                        <a  href="{% url 'priorityDM' %}" class="tab px-4 py-2 rounded-lg bg-jacarta-100 font-display text-sm font-semibold text-jacarta-700 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:bg-jacarta-700 dark:text-white dark:hover:bg-accent">
+                        <a  href="{% url 'service/priorityDM' %}" class="tab px-4 py-2 rounded-lg bg-jacarta-100 font-display text-sm font-semibold text-jacarta-700 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:bg-jacarta-700 dark:text-white dark:hover:bg-accent">
                             <span class="whitespace-nowrap">Priority DM</span>
                         </a>
                     </div>
         
                     <div class="flex gap-3">
-                        <a href="{% url 'services' %}?type=1:1_Call" class="px-4 py-2 rounded-lg bg-jacarta-100 font-display text-sm font-semibold text-jacarta-700 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:bg-jacarta-700 dark:text-white dark:hover:bg-accent inline-block">
+                        <a href="{% url 'create-service' %}?type=1:1_Call" class="px-4 py-2 rounded-lg bg-jacarta-100 font-display text-sm font-semibold text-jacarta-700 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:bg-jacarta-700 dark:text-white dark:hover:bg-accent inline-block">
                             + Add New
                         </a>
                     </div>
@@ -39,40 +40,69 @@
         
       </section>
 
-      {% if expertvideosessiondetails %}
+      {% if creatorvideosessiondetails %}
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 px-4" style="gap:1%">
-        {% for expert in expertvideosessiondetails %}
-          <div  id ="session-{{ expert.id }}" class="bg-white shadow-xl rounded-2xl overflow-hidden transform transition hover:scale-105 hover:shadow-2xl h-full flex flex-col">
+        {% for creator in creatorvideosessiondetails %}
+          <div  id ="session-{{ creator.id }}" class="bg-white shadow-xl rounded-2xl overflow-hidden transform transition hover:scale-105 hover:shadow-2xl h-full flex flex-col">
             <div class="p-6 flex-grow flex flex-col">
               <!-- Header with Title and Status -->
               <div class="flex justify-between items-center mb-4 ">
-                <h1 class="text-xl font-semibold truncate" title="one to one">{{ expert.title }}</h1>
+                <h1 class="text-xl font-semibold truncate" title="one to one">{{ creator.title }}</h1>
                 <div class="flex items-center gap-2 text-gray-500">
-                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-                    <path fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" 
-                          d="M255.66 112c-77.94 0-157.89 45.11-220.83 135.33a16 16 0 0 0-.27 17.77C82.92 340.8 161.8 400 255.66 400c92.84 0 173.34-59.38 221.79-135.25a16.14 16.14 0 0 0 0-17.47C428.89 172.28 347.8 112 255.66 112z"></path>
-                    <circle cx="256" cy="256" r="80" fill="none" stroke-miterlimit="10" stroke-width="32"></circle>
+                  {% get_domain as domain %}
+
+                  <button data-tippy-content="Share session" onclick="shareSession('{{ creator.title }}', '{{ domain  }}{{ creator.get_absolute_url }}')" >
+                    <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    height="24"
+                    class="h-7 w-7 fill-jacarta-500 dark:fill-jacarta-200"
+                  >
+                    <path fill="none" d="M0 0h24v24H0z" />
+                    <path
+                      d="M13.576 17.271l-5.11-2.787a3.5 3.5 0 1 1 0-4.968l5.11-2.787a3.5 3.5 0 1 1 .958 1.755l-5.11 2.787a3.514 3.514 0 0 1 0 1.458l5.11 2.787a3.5 3.5 0 1 1-.958 1.755z"
+                    />
                   </svg>
-                  <span class="text-sm font-medium">Public</span>
+                  
+                </button>
                 </div>
               </div>
           
               <!-- Time and Price -->
               <div class="text-gray-600 text-lg mb-4 flex-grow">
-                <span>{{ expert.duration }} mins | </span>
-                <span class="text-gray-900 font-semibold">₹{{ expert.amount }}</span>
+                <span>{{ creator.duration }} mins | </span>
+                <span class="text-gray-900 font-semibold">₹{{ creator.amount }}</span>
               </div>
-          
+              <div class="text-sm text-gray-700 mb-4">
+                <div><strong>Dates:</strong> {{ creator.selectedDates }}</div>
+                <div><strong>Time Slot:</strong> {{ creator.selectedTime }}</div>
+              </div>
+
+              <div class="text-sm text-gray-700 mb-4">
+                <div><strong>Buffer Time:</strong> {{ creator.bufferTime }} mins</div>
+                <div><strong>Max Bookings:</strong> {{ creator.maxBookings }} per day</div>
+              </div>
               <!-- Action Buttons -->
               <div class="flex justify-between mt-auto">
                 <button
                         class="font-display text-sm font-semibold text-accent"
                         data-bs-toggle="modal"
                         data-bs-target="#editVideoModal"
-                      onclick="editVideoSession({{ expert.id }},'{{ expert.title}}','{{ expert.description}}','{{ expert.duration}}','{{ expert.amount}}')" >
+                        onclick="editVideoSession(
+    {{ creator.id }},
+    '{{ creator.title|escapejs }}',
+    '{{ creator.description|escapejs }}',
+    '{{ creator.duration }}',
+    '{{ creator.amount }}',
+    '{{ creator.selectedDates|escapejs }}',
+    '{{ creator.selectedTime|escapejs }}',
+    '{{ creator.bufferTime }}',
+    '{{ creator.maxBookings }}'
+)" >
                         Edit
                       </button>
-                <button class="bg-red-500 text-black px-4 py-2 rounded-lg shadow-md hover:bg-red-600 transition" onclick="deleteVideoSession({{ expert.id }})">>
+                <button class="bg-red-500 text-black px-4 py-2 rounded-lg shadow-md hover:bg-red-600 transition" onclick="deleteVideoSession({{ creator.id }})">>
                   Delete
                 </button>
               </div>
@@ -96,7 +126,7 @@
             <h5 class="text-lg font-semibold text-gray-800 dark:text-white">Create a 1:1 service</h5>
             
             <div class="flex justify-center gap-6 mt-4">
-                <a href="{% url 'services' %}?type=1:1_Call" class="px-4 py-2 rounded-lg bg-jacarta-100 font-display text-sm font-semibold text-jacarta-700 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:bg-jacarta-700 dark:text-white dark:hover:bg-accent inline-block">
+                <a href="{% url 'create-service' %}?type=1:1_Call" class="px-4 py-2 rounded-lg bg-jacarta-100 font-display text-sm font-semibold text-jacarta-700 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:bg-jacarta-700 dark:text-white dark:hover:bg-accent inline-block">
                     + Add New
                 </a>
                
@@ -149,7 +179,7 @@
                    class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white" required></textarea>
           </div>
           <div class="mb-4">
-            <label for="video-duration" class="block font-display text-jacarta-700 dark:text-white">Duration (mins)<span class="text-red">*</span></label>
+            <label for="video-duration" class="block font-display text-jacarta-700 dark:text-white">Duration (in mins)<span class="text-red">*</span></label>
             <input type="text" name="duration" id="video-duration" placeholder="Enter duration" 
                    class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white" required>
           </div>
@@ -159,7 +189,31 @@
                    class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white" required>
           </div>
           
-          
+          <!-- Date Selection -->
+<div class="relative overflow-x-auto whitespace-nowrap space-x-4 p-2 mb-4" id="dateSlider">
+  <!-- JS will populate date chips here -->
+</div>
+<input type="hidden" id="selectedDates" name="selected_dates">
+
+<!-- Time Slot Selection -->
+<div class="mb-4" id="timeSlotsWrapper">
+  <h4 class="mb-2 font-semibold text-jacarta-700 dark:text-white">Select Time Slot</h4>
+  <div id="timeSlots" class="flex flex-wrap gap-2">
+    <!-- JS will populate time buttons here -->
+  </div>
+  <input type="hidden" id="selectedTime" name="selected_time">
+</div>
+<div class="mb-4">
+  <label for="video-buffer-time" class="block font-display text-jacarta-700 dark:text-white">Buffer Time (in mins)<span class="text-red">*</span></label>
+  <input type="number" name="video-buffer-time" id="video-buffer-time" placeholder="Enter buffer time" 
+         class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white" required>
+</div>
+<div class="mb-4">
+  <label for="video-max-bookings" class="block font-display text-jacarta-700 dark:text-white">max Bookings  <span class="text-red">*</span></label>
+  <input type="number" name="video-max-bookings" id="video-max-bookings" placeholder="Enter maximum bookings" 
+         class="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white" required>
+</div>
+
         </form>
       </div>
       
@@ -198,16 +252,98 @@
     }
   }
   
-  function editVideoSession(id, title,description,duration,amount){
-    document.getElementById('video-id').value = id
+ function editVideoSession(id, title, description, duration, amount, selectedDates, selectedTime, bufferTime, maxBookings) {
+  document.getElementById('video-id').value = id;
+  document.getElementById('video-title').value = title;
+  document.getElementById('video-description').value = description;
+  document.getElementById('video-duration').value = duration;
+  document.getElementById('video-amount').value = amount;
+  document.getElementById('video-buffer-time').value = bufferTime;
+  document.getElementById('video-max-bookings').value = maxBookings;
 
-    document.getElementById('video-title').value = title
-    document.getElementById('video-description').value = description
-    document.getElementById('video-duration').value = duration
-    document.getElementById('video-amount').value = amount
+  const dateSlider = document.getElementById('dateSlider');
+  const hiddenSelectedDates = document.getElementById('selectedDates');
+  dateSlider.innerHTML = '';
 
+  const selectedDateArray = selectedDates.split(',').map(date => date.trim());
+
+  const today = new Date();
+  for (let i = 0; i < 14; i++) {
+    const date = new Date(today);
+    date.setDate(today.getDate() + i);
+
+    const formattedDate = date.toISOString().split('T')[0]; // YYYY-MM-DD
+    const dayName = date.toLocaleDateString('en-US', { weekday: 'short' });
+    const monthDay = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+
+    const button = document.createElement('button');
+    button.type = "button";
+    button.className = "inline-block px-4 py-2 border rounded-lg text-sm transition font-medium";
+    button.innerHTML = `<div class="font-semibold">${dayName}</div><div>${monthDay}</div>`;
+    button.dataset.date = formattedDate;
+
+    if (selectedDateArray.includes(formattedDate)) {
+      button.classList.add('bg-accent', 'text-white', 'border-transparent');
+    } else {
+      button.classList.add('bg-white', 'text-gray-700', 'border-gray-300');
+    }
+
+    button.onclick = function () {
+      const isSelected = button.classList.contains('bg-accent');
+
+      if (isSelected) {
+        button.classList.remove('bg-accent', 'text-white', 'border-transparent');
+        button.classList.add('bg-white', 'text-gray-700', 'border-gray-300');
+      } else {
+        button.classList.remove('bg-white', 'text-gray-700', 'border-gray-300');
+        button.classList.add('bg-accent', 'text-white', 'border-transparent');
+      }
+
+      updateSelectedDates();
+    };
+
+    dateSlider.appendChild(button);
   }
 
+  function updateSelectedDates() {
+    const selected = Array.from(dateSlider.querySelectorAll('.bg-accent')).map(btn => btn.dataset.date);
+    hiddenSelectedDates.value = selected.join(',');
+  }
+
+  updateSelectedDates();  
+
+
+
+ // Time slot logic
+ const timeSlots = ['09:00 AM - 01:00 PM',
+    '02:00 PM - 06:00 PM',
+    '07:00 PM - 10:00 PM',
+    '09:00 AM - 10:00 PM'];
+ const timeSlotsContainer = document.getElementById('timeSlots');
+ const hiddenSelectedTime = document.getElementById('selectedTime');
+ timeSlotsContainer.innerHTML = '';
+
+ timeSlots.forEach(time => {
+   const btn = document.createElement('button');
+   btn.textContent = time;
+   btn.type = 'button';
+   btn.className = 'px-4 py-2 rounded-lg border border-gray-300';
+
+   if (time === selectedTime) {
+     btn.classList.add('bg-accent', 'text-white');
+     hiddenSelectedTime.value = time;
+   }
+
+   btn.onclick = () => {
+     timeSlotsContainer.querySelectorAll('button').forEach(b => b.classList.remove('bg-accent', 'text-white'));
+     btn.classList.add('bg-accent', 'text-white');
+     hiddenSelectedTime.value = time;
+   };
+
+   timeSlotsContainer.appendChild(btn);
+ });
+
+}
   function resetform(){
     document.getElementById('video-id').value = ""
 
@@ -215,6 +351,10 @@
     document.getElementById('video-description').value = ""
     document.getElementById('video-duration').value = ""
     document.getElementById('video-amount').value = ""
+    document.getElementById('selectedDates').value  =""
+    document.getElementById('selectedTime').value =""
+    document.getElementById('video-buffer-time').value = "";
+    document.getElementById('video-max-bookings').value = "";
 
   }
 
@@ -226,7 +366,16 @@
    const description =  document.getElementById('video-description').value
    const duration =  document.getElementById('video-duration').value 
     const amount = document.getElementById('video-amount').value 
+    const selectedDates = document.getElementById('selectedDates').value 
+    const selectedTime = document.getElementById('selectedTime').value 
+    const bufferTime = document.getElementById('video-buffer-time').value;
+    const maxBookings = document.getElementById('video-max-bookings').value;
 
+    if (!title || !duration || !amount || !description || !selectedDates || !selectedTime ||!bufferTime ||!maxBookings) {
+      toastr.error("please fill all the details")
+
+      return
+  }
    var formData = new FormData()
 
    formData.append("id",id)
@@ -234,6 +383,10 @@
    formData.append('description',description);
    formData.append('duration', duration);
    formData.append('amount', amount);
+   formData.append('selectedDates', selectedDates);
+   formData.append('selectedTime', selectedTime);
+   formData.append('bufferTime', bufferTime);
+   formData.append('maxBookings', maxBookings);
             
 
    $.ajax({
@@ -244,7 +397,7 @@
      contentType: false,
     success: function(data){
       toastr.success("session details updated successfully")
-      $(`#session-${id}`).html(`<div class="p-6 flex-grow flex flex-col">
+    /*  $(`#session-${id}`).html(`<div class="p-6 flex-grow flex flex-col">
           <!-- Header with Title and Status -->
           <div class="flex justify-between items-center mb-4 ">
             <h1 class="text-xl font-semibold truncate" title="one to one">${title}</h1>
@@ -261,8 +414,12 @@
           <!-- Time and Price -->
           <div class="text-gray-600 text-lg mb-4 flex-grow">
             <span>${duration} mins | </span>
-            <span class="text-gray-900 font-semibold">₹${amount }</span>
+            <span class="text-gray-900 font-semibold">₹${amount}</span>
           </div>
+           <div class="text-sm text-gray-700 mb-4">
+                <div><strong>Dates:</strong> ${selectedDates}</div>
+                <div><strong>Time Slot:</strong> ${selectedTime}</div>
+              </div>
       
           <!-- Action Buttons -->
           <div class="flex justify-between mt-auto">
@@ -275,6 +432,9 @@
                       data-description="${description}"
                       data-duration="${duration}"
                       data-amount="${amount}"
+                      data-selecteddates ="${selectedDates}"
+                      data-selectedtime ="${selectedTime}"
+                      
                    >
                     Edit
                   </button>
@@ -283,8 +443,9 @@
             </button>
           </div>
         </div>
-      </div>`);
-     
+      </div>`); */
+      window.location.reload();
+
     },
     error: function(xhr){
       var errors = xhr.responseJSON;
@@ -295,15 +456,34 @@
    })
   }
  
-  $(document).on("click", ".edit-video-session", function () {
+ /* $(document).on("click", ".edit-video-session", function () {
     const id = $(this).data("id");
     const title = $(this).data("title");
     const description = $(this).data("description");
     const amount = $(this).data("amount");
     const duration = $(this).data("duration");
+    const selectedDates = $(this).data("selecteddates");
+    const selectedTime = $(this).data("selectedtime");
+    console.log("up",selectedDates)
 
-    editVideoSession(id, title,description,duration,amount);
-});
+
+    editVideoSession(id, title,description,duration,amount,selectedDates,selectedTime);
+});*/
+
+
+  function shareSession(title, url) {
+    if (navigator.share) {
+      navigator.share({
+        title: title,
+        text: 'Check out this session:',
+        url: url
+      })
+      .then(() => console.log('Shared successfully'))
+      .catch((error) => console.error('Error sharing:', error));
+    } else {
+      alert("Sharing is not supported in this browser.");
+    }
+  }
 
 </script>
    

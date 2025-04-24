@@ -21,6 +21,11 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <!-- Flatpickr -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+
     
 
     <!-- Favicons -->
@@ -308,6 +313,21 @@
                   class="dropdown-menu group-hover:visible lg:invisible -left-6 top-[85%] z-10 hidden min-w-max grid-flow-row grid-cols-[repeat(2,_1fr)] gap-x-4 whitespace-nowrap rounded-xl bg-white transition-all will-change-transform group-hover:opacity-100 dark:bg-jacarta-800 lg:absolute lg:!grid lg:translate-y-4 lg:py-8 lg:px-5 lg:opacity-0 lg:shadow-2xl lg:group-hover:translate-y-2"
                   aria-labelledby="navDropdown-2"
                 >
+                {% if user.is_authenticated %}
+              {% if user.is_creator %}
+                <li>
+                  <a
+                    href="{% url 'create-service' %}"
+                    class="flex items-center justify-between rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
+                  >
+                    <span class="mr-4 font-display text-sm text-jacarta-700 dark:text-white">Create New Service</span>
+                    <span class="rounded bg-green py-1 px-2 text-xxs font-bold uppercase leading-none text-white"
+                      >new</span
+                    >
+                  </a>
+                </li>
+                {% endif %}
+                {% endif %}
                   <li>
                     <a
                       href="{% url 'maintenance' %}"
@@ -742,6 +762,27 @@
                   class="dropdown-menu group-hover:visible lg:invisible left-0 top-[85%] z-10 hidden min-w-[200px] gap-x-4 whitespace-nowrap rounded-xl bg-white transition-all will-change-transform group-hover:opacity-100 dark:bg-jacarta-800 lg:absolute lg:grid lg:translate-y-4 lg:py-4 lg:px-2 lg:opacity-0 lg:shadow-2xl lg:group-hover:translate-y-2"
                   aria-labelledby="navDropdown-4"
                 >
+                {% if user.is_authenticated %}
+                {% if user.is_creator %}
+                <li>
+                  <a
+                    href="{% url 'creator/bookings' %}"
+                    class="flex items-center rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
+                  >
+                    <span class="font-display text-sm text-jacarta-700 dark:text-white">Bookings</span>
+                  </a>
+                </li>
+                {% else %}
+                <li>
+                  <a
+                    href="{% url 'buyer/bookings' %}"
+                    class="flex items-center rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
+                  >
+                    <span class="font-display text-sm text-jacarta-700 dark:text-white">My Bookings</span>
+                  </a>
+                </li>
+                {% endif %}
+                {% endif %}
                   <li>
                     <a
                       href="{% url 'help-center' %}"
@@ -792,6 +833,17 @@
                   </li>
                 </ul>
               </li>
+              {% if user.is_authenticated %}
+              {% if user.is_creator %}
+              <li class="group">
+                <a
+                  href="{% url 'service/video' %}"
+                  class="flex items-center justify-between py-3.5 font-display text-base text-jacarta-700 hover:text-accent focus:text-accent dark:text-white dark:hover:text-accent dark:focus:text-accent lg:px-5"
+                  >Services</a
+                >
+              </li>
+              {% endif %}
+              {% endif %}
               <li class="group">
                 <a
                   href="{% url 'create' %}"

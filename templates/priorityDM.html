@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load utils %}
 
 {% block content %}
 
@@ -17,19 +18,19 @@
         <div class="w-full flex items-center px-4 md:px-6 xl:px-8" style="justify-content:space-around;">
            
             <div class="flex items-center gap-4">
-                        <a href="{% url 'video' %}" class="tab px-4 py-2 rounded-lg bg-jacarta-100  font-display text-sm font-semibold text-jacarta-700 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:bg-jacarta-700 dark:text-white dark:hover:bg-accent">
+                        <a href="{% url 'service/video' %}" class="tab px-4 py-2 rounded-lg bg-jacarta-100  font-display text-sm font-semibold text-jacarta-700 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:bg-jacarta-700 dark:text-white dark:hover:bg-accent">
                             <span class="whitespace-nowrap">1:1 Call</span>
                         </a>
-                        <a href="{% url 'webinar' %}" class="tab px-4 py-2 rounded-lg bg-jacarta-100  font-display text-sm font-semibold text-jacarta-700 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:bg-jacarta-700 dark:text-white dark:hover:bg-accent">
+                        <a href="{% url 'service/webinar' %}" class="tab px-4 py-2 rounded-lg bg-jacarta-100  font-display text-sm font-semibold text-jacarta-700 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:bg-jacarta-700 dark:text-white dark:hover:bg-accent">
                             <span class="whitespace-nowrap">Webinar</span>
                         </a>
-                        <a  href="{% url 'priorityDM' %}" class="rounded-lg  font-display text-sm font-semibold text-jacarta-700 transition-colors border-transparent bg-accent text-white dark:bg-jacarta-700 dark:text-white dark:bg-accent px-6 py-3">
+                        <a  href="{% url 'service/priorityDM' %}" class="rounded-lg  font-display text-sm font-semibold text-jacarta-700 transition-colors border-transparent bg-accent text-white dark:bg-jacarta-700 dark:text-white dark:bg-accent px-6 py-3">
                             <span class="whitespace-nowrap">Priority DM</span>
                         </a>
                     </div>
         
                     <div class="flex gap-3">
-                        <a href="{% url 'services' %}?type=Priority_DM" class="px-4 py-2 rounded-lg bg-jacarta-100 font-display text-sm font-semibold text-jacarta-700 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:bg-jacarta-700 dark:text-white dark:hover:bg-accent inline-block">
+                        <a href="{% url 'create-service' %}?type=Priority_DM" class="px-4 py-2 rounded-lg bg-jacarta-100 font-display text-sm font-semibold text-jacarta-700 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:bg-jacarta-700 dark:text-white dark:hover:bg-accent inline-block">
                             + Add New
                         </a>
                     </div>
@@ -40,27 +41,38 @@
           
         
       </section>
-      {% if expertpriorityDmdetails %}
+      {% if creatorpriorityDmdetails %}
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 px-4" style="gap:1%">
-        {% for expert in expertpriorityDmdetails %}
-          <div  id ="session-{{ expert.id }}" class="bg-white shadow-xl rounded-2xl overflow-hidden transform transition hover:scale-105 hover:shadow-2xl h-full flex flex-col">
+        {% for creator in creatorpriorityDmdetails %}
+          <div  id ="session-{{ creator.id }}" class="bg-white shadow-xl rounded-2xl overflow-hidden transform transition hover:scale-105 hover:shadow-2xl h-full flex flex-col">
             <div class="p-6 flex-grow flex flex-col">
               <!-- Header with Title and Status -->
               <div class="flex justify-between items-center mb-4 ">
-                <h1 class="text-xl font-semibold truncate" title="one to one">{{ expert.title }}</h1>
+                <h1 class="text-xl font-semibold truncate" title="one to one">{{ creator.title }}</h1>
                 <div class="flex items-center gap-2 text-gray-500">
-                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-                    <path fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" 
-                          d="M255.66 112c-77.94 0-157.89 45.11-220.83 135.33a16 16 0 0 0-.27 17.77C82.92 340.8 161.8 400 255.66 400c92.84 0 173.34-59.38 221.79-135.25a16.14 16.14 0 0 0 0-17.47C428.89 172.28 347.8 112 255.66 112z"></path>
-                    <circle cx="256" cy="256" r="80" fill="none" stroke-miterlimit="10" stroke-width="32"></circle>
+                  {% get_domain as domain %}
+
+                  <button data-tippy-content="Share session" onclick="shareSession('{{ creator.title }}', '{{ domain  }}{{ creator.get_absolute_url }}')" >
+                    <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    height="24"
+                    class="h-7 w-7 fill-jacarta-500 dark:fill-jacarta-200"
+                  >
+                    <path fill="none" d="M0 0h24v24H0z" />
+                    <path
+                      d="M13.576 17.271l-5.11-2.787a3.5 3.5 0 1 1 0-4.968l5.11-2.787a3.5 3.5 0 1 1 .958 1.755l-5.11 2.787a3.514 3.514 0 0 1 0 1.458l5.11 2.787a3.5 3.5 0 1 1-.958 1.755z"
+                    />
                   </svg>
-                  <span class="text-sm font-medium">Public</span>
+                  
+                </button>
                 </div>
               </div>
           
               <!-- Time and Price -->
               <div class="text-gray-600 text-lg mb-4 flex-grow">
-                <span class="text-gray-900 font-semibold">₹{{ expert.amount }}</span>
+                <span class="text-gray-900 font-semibold">₹{{ creator.amount }}</span>
               </div>
           
               <!-- Action Buttons -->
@@ -69,10 +81,10 @@
                 class="font-display text-sm font-semibold text-accent"
                 data-bs-toggle="modal"
                 data-bs-target="#editPrioritydmModal"
-              onclick="editPriorityDmSession({{ expert.id }},'{{ expert.title}}','{{ expert.description}}','{{ expert.amount}}')" >
+              onclick="editPriorityDmSession({{ creator.id }},'{{ creator.title}}','{{ creator.description}}','{{ creator.amount}}')" >
                 Edit
               </button>
-                <button class="bg-red-500 text-black px-4 py-2 rounded-lg shadow-md hover:bg-red-600 transition" onclick="deletepriorityDmSession({{ expert.id }})">>
+                <button class="bg-red-500 text-black px-4 py-2 rounded-lg shadow-md hover:bg-red-600 transition" onclick="deletepriorityDmSession({{ creator.id }})">>
                   Delete
                 </button>
               </div>
@@ -96,7 +108,7 @@
             <h5 class="text-lg font-semibold text-gray-800 dark:text-white">Answer Priority DM</h5>
             
             <div class="flex justify-center gap-6 mt-4">
-                <a href="{% url 'services' %}?type=Priority_DM" class="px-4 py-2 rounded-lg bg-jacarta-100 font-display text-sm font-semibold text-jacarta-700 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:bg-jacarta-700 dark:text-white dark:hover:bg-accent inline-block">
+                <a href="{% url 'create-service' %}?type=Priority_DM" class="px-4 py-2 rounded-lg bg-jacarta-100 font-display text-sm font-semibold text-jacarta-700 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:bg-jacarta-700 dark:text-white dark:hover:bg-accent inline-block">
                     + Add New
                 </a>
                
@@ -233,7 +245,7 @@
              contentType: false,
             success: function(data){
               toastr.success("session details updated successfully")
-              $(`#session-${id}`).html(`<div class="p-6 flex-grow flex flex-col">
+           /*   $(`#session-${id}`).html(`<div class="p-6 flex-grow flex flex-col">
                   <!-- Header with Title and Status -->
                   <div class="flex justify-between items-center mb-4 ">
                     <h1 class="text-xl font-semibold truncate" title="one to one">${title}</h1>
@@ -270,7 +282,9 @@
                     </button>
                   </div>
                 </div>
-              </div>`);
+              </div>`); */
+              window.location.reload();
+
              
             },
             error: function(xhr){
@@ -291,6 +305,22 @@
         
             editPriorityDmSession(id,title,description,amount);
         });
+
+
+        
+  function shareSession(title, url) {
+    if (navigator.share) {
+      navigator.share({
+        title: title,
+        text: 'Check out this session:',
+        url: url
+      })
+      .then(() => console.log('Shared successfully'))
+      .catch((error) => console.error('Error sharing:', error));
+    } else {
+      alert("Sharing is not supported in this browser.");
+    }
+  }
         
        </script>
         
