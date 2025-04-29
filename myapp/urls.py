@@ -70,7 +70,9 @@ urlpatterns = [
    path('updateVideoSession_api/', views.updateVideoSession_api, name='updateVideoSession_api'),
    path('updateWebinarSession_api/', views.updateWebinarSession_api, name='updateWebinarSession_api'),
    path('updatePriorityDmSession_api/', views.updatePriorityDmSession_api, name='updatePriorityDmSession_api'),
-   path('book_session_api/', views.book_session_api, name='book_session_api'),
+   path('book_video_session_api/', views.book_video_session_api, name='book_video_session_api'),
+   path('book_webinar_session_api/', views.book_webinar_session_api, name='book_webinar_session_api'),
+   path('book_priorityDm_session_api/', views.book_priorityDm_session_api, name='book_priorityDm_session_api'),
    path("get-booked-times/", views.get_booked_times, name="get_booked_times"),
    path('creator/bookings/', views.creator_bookings, name='creator/bookings'),
     path('buyer/my-bookings/', views.buyer_bookings, name='buyer/bookings'),
@@ -100,6 +102,6 @@ urlpatterns = [
    
    ]
 
-if settings.DEBUG:
+if True:
         urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)        
         

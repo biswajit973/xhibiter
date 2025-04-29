@@ -4,7 +4,7 @@ from .models import *
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
 
-
+from django.http import Http404
 # Create your views here.
 
 def index(request):
@@ -201,15 +201,16 @@ def wallet(request):
 
 @login_required
 def create_service(request):
-  try:
+    try:
         profile = UserProfile.objects.get(id=request.user.id)
-  except UserProfile.DoesNotExist:
-        return HttpResponseForbidden("Access denied.")  # Or redirect to home/login
+    except UserProfile.DoesNotExist:
+        raise Http404("Page not found.")
 
-  if not profile.is_creator:
-      return HttpResponseForbidden("Only creators can access this page.")
+    if not profile.is_creator:
+        raise Http404("Page not found.")
+
     
-  return render(request, 'create-service.html')
+    return render(request, 'create-service.html')
 
 @login_required
 def video(request):
@@ -218,10 +219,10 @@ def video(request):
   try:
         profile = UserProfile.objects.get(id=request.user.id)
   except UserProfile.DoesNotExist:
-        return HttpResponseForbidden("Access denied.")  # Or redirect to home/login
+        raise Http404("Page not found.")
 
   if not profile.is_creator:
-      return HttpResponseForbidden("Only creators can access this page.")
+        raise Http404("Page not found.")
     
   creatorvideosessiondetails =  ServiceVideoForm.objects.filter(creator = request.user.id)
   
@@ -235,10 +236,10 @@ def webinar(request):
   try:
         profile = UserProfile.objects.get(id=request.user.id)
   except UserProfile.DoesNotExist:
-        return HttpResponseForbidden("Access denied.")  
+        raise Http404("Page not found.")
 
   if not profile.is_creator:
-      return HttpResponseForbidden("Only creators can access this page.")
+        raise Http404("Page not found.")
   creatorwebinarsessiondetails =  ServiceWebinarForm.objects.filter(creator = request.user.id)
   
   for creator in creatorwebinarsessiondetails:
@@ -251,10 +252,11 @@ def priorityDM(request):
   try:
         profile = UserProfile.objects.get(id=request.user.id)
   except UserProfile.DoesNotExist:
-        return HttpResponseForbidden("Access denied.")  
+        raise Http404("Page not found.")
 
   if not profile.is_creator:
-      return HttpResponseForbidden("Only creators can access this page.")
+        raise Http404("Page not found.")
+
   creatorprioritydmsessiondetails =  ServicePriorityDmForm.objects.filter(creator = request.user.id)
   
   for creator in creatorprioritydmsessiondetails:
@@ -341,6 +343,7 @@ def login_api(request):
         email_or_contact = request.POST.get("email_or_contact")
         password = request.POST.get("password")
         recaptcha_token = request.POST.get("recaptcha_token")
+        next_url = request.POST.get("next", "/create/") 
         
         print('email', email_or_contact)
         print('password', password)
@@ -353,7 +356,7 @@ def login_api(request):
 
         if user is not None:
             login(request, user)
-            return JsonResponse({'message': 'Login successful', 'redirect_url': '/create/'})
+            return JsonResponse({'message': 'Login successful', 'redirect_url': next_url})
         else:
             return JsonResponse({'error': 'Invalid credentials'}, status=400)
 
@@ -482,8 +485,9 @@ def serviceVideo_api(request):
             selectedTime = request.POST.get('selectedTime')
             bufferTime = request.POST.get('bufferTime')
             maxBookings = request.POST.get('maxBookings')
-            if not title or not duration or not amount or not selectedTime or not selectedDates or not bufferTime or not maxBookings:
-                return JsonResponse({'error': 'All fields are required (title, duration, amount, date, time).'}, status=400)
+            timezone = request.POST.get('timezone')
+            if not title or not duration or not amount or not selectedTime or not selectedDates or not bufferTime or not maxBookings or not timezone:
+                return JsonResponse({'error': 'All fields are required (title, duration, amount, date, time, timezone).'}, status=400)
 
             service_video = ServiceVideoForm.objects.create(
                 creator=creator,
@@ -494,7 +498,8 @@ def serviceVideo_api(request):
                 selectedDates=selectedDates,
                 selectedTime=selectedTime,
                 bufferTime=bufferTime,
-                maxBookings=maxBookings
+                maxBookings=maxBookings,
+                timezone=timezone
             )
 
             return JsonResponse({
@@ -653,10 +658,9 @@ def updateVideoSession_api(request):
     selectedDates = request.POST.get("selectedDates")
     bufferTime = request.POST.get("bufferTime")
     maxBookings = request.POST.get("maxBookings")
-
-
-
-
+    timeZone = request.POST.get("timeZone")
+    print("timeZone",timeZone)
+    
     videosession = ServiceVideoForm.objects.get(id=id)
     videosession.title = title
     videosession.description = description
@@ -666,6 +670,7 @@ def updateVideoSession_api(request):
     videosession.selectedTime = selectedTime
     videosession.bufferTime = bufferTime
     videosession.maxBookings = maxBookings
+    videosession.timezone =timeZone
     videosession.save()
     
     
@@ -749,7 +754,6 @@ def updatePriorityDmSession_api(request):
 
 from django.shortcuts import render, get_object_or_404
 
-@login_required
 def item(request, slug):
     slug_entry = get_object_or_404(ServiceSlugRouter, slug=slug)
     
@@ -826,10 +830,15 @@ def buyer_signup_api(request):
             return JsonResponse({'error': str(e)}, status=400)
           
 
-
+import pytz
+from django.utils.timezone import make_aware, localtime
+from datetime import datetime
 @csrf_exempt
-@login_required
-def book_session_api(request):
+def book_video_session_api(request):
+    
+    if not request.user.is_authenticated:
+        return JsonResponse({'error': 'Authentication required'}, status=401)
+
     session_date = None
     session_time = None
     user = request.user 
@@ -839,6 +848,7 @@ def book_session_api(request):
         session_id = request.POST.get('session_id')
         session_title = request.POST.get('session_title')
         session_name = request.POST.get('session_name')
+        booking_timezone= request.POST.get('booking_timezone')
 
         if request.POST.get('selectedDate'):
             selected_date = request.POST.get('selectedDate')  
@@ -849,10 +859,54 @@ def book_session_api(request):
             session_time = datetime.strptime(selected_time, "%I:%M %p").time()
 
         creator_id = request.POST.get('creator_id')
+        print("creator_id",creator_id)
         
+        if str(user_id) == str(creator_id):
+            return JsonResponse({'error': "You cannot book your own session."}, status=403)
+
         if request.POST.get('additionalDetails'):
             additionalDetails = request.POST.get('additionalDetails')  
-            
+        
+        # 1. Check if selectedDate is in creator's available dates
+        creator_session = None
+        if session_name == 'Video':
+            creator_session = ServiceVideoForm.objects.filter(id=session_id, creator_id=creator_id).first()
+        elif session_name == 'Webinar':
+            creator_session = ServiceWebinarForm.objects.filter(id=session_id, creator_id=creator_id).first()
+        elif session_name == 'Priority Demo':
+            creator_session = ServicePriorityDmForm.objects.filter(id=session_id, creator_id=creator_id).first()
+        print("creator_session",creator_session)
+        print('timezone',creator_session.timezone)
+        print("session_id",session_id,session_title)
+        if not creator_session:
+            return JsonResponse({'error': 'Creator has updated availability, session not found or unavailable.'}, status=400)
+
+        if hasattr(creator_session, 'selectedDates') and creator_session.selectedDates:
+            available_dates = [d.strip() for d in creator_session.selectedDates.split(',')]
+            selected_date_str = session_date.strftime('%Y-%m-%d')
+            if selected_date_str not in available_dates:
+                return JsonResponse({'error': 'Selected date is not available based on the creator\'s updated availability.'}, status=400)
+
+        if hasattr(creator_session, 'selectedTime') and creator_session.selectedTime:
+            time_range = creator_session.selectedTime.strip().split('-')
+            if len(time_range) == 2:
+                start_time = datetime.strptime(time_range[0].strip(), "%I:%M %p").time()
+                end_time = datetime.strptime(time_range[1].strip(), "%I:%M %p").time()
+
+                if not (start_time <= session_time <= end_time):
+                    return JsonResponse({'error': 'Selected time is not within the creator\'s available time range.'}, status=400)
+            else:
+                return JsonResponse({'error': 'Invalid time format for session.'}, status=400)
+
+        existing_booking = BookingStatus.objects.filter(
+            session_id=session_id,
+            selectedDate=session_date,
+            selectedTime=session_time,
+        ).exists()
+
+        if existing_booking:
+            return JsonResponse({'error': 'This slot is already booked. Please choose another.'}, status=400)
+
         booking_status = BookingStatus.objects.create(
             user_id=user_id,
             session_title=session_title,
@@ -862,20 +916,34 @@ def book_session_api(request):
             selectedTime=session_time,
             additionalDetails=additionalDetails,
             status="success",
-            creator_id=creator_id
+            creator_id=creator_id,
+            booking_timezone=booking_timezone
         )
 
-        # Get creator and user objects
+
+        creator_timezone = pytz.timezone(creator_session.timezone)  
+        session_datetime_creator = datetime.combine(session_date, session_time) 
+
+        booking_datetime_creator = creator_timezone.localize(session_datetime_creator)
+        print("booking_datetime_creator:", booking_datetime_creator)
+
+        buyer_timezone = pytz.timezone(booking_timezone)  
+        booking_datetime_buyer = booking_datetime_creator.astimezone(buyer_timezone)
+        print("booking_datetime_buyer:", booking_datetime_buyer)
+
+        formatted_date_buyer = booking_datetime_buyer.strftime('%B %d, %Y')  
+        formatted_time_buyer = booking_datetime_buyer.strftime('%I:%M %p') 
+        print('formatted_date_buyer:', formatted_date_buyer)
+        print('formatted_time_buyer:', formatted_time_buyer)
+
         try:
             creator = UserProfile.objects.get(id=creator_id)
         except UserProfile.DoesNotExist:
             return JsonResponse({'error': 'Creator not found'}, status=404)
 
-        # Format date and time for display
         formatted_date = session_date.strftime('%B %d, %Y')
         formatted_time = session_time.strftime('%I:%M %p')
 
-        # Email content for creator
         creator_subject = "New Session Booking Alert"
         creator_message = f"""
 Hello {creator.firstname},
@@ -898,7 +966,149 @@ Thank you!
             fail_silently=False,
         )
 
-        # Email content for user
+        user_subject = "Session Booking Confirmation"
+        user_message = f"""
+Hello {user.firstname} {user.lastname},
+
+Your session booking with {creator.firstname} {creator.lastname} is confirmed.
+
+Session Title: {session_title}
+Date: {formatted_date_buyer}
+Time: {formatted_time_buyer}
+
+Thank you for booking!
+
+Best regards,
+Team
+"""
+        send_mail(
+            subject=user_subject,
+            message=user_message,
+            from_email='xhibiter@gmail.com',
+            recipient_list=[user.email],
+            fail_silently=False,
+        )
+
+        return JsonResponse({'message': 'Booking successful', 'booking_id': booking_status.id}, status=201)
+
+    return JsonResponse({'error': 'Invalid request method'}, status=400)
+
+
+
+import pytz
+from django.utils.timezone import make_aware, localtime
+from datetime import datetime
+@csrf_exempt
+def book_webinar_session_api(request):
+    
+    if not request.user.is_authenticated:
+        return JsonResponse({'error': 'Authentication required'}, status=401)
+
+    session_date = None
+    session_time = None
+    user = request.user 
+    user_id = user.id
+
+    if request.method == 'POST':
+        session_id = request.POST.get('session_id')
+        session_title = request.POST.get('session_title')
+        session_name = request.POST.get('session_name')
+        
+
+        if request.POST.get('selectedDate'):
+            selected_date = request.POST.get('selectedDate')  
+            session_date = datetime.strptime(selected_date, "%Y-%m-%d").date()
+
+        if request.POST.get('selectedTime'):
+            selected_time = request.POST.get('selectedTime')  
+            session_time = datetime.strptime(selected_time, "%I:%M %p").time()
+
+        creator_id = request.POST.get('creator_id')
+        print("creator_id",creator_id)
+        
+        if str(user_id) == str(creator_id):
+            return JsonResponse({'error': "You cannot book your own session."}, status=403)
+       
+        creator_session = None
+        
+        if session_name == 'Webinar':
+            creator_session = ServiceWebinarForm.objects.filter(id=session_id, creator_id=creator_id).first()
+       
+        print("creator_session",creator_session)
+       
+        print("session_id",session_id,session_title)
+        if not creator_session:
+            return JsonResponse({'error': 'Creator has updated availability, session not found or unavailable.'}, status=400)
+
+        if hasattr(creator_session, 'session_date') and creator_session.session_date:
+            creator_session_date = creator_session.session_date.strftime('%Y-%m-%d')             
+            selected_date_str = session_date.strftime('%Y-%m-%d')            
+            if selected_date_str != creator_session_date:
+                return JsonResponse({'error': 'Selected date is not available based on the creator\'s updated availability.'}, status=400)
+
+
+        if hasattr(creator_session, 'session_time') and creator_session.session_time:
+            creator_session_time = creator_session.session_time
+
+            if session_time != creator_session_time:
+                return JsonResponse({'error': 'Selected time does not match the creator\'s available time.'}, status=400)
+
+
+        existing_booking = BookingStatus.objects.filter(
+            session_id=session_id,
+            selectedDate=session_date,
+            selectedTime=session_time,
+            session_name=session_name,
+            user_id = user_id
+        ).exists()
+
+        if existing_booking:
+            return JsonResponse({'error': 'This slot is already booked.'}, status=400)
+
+        # 5. Create the booking if all checks pass
+        booking_status = BookingStatus.objects.create(
+            user_id=user_id,
+            session_title=session_title,
+            session_id=session_id,
+            session_name=session_name,
+            selectedDate=session_date,
+            selectedTime=session_time,
+            status="success",
+            creator_id=creator_id,
+        )
+
+
+
+        try:
+            creator = UserProfile.objects.get(id=creator_id)
+        except UserProfile.DoesNotExist:
+            return JsonResponse({'error': 'Creator not found'}, status=404)
+
+        formatted_date = session_date.strftime('%B %d, %Y')
+        formatted_time = session_time.strftime('%I:%M %p')
+
+        creator_subject = "New Session Booking Alert"
+        creator_message = f"""
+Hello {creator.firstname},
+
+{user.firstname} {user.lastname} has booked your session.
+
+Session Title: {session_title}
+Date: {formatted_date}
+Time: {formatted_time}
+
+Please log in to your dashboard to view details.
+
+Thank you!
+"""
+        send_mail(
+            subject=creator_subject,
+            message=creator_message,
+            from_email='xhibiter@gmail.com',
+            recipient_list=[creator.email],
+            fail_silently=False,
+        )
+
         user_subject = "Session Booking Confirmation"
         user_message = f"""
 Hello {user.firstname} {user.lastname},
@@ -926,38 +1136,184 @@ Team
 
     return JsonResponse({'error': 'Invalid request method'}, status=400)
 
+
+
+@csrf_exempt
+def book_priorityDm_session_api(request):
+    
+    if not request.user.is_authenticated:
+        return JsonResponse({'error': 'Authentication required'}, status=401)
+
+   
+    user = request.user 
+    user_id = user.id
+
+    if request.method == 'POST':
+        session_id = request.POST.get('session_id')
+        session_title = request.POST.get('session_title')
+        session_name = request.POST.get('session_name')
+        
+
+        
+       
+
+        creator_id = request.POST.get('creator_id')
+        print("creator_id",creator_id)
+        
+        if str(user_id) == str(creator_id):
+            return JsonResponse({'error': "You cannot book your own session."}, status=403)
+       
+        creator_session = None
+        
+        if session_name == 'Priority Demo':
+            creator_session = ServicePriorityDmForm.objects.filter(id=session_id, creator_id=creator_id).first()
+       
+        print("creator_session",creator_session)
+       
+        print("session_id",session_id,session_title)
+        if not creator_session:
+            return JsonResponse({'error': 'Creator has updated availability, session not found or unavailable.'}, status=400)
+
+
+        existing_booking = BookingStatus.objects.filter(
+            session_id=session_id,
+            user_id=user_id,
+            session_name=session_name
+        ).exists()
+
+        if existing_booking:
+            return JsonResponse({'error': 'This slot is already booked. no booking available.'}, status=400)
+
+        # 5. Create the booking if all checks pass
+        booking_status = BookingStatus.objects.create(
+            user_id=user_id,
+            session_title=session_title,
+            session_id=session_id,
+            session_name=session_name,
+            status="success",
+            creator_id=creator_id,
+        )
+
+
+
+        try:
+            creator = UserProfile.objects.get(id=creator_id)
+        except UserProfile.DoesNotExist:
+            return JsonResponse({'error': 'Creator not found'}, status=404)
+        
+        creator_subject = "New Session Booking Alert"
+        creator_message = f"""
+Hello {creator.firstname},
+
+{user.firstname} {user.lastname} has booked your session.
+
+Session Title: {session_title}
+
+Please log in to your dashboard to view details.
+
+Thank you!
+"""
+        send_mail(
+            subject=creator_subject,
+            message=creator_message,
+            from_email='xhibiter@gmail.com',
+            recipient_list=[creator.email],
+            fail_silently=False,
+        )
+
+        user_subject = "Session Booking Confirmation"
+        user_message = f"""
+Hello {user.firstname} {user.lastname},
+
+Your session booking with {creator.firstname} {creator.lastname} is confirmed.
+
+Session Title: {session_title}
+
+Thank you for booking!
+
+Best regards,
+Team
+"""
+        send_mail(
+            subject=user_subject,
+            message=user_message,
+            from_email='xhibiter@gmail.com',
+            recipient_list=[user.email],
+            fail_silently=False,
+        )
+
+        return JsonResponse({'message': 'Booking successful', 'booking_id': booking_status.id}, status=201)
+
+    return JsonResponse({'error': 'Invalid request method'}, status=400)
+
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.http import JsonResponse
+from datetime import datetime
+import pytz
+from collections import defaultdict
+
 @csrf_exempt
 @login_required
 def get_booked_times(request):
-    selected_date = request.GET.get('selectedDate')
     creator_id = request.GET.get('creator_id')
     session_name = request.GET.get('session_name')
+    model_id = request.GET.get('model_id')
+    buyer_timezone = request.GET.get('buyer_timezone')
+    creator_timezone = request.GET.get('creator_timezone')
+    selected_date_str = request.GET.get('selectedDate')  
 
-    if not selected_date or not creator_id:
+    if not creator_id or not buyer_timezone or not creator_timezone or not selected_date_str:
         return JsonResponse({'error': 'Missing parameters'}, status=400)
 
-    # Get all booked times
-    booked = BookingStatus.objects.filter(
-        selectedDate=selected_date,
+    # Setup timezones
+    creator_tz = pytz.timezone(creator_timezone)
+    buyer_tz = pytz.timezone(buyer_timezone)
+
+    # Get all bookings for the creator/session
+    bookings = BookingStatus.objects.filter(
         creator_id=creator_id,
         session_name=session_name
     )
-    print("bookingtimes",booked)
-    booked_times = booked.values_list('selectedTime', flat=True)
-    booked_times_str = [bt.strftime('%I:%M %p') for bt in booked_times]  
 
+    converted_bookings = []
+    booking_counts_by_date = defaultdict(int)
+
+    for booking in bookings:
+        if not booking.selectedDate or not booking.selectedTime:
+            continue
+
+        # Build datetime in creator timezone
+        creator_dt = creator_tz.localize(datetime.combine(booking.selectedDate, booking.selectedTime))
+        # Convert to buyer timezone
+        buyer_dt = creator_dt.astimezone(buyer_tz)
+        buyer_date_str = buyer_dt.strftime('%Y-%m-%d')
+
+        # Count bookings per date
+        booking_counts_by_date[buyer_date_str] += 1
+
+        converted_bookings.append({
+            'buyer_datetime': buyer_dt.strftime('%Y-%m-%dT%H:%M:%S'),
+            'time_only': buyer_dt.strftime('%H:%M:%S'),
+            'buyer_date': buyer_date_str,
+        })
+
+ 
     try:
-        service_form = ServiceVideoForm.objects.get(id=request.GET.get('model_id'))
+        
+        service_form = ServiceVideoForm.objects.get(id=model_id)
         max_bookings = int(service_form.maxBookings or 0)
-    except ServiceVideoForm.DoesNotExist:
+    except Exception:
         max_bookings = 0
 
-    booking_count = booked.count()
+    selected_date_booking_count = booking_counts_by_date[selected_date_str]
+    is_max_booking_reached = selected_date_booking_count >= max_bookings if max_bookings else False
 
     return JsonResponse({
-        'booked_times': booked_times_str,
-        'booking_count': booking_count,
-        'max_bookings': max_bookings
+        'converted_bookings': converted_bookings,
+        'booking_count_for_selected_date': selected_date_booking_count,
+        'is_max_booking_reached': is_max_booking_reached
     })
 
 
@@ -967,12 +1323,12 @@ def get_booked_times(request):
 @login_required
 def creator_bookings(request):
     try:
-          profile = UserProfile.objects.get(id=request.user.id)
+        profile = UserProfile.objects.get(id=request.user.id)
     except UserProfile.DoesNotExist:
-          return HttpResponseForbidden("Access denied.")  
+        raise Http404("Page not found.")
 
     if not profile.is_creator:
-        return HttpResponseForbidden("Only creators can access this page.")
+        raise Http404("Page not found.")
     creator_id = request.user.id 
     bookings = BookingStatus.objects.filter(creator_id=creator_id)  
 
@@ -1010,20 +1366,24 @@ def creator_bookings(request):
     return render(request, 'creator-bookings.html', {
         "user_bookings": user_bookings,
     })
-
-
+    
+from django.utils.timezone import make_aware, localtime
+from pytz import timezone, UnknownTimeZoneError
 from datetime import datetime
-from django.utils.timezone import make_aware
+from django.http import HttpResponseForbidden
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 
 @login_required
 def buyer_bookings(request):
     try:
-          profile = UserProfile.objects.get(id=request.user.id)
+        profile = UserProfile.objects.get(id=request.user.id)
     except UserProfile.DoesNotExist:
-          return HttpResponseForbidden("Access denied.")  
+        return HttpResponseForbidden("Access denied.")  
 
-    if  profile.is_creator:
+    if profile.is_creator:
         return HttpResponseForbidden("Only buyers can access this page.")
+        
     user_id = request.user.id
     bookings = BookingStatus.objects.filter(user_id=user_id)
 
@@ -1036,29 +1396,75 @@ def buyer_bookings(request):
         session = None
         if booking.session_name == "Video":
             session = ServiceVideoForm.objects.filter(id=booking.session_id).first()
+            session_date = booking.selectedDate if session else None
+            session_time = booking.selectedTime if session else None
+            session_timezone = session.timezone if session else None
+            booking_timezone =booking.booking_timezone 
         elif booking.session_name == "Priority Demo":
             session = ServicePriorityDmForm.objects.filter(id=booking.session_id).first()
+            session_date = None
+            session_time =  None
+            session_timezone =  None
         elif booking.session_name == "Webinar":
             session = ServiceWebinarForm.objects.filter(id=booking.session_id).first()
+            session_date = session.session_date if session else None
+            session_time = session.session_time if session else None
+            session_timezone =  None
+
         creator = UserProfile.objects.filter(id=booking.creator_id).first()
-        
         creator_full_name = f"{creator.firstname} {creator.lastname}" if creator else "Unknown"
+
+        
+        creator_timezone = session_timezone or 'Asia/Kolkata'
+        buyer_timezone_str = booking_timezone or 'Asia/Kolkata'
+
+        # Ensure both timezones are valid
+        try:
+            creator_tz = timezone(creator_timezone)
+            buyer_tz = timezone(buyer_timezone_str)
+        except UnknownTimeZoneError:
+            creator_tz = timezone('Asia/Kolkata')  # fallback if creator timezone is invalid
+            buyer_tz = timezone('Asia/Kolkata')  # fallback if buyer timezone is invalid
+
         item = {
             "booking_id": booking.id,
             "session_name": booking.session_name,
-            "selected_date": booking.selectedDate,
-            "selected_time": booking.selectedTime,
+            "selected_date": session_date,
+            "selected_time": session_time,
             "status": booking.status,
             "session_title": booking.session_title if session else "Session Not Found",
             "creator": creator_full_name
         }
 
         if booking.selectedDate and booking.selectedTime:
-            booking_datetime = make_aware(datetime.combine(booking.selectedDate, booking.selectedTime))
-            if booking_datetime >= now:
-                upcoming_bookings.append(item)
+            booking_datetime_creator = datetime.combine(booking.selectedDate, booking.selectedTime)
+            booking_datetime_creator = creator_tz.localize(booking_datetime_creator)
+            print('booking_datetime_creator', booking_datetime_creator)
+
+            booking_datetime_utc = booking_datetime_creator.astimezone(timezone('UTC'))
+            print('booking_datetime_utc', booking_datetime_utc)
+
+            buyer_time = localtime(booking_datetime_utc, buyer_tz)
+            print("buyer_time", buyer_time)
+            print("now",now)
+            buyer_timezone = pytz.timezone(booking_timezone)  # Buyer's timezone (e.g., Asia/Kolkata)
+            now_buyer_time = datetime.now(buyer_timezone)
+
+            if buyer_time >= now_buyer_time:
+                upcoming_bookings.append({
+                    **item, 
+                    'display_date': buyer_time.strftime('%d %B %Y'),  # Format: 29 April 2025
+                    'display_time': buyer_time.strftime('%I:%M %p')   # Format: 12:00 AM
+                })
             else:
-                past_bookings.append(item)
+                past_bookings.append({
+                    **item, 
+                    'display_date': buyer_time.strftime('%d %B %Y'),  # Format: 29 April 2025
+                    'display_time': buyer_time.strftime('%I:%M %p')   # Format: 12:00 AM
+                })
+
+            item['creator_display_time'] = booking_datetime_creator
+
         else:
             past_bookings.append(item)
 
@@ -1066,3 +1472,4 @@ def buyer_bookings(request):
         "upcoming_bookings": upcoming_bookings,
         "past_bookings": past_bookings
     })
+

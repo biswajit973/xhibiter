@@ -63,6 +63,7 @@
                 <a href="#" class="text-accent">What is a wallet?</a>
               </p>
                 <form id="loginForm">
+
                     <div class="mb-3 w-full">
                       <label for="email" class="mb-1 block font-display  text-left  text-sm text-jacarta-700 dark:text-white"
                         >Email<span class="text-red">*</span></label
@@ -475,12 +476,14 @@
                 
                 var email_or_contact = $('#email_or_contact').val();
                 var password = $('#password').val();
-                var recaptcha_token = grecaptcha.getResponse(); // Fetch the token right before sending the request
+                var recaptcha_token = grecaptcha.getResponse(); 
                 
                 if (!recaptcha_token) {
                     toastr.error('Please complete the reCAPTCHA.', 'Error');
-                    return; // Prevent the form submission if reCAPTCHA is not completed
+                    return; 
                 }
+                const urlParams = new URLSearchParams(window.location.search);
+                const nextUrl = urlParams.get('next') || '/create/';
                 
                 $.ajax({
                     url: '/login_api/', 
@@ -488,7 +491,8 @@
                     data: {
                         email_or_contact: email_or_contact,
                         password: password,
-                        recaptcha_token: recaptcha_token
+                        recaptcha_token: recaptcha_token,
+                        next:nextUrl
                     },
                     success: function(response) {
                         console.log('Success:', response); 

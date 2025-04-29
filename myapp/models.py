@@ -89,7 +89,7 @@ class ServiceVideoForm(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)  
     selectedDates = models.CharField(max_length=255,null=True,blank=True)
     selectedTime = models.CharField(max_length=255,null=True,blank=True)
-
+    timezone =  models.CharField(max_length=255,null=True,blank=True)
     def save(self, *args, **kwargs):
         old_slug = None
         old_title = None
@@ -122,7 +122,7 @@ class ServiceVideoForm(models.Model):
         return reverse('item', kwargs={'slug': self.slug})
 
     def __str__(self):
-        return f"{self.title} - {self.creator}"
+        return f"{self.title} - {self.creator} - {self.timezone}"
 
     
     
@@ -228,11 +228,9 @@ class BookingStatus(models.Model):
     status = models.CharField(max_length=7,null=True,blank=True)   
     user_id = models.IntegerField(null=True,blank=True)
     creator_id  = models.IntegerField(null=True,blank=True)
-    
-    
-# models.py
-from django.db import models
+    booking_timezone = models.CharField(max_length=255,null=True,blank=True)  
 
+    
 class ServiceSlugRouter(models.Model):
     slug = models.SlugField(unique=True)
     model_type = models.CharField(max_length=50)

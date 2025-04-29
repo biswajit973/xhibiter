@@ -34,6 +34,19 @@
       .form-step.active { display: block; }
       .hidden { display: none; }
       .text-red-500 { color : red ;}
+      .spinner {
+        width: 50px;
+        height: 50px;
+        border: 5px solid #ccc;
+        border-top: 5px solid #3498db;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      to {
+          transform: rotate(360deg);
+      }
+  }
     </style>
   </head>
 
@@ -42,6 +55,11 @@
     itemscope
     itemtype="http://schema.org/WebPage"
   >
+
+ <div id="loadingSpinner" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+background: rgba(255,255,255,0.7); z-index: 9999; align-items: center; justify-content: center;">
+  <div class="spinner"></div>
+</div>
     <main>
       <!-- Login -->
       <section class="relative h-screen">
@@ -180,8 +198,9 @@
                           type="text"
                           required
                         />
+                        <span id="buyer-first-name-error" class="text-red-500 text-sm block text-left"></span>
                       </div>
-                      <span id="buyer-first-name-error" class="text-red-500 text-sm block text-left"></span>
+                     
 
                       <div class="mb-6 w-1/2">
                         <label for="lastname" class="mb-1 block font-display  text-left  text-sm text-jacarta-700 dark:text-white"
@@ -194,8 +213,9 @@
                           type="text"
                           required
                         />
+                        <span id="buyer-last-name-error" class="text-red-500 text-sm block text-left"></span>
                       </div>
-                      <span id="buyer-last-name-error" class="text-red-500 text-sm block text-left"></span>
+                      
 
                     </div>
                     <div class="flex space-x-7">
@@ -210,9 +230,9 @@
                           type="email"
                           required
                         />
-                
+                        <span id="buyer-email-error" class="text-red-500 text-sm block text-left"></span>
                       </div>
-                      <span id="buyer-email-error" class="text-red-500 text-sm block text-left"></span>
+                     
 
                       <div class="mb-6 w-1/2">
                         <label for="contact" class="mb-1 block font-display text-sm  text-left text-jacarta-700 dark:text-white"
@@ -225,8 +245,9 @@
                           type="text"
                           required
                         />
+                        <span id="buyer-contact-error" class="text-red-500 text-sm block text-left"></span>
                       </div>
-                      <span id="buyer-contact-error" class="text-red-500 text-sm block text-left"></span>
+                      
 
                     </div>
                     <div class="flex space-x-7">
@@ -241,8 +262,9 @@
                           type="password"
                           required
                         />
+                        <span id="buyer-password-error" class="text-red-500 text-sm block text-left"></span>
                       </div>
-                      <span id="buyer-password-error" class="text-red-500 text-sm block text-left"></span>
+                     
 
                       <div class="mb-6 w-1/2">
                         <label for="confirmPassword" class="mb-1 block font-display text-sm  text-left text-jacarta-700 dark:text-white"
@@ -255,8 +277,9 @@
                           type="password"
                           required
                         />
+                        <span id="buyer-confirmpassword-error" class="text-red-500 text-sm block text-left"></span>
                       </div>
-                      <span id="buyer-confirmpassword-error" class="text-red-500 text-sm block text-left"></span>
+                     
 
                     </div>
                     <div id="buyer-recaptcha" class="mb-3"
@@ -1166,6 +1189,7 @@
         formData.append('password2', confirmPassword);
         formData.append('creator_recaptcha_token', creator_recaptcha_token);
 
+        document.getElementById('loadingSpinner').style.display = 'flex';
         // Send data via AJAX
         $.ajax({
             url: '/signup_api/',
@@ -1188,12 +1212,12 @@
                 var firstKey = Object.keys(errors)[0];
                 var firstError = errors[firstKey][0];
                 toastr.error(firstError, 'Error');
-
-                if (errors) {
-                    grecaptcha.reset();  
-               
-                }
-            }
+                    grecaptcha.reset(creatorWidgetId);  
+                
+            },complete: function() {
+          
+              document.getElementById('loadingSpinner').style.display = 'none';
+          }
         });
     });
 
@@ -1209,7 +1233,7 @@
           let buyerConfirmPasswordError = document.getElementById('buyer-confirmpassword-error');
           let buyerEmail = document.getElementById('buyer-email');
           let buyerContact = document.getElementById('buyer-contact');
-          let buyerEmailError = document.getElementById('email-error');
+          let buyerEmailError = document.getElementById('buyer-email-error');
           let buyerContactError = document.getElementById('buyer-contact-error');
           let emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
           let contactRegex = /^[0-9]{10}$/;
@@ -1371,7 +1395,7 @@
       formData.append('password2', confirmPassword);
       formData.append('buyer_recaptcha_token', buyer_recaptcha_token);
 
-      // Send data via AJAX
+      document.getElementById('loadingSpinner').style.display = 'flex';
       $.ajax({
           url: '/buyer_signup_api/',
           type: 'POST',
@@ -1394,11 +1418,11 @@
               var firstError = errors[firstKey][0];
               toastr.error(firstError, 'Error');
 
-              if (errors) {
-                  grecaptcha.reset();  
-             
-              }
-          }
+              grecaptcha.reset(buyerWidgetId);  
+          },complete: function() {
+          
+            document.getElementById('loadingSpinner').style.display = 'none';
+        }
       });
   });
 
