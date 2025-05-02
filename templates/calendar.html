@@ -1,0 +1,299 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <!-- Main Content -->
+    <div class="min-h-screen bg-gray-100 flex items-center justify-center pt-24 px-8">
+    <div class="bg-white p-6 rounded-lg shadow w-full max-w-3xl">
+        <!-- Header -->
+        <div class="flex items-center justify-center mb-6">
+        <h1 class="text-2xl font-semibold text-gray-800">Availability</h1>
+        </div>
+        
+
+        <!-- Schedule Table -->
+        <div class="flex justify-center mt-6">
+        <div id="schedule-container" class="space-y-6"></div>
+        <div>
+    </div>
+    </div>
+<!-- Save Button -->
+    <div class="flex justify-center mt-6">
+      <button id="saveBtn" class="bg-accent text-white px-4 py-2 rounded">Save Availability</button>
+    </div>
+    <script>
+    const daysOfWeek = [
+        "Monday", "Tuesday", "Wednesday",
+        "Thursday", "Friday", "Saturday", "Sunday"
+    ];
+
+    const timeOptions = [
+        "12:00 AM", "12:15 AM", "12:30 AM", "12:45 AM",
+        "01:00 AM", "01:15 AM", "01:30 AM", "01:45 AM",
+        "02:00 AM", "02:15 AM", "02:30 AM", "02:45 AM",
+        "03:00 AM", "03:15 AM", "03:30 AM", "03:45 AM",
+        "04:00 AM", "04:15 AM", "04:30 AM", "04:45 AM",
+        "05:00 AM", "05:15 AM", "05:30 AM", "05:45 AM",
+        "06:00 AM", "06:15 AM", "06:30 AM", "06:45 AM",
+        "07:00 AM", "07:15 AM", "07:30 AM", "07:45 AM",
+        "08:00 AM", "08:15 AM", "08:30 AM", "08:45 AM",
+        "09:00 AM", "09:15 AM", "09:30 AM", "09:45 AM",
+        "10:00 AM", "10:15 AM", "10:30 AM", "10:45 AM",
+        "11:00 AM", "11:15 AM", "11:30 AM", "11:45 AM",
+        "12:00 PM", "12:15 PM", "12:30 PM", "12:45 PM",
+        "01:00 PM", "01:15 PM", "01:30 PM", "01:45 PM",
+        "02:00 PM", "02:15 PM", "02:30 PM", "02:45 PM",
+        "03:00 PM", "03:15 PM", "03:30 PM", "03:45 PM",
+        "04:00 PM", "04:15 PM", "04:30 PM", "04:45 PM",
+        "05:00 PM", "05:15 PM", "05:30 PM", "05:45 PM",
+        "06:00 PM", "06:15 PM", "06:30 PM", "06:45 PM",
+        "07:00 PM", "07:15 PM", "07:30 PM", "07:45 PM",
+        "08:00 PM", "08:15 PM", "08:30 PM", "08:45 PM",
+        "09:00 PM", "09:15 PM", "09:30 PM", "09:45 PM",
+        "10:00 PM", "10:15 PM", "10:30 PM", "10:45 PM",
+        "11:00 PM", "11:15 PM", "11:30 PM", "11:45 PM"
+      ];
+      
+
+    const timeValues = [
+        "12:00 AM", "12:15 AM", "12:30 AM", "12:45 AM",
+        "01:00 AM", "01:15 AM", "01:30 AM", "01:45 AM",
+        "02:00 AM", "02:15 AM", "02:30 AM", "02:45 AM",
+        "03:00 AM", "03:15 AM", "03:30 AM", "03:45 AM",
+        "04:00 AM", "04:15 AM", "04:30 AM", "04:45 AM",
+        "05:00 AM", "05:15 AM", "05:30 AM", "05:45 AM",
+        "06:00 AM", "06:15 AM", "06:30 AM", "06:45 AM",
+        "07:00 AM", "07:15 AM", "07:30 AM", "07:45 AM",
+        "08:00 AM", "08:15 AM", "08:30 AM", "08:45 AM",
+        "09:00 AM", "09:15 AM", "09:30 AM", "09:45 AM",
+        "10:00 AM", "10:15 AM", "10:30 AM", "10:45 AM",
+        "11:00 AM", "11:15 AM", "11:30 AM", "11:45 AM",
+        "12:00 PM", "12:15 PM", "12:30 PM", "12:45 PM",
+        "01:00 PM", "01:15 PM", "01:30 PM", "01:45 PM",
+        "02:00 PM", "02:15 PM", "02:30 PM", "02:45 PM",
+        "03:00 PM", "03:15 PM", "03:30 PM", "03:45 PM",
+        "04:00 PM", "04:15 PM", "04:30 PM", "04:45 PM",
+        "05:00 PM", "05:15 PM", "05:30 PM", "05:45 PM",
+        "06:00 PM", "06:15 PM", "06:30 PM", "06:45 PM",
+        "07:00 PM", "07:15 PM", "07:30 PM", "07:45 PM",
+        "08:00 PM", "08:15 PM", "08:30 PM", "08:45 PM",
+        "09:00 PM", "09:15 PM", "09:30 PM", "09:45 PM",
+        "10:00 PM", "10:15 PM", "10:30 PM", "10:45 PM",
+        "11:00 PM", "11:15 PM", "11:30 PM", "11:45 PM"
+      ].map((time, index) => ({ time, value: index }));
+
+      const container = document.getElementById("schedule-container");
+
+      daysOfWeek.forEach(day => {
+        const id = day.toLowerCase();
+      
+        const dayBlock = document.createElement("div");
+        dayBlock.innerHTML = `
+          <div class="flex items-start space-x-4 w-full py-2">
+              <!-- Checkbox and Day Label -->
+              <div class="flex items-center space-x-2 w-48 flex-shrink-0">
+                  <input type="checkbox" id="${id}-checkbox" class="form-checkbox text-indigo-600 w-5 h-5" />
+                  <label for="${id}-checkbox" class="text-gray-800 font-medium whitespace-nowrap">${day}</label>
+              </div>
+      
+              <!-- Time slots and Unavailable Message -->
+              <div class="flex-1 min-w-[300px]">
+                  <div class="space-y-2 hidden" id="${id}-time-container">
+                      <div class="flex items-center space-x-2" id="${id}-first-slot">
+                          ${renderTimeDropdowns(false)}
+                      </div>
+                  </div>
+                  <div id="${id}-unavailable" class="text-red-500 text-sm mt-1">Unavailable</div>
+              </div>
+          </div>
+        `;
+      
+        container.appendChild(dayBlock);
+      });
+      
+      function renderTimeDropdowns(isRemovable = false) {
+        const options = [`<option value="">Select Time</option>`]
+        .concat(timeOptions.map(t => `<option value="${t}">${t}</option>`))
+        .join('');
+                return `
+          <div class="flex flex-col space-y-1 w-full">
+              <div class="flex items-end space-x-6">
+                  <div class="flex flex-col w-1/2">
+                      <label class="text-sm text-gray-700 mb-1">From</label>
+                      <select class="appearance-none border border-gray-300 rounded-md text-sm text-gray-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 time-select" data-type="from">
+                          ${options}
+                      </select>
+                  </div>
+                  <div class="flex flex-col w-1/2">
+                      <label class="text-sm text-gray-700 mb-1">To</label>
+                      <select class="appearance-none border border-gray-300 rounded-md text-sm text-gray-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 time-select" data-type="to">
+                          ${options}
+                      </select>
+                  </div>
+              </div>
+              <div class="text-red-500 text-xs error-message hidden">From time should be less than To time.</div>
+              <div class="text-red-500 text-xs overlap-message hidden">This time slot overlaps with an existing slot.</div>
+          </div>
+        `;
+      }
+      
+      const timeSlots = {};
+      
+      daysOfWeek.forEach(day => {
+        const id = day.toLowerCase();
+        const checkbox = document.getElementById(`${id}-checkbox`);
+        const timeContainer = document.getElementById(`${id}-time-container`);
+        const unavailable = document.getElementById(`${id}-unavailable`);
+      
+        checkbox.addEventListener("change", () => {
+          if (checkbox.checked) {
+            timeContainer.classList.remove("hidden");
+            unavailable.classList.add("hidden");
+          } else {
+            timeContainer.classList.add("hidden");
+            unavailable.classList.remove("hidden");
+            timeContainer.innerHTML = `
+              <div class="flex items-center space-x-2" id="${id}-first-slot">
+                  ${renderTimeDropdowns(false)} <!-- keeps the first slot without remove button -->
+              </div>
+            `;
+            timeSlots[day.toLowerCase()] = [];
+          }
+        });
+      });
+      
+      container.addEventListener("change", (e) => {
+        if (e.target.classList.contains("time-select")) {
+          const dropdownWrapper = e.target.closest(".flex-1"); 
+          if (!dropdownWrapper) return;
+      
+          const fromSelect = dropdownWrapper.querySelector('select[data-type="from"]');
+          const toSelect = dropdownWrapper.querySelector('select[data-type="to"]');
+          const errorMessage = dropdownWrapper.querySelector(".error-message");
+      
+          if (!fromSelect || !toSelect || !errorMessage) return;
+
+          if (fromSelect.value === "" || toSelect.value === "") {
+            errorMessage.textContent = "Please select both From and To time.";
+            errorMessage.classList.remove("hidden");
+            return;
+          }
+      
+          const fromIndex = timeValues.findIndex(option => option.time === fromSelect.value);
+          const toIndex = timeValues.findIndex(option => option.time === toSelect.value);
+      
+          if (fromIndex === toIndex) {
+            errorMessage.textContent = "From and To time cannot be the same.";
+            errorMessage.classList.remove("hidden");
+          } else if (fromIndex > toIndex) {
+            errorMessage.textContent = "From time should be less than To time.";
+            errorMessage.classList.remove("hidden");
+          } else {
+            errorMessage.classList.add("hidden");
+          }
+      
+          const daySection = e.target.closest(".flex.items-start");
+          if (daySection) {
+            const dayCheckbox = daySection.querySelector("input[type='checkbox']");
+            const dayId = dayCheckbox ? dayCheckbox.id.split("-")[0] : null;
+      
+            if (dayId && fromIndex < toIndex) {
+              timeSlots[dayId] = [{ from: fromIndex, to: toIndex }];
+            }
+          }
+        }
+      });
+      
+      
+
+
+    $('#saveBtn').on('click', function () {
+      let hasErrors = false;
+      let hasEmptyDropdowns = false;
+    
+      const checkedDays = $('input[type="checkbox"]:checked');
+    
+      checkedDays.each(function () {
+        const dayId = $(this).attr('id').split('-')[0];
+        const container = $('#' + dayId + '-time-container');
+    
+        if (container.find('.error-message:visible, .overlap-message:visible').length > 0) {
+          hasErrors = true;
+          return false; 
+        }
+    
+        container.find('.time-select').each(function () {
+          if ($(this).val() === "") {
+            hasEmptyDropdowns = true;
+            return false; 
+          }
+        });
+    
+        if (hasEmptyDropdowns) return false; 
+      });
+    
+      if (hasErrors || hasEmptyDropdowns) {
+        alert("Please select valid and complete time ranges before saving.");
+        return;
+      }
+      
+        const payload = {};
+        const daysOfWeek = [
+          "monday", "tuesday", "wednesday",
+          "thursday", "friday", "saturday", "sunday"
+        ];
+      
+        daysOfWeek.forEach(function (day) {
+          const checkbox = $('#' + day + '-checkbox');
+          if (checkbox.is(':checked')) {
+            const container = $('#' + day + '-time-container');
+            const from = container.find('select[data-type="from"]').val();
+            const to = container.find('select[data-type="to"]').val();
+            payload[day] = { from: from, to: to };
+          }
+        });
+      
+        $.ajax({
+          url: "{% url 'save_availability' %}",
+          type: "POST",
+          contentType: "application/json",
+          data: JSON.stringify(payload),
+          
+          success: function (response) {
+            alert("Availability saved successfully!");
+            location.reload(); // Reload the page on success
+          },
+          error: function (xhr, status, error) {
+            console.error("Save failed:", error);
+            alert("An error occurred while saving.");
+          }
+        });
+      });
+      
+
+      const existingAvailability = {{ availability|safe }};
+      console.log(existingAvailability)
+      if (Array.isArray(existingAvailability) && existingAvailability.length > 0) {
+        existingAvailability.forEach(entry => {
+          const id = entry.day.toLowerCase();
+          const checkbox = document.getElementById(`${id}-checkbox`);
+          const container = document.getElementById(`${id}-time-container`);
+          const fromSelect = container.querySelector('select[data-type="from"]');
+          const toSelect = container.querySelector('select[data-type="to"]');
+    
+          checkbox.checked = true;
+          container.classList.remove('hidden');
+          document.getElementById(`${id}-unavailable`).classList.add("hidden");
+    
+          if (fromSelect && toSelect) {
+            fromSelect.value = entry.from_time;
+            toSelect.value = entry.to_time;
+          }
+        });
+      }
+      
+    </script>
+
+
+  {% endblock %}

@@ -81,15 +81,14 @@ class ServiceVideoForm(models.Model):
     creator = models.ForeignKey(UserProfile, on_delete=models.CASCADE) 
     slug = models.SlugField(unique=True, blank=True)
     bufferTime = models.CharField(max_length=20,null=True,blank=True)
-    maxBookings = models.CharField(max_length=20,null=True,blank=True)
     title = models.CharField(max_length=255,null=True,blank=True)
     description = models.TextField(null=True,blank=True,default="")
     duration = models.CharField(max_length=2,null=True,blank=True)
     amount = models.CharField(max_length=7,null=True,blank=True)  
+    maxBookings = models.CharField(max_length=20,null=True,blank=True)
     created_at = models.DateTimeField(auto_now_add=True)  
-    selectedDates = models.CharField(max_length=255,null=True,blank=True)
-    selectedTime = models.CharField(max_length=255,null=True,blank=True)
-    timezone =  models.CharField(max_length=255,null=True,blank=True)
+    
+    
     def save(self, *args, **kwargs):
         old_slug = None
         old_title = None
@@ -122,7 +121,7 @@ class ServiceVideoForm(models.Model):
         return reverse('item', kwargs={'slug': self.slug})
 
     def __str__(self):
-        return f"{self.title} - {self.creator} - {self.timezone}"
+        return f"{self.title} - {self.creator}"
 
     
     
@@ -228,7 +227,7 @@ class BookingStatus(models.Model):
     status = models.CharField(max_length=7,null=True,blank=True)   
     user_id = models.IntegerField(null=True,blank=True)
     creator_id  = models.IntegerField(null=True,blank=True)
-    booking_timezone = models.CharField(max_length=255,null=True,blank=True)  
+     
 
     
 class ServiceSlugRouter(models.Model):
@@ -239,4 +238,14 @@ class ServiceSlugRouter(models.Model):
     def __str__(self):
         return f"{self.slug} ({self.model_type})"
     
-    
+
+
+class Availability(models.Model):
+    creator = models.ForeignKey(UserProfile, on_delete=models.CASCADE) 
+    day = models.CharField(max_length=10)  
+    from_time = models.TimeField()
+    to_time = models.TimeField()
+    timezone =  models.CharField(max_length=255,null=True,blank=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.day}: {self.from_time} to {self.to_time}"    

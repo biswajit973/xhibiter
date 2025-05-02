@@ -131,21 +131,21 @@
                                 />
                                 </div>   
                                 <!-- Date picker -->
-                                <label for="timeSlots" class="mb-1 block font-display  text-left  text-jacarta-700 dark:text-white"
+                                {% comment %} <label for="timeSlots" class="mb-1 block font-display  text-left  text-jacarta-700 dark:text-white"
                                 > Select Available Dates<span class="text-red">*</span></label>
                             <div class="relative overflow-x-auto whitespace-nowrap space-x-4 p-2" id="dateSlider"></div>
 
                             <!-- Hidden field to hold selected dates -->
-                            <input type="hidden" id="selectedDates" name="selected_dates">
+                            <input type="hidden" id="selectedDates" name="selected_dates"> {% endcomment %}
 
                             <!-- Time slot selection -->
-                            <div class="mt-6" id="timeSlotsWrapper">
+                            {% comment %} <div class="mt-6" id="timeSlotsWrapper">
                                 <label for="timeSlots" class="mb-1 block font-display  text-left  text-jacarta-700 dark:text-white"
                                 > Select Time Slot Range<span class="text-red">*</span></label>
                             <div id="timeSlots" class="flex flex-wrap gap-2"></div>
                             <input type="hidden" id="selectedTime" name="selected_time">
-                            </div>
-                            <div class=" mb-6 mt-6 timeZone-field">
+                            </div> {% endcomment %}
+                            {% comment %} <div class=" mb-6 mt-6 timeZone-field">
                                 <label for="timezone" class="mb-1 block font-display  text-left  text-jacarta-700 dark:text-white"
                                 > Select Time Zone<span class="text-red">*</span></label>
                                 <select id="timezone" name="timezone" style="border: none; border-bottom: 2px solid #ccc; border-radius: 4px 4px 0 0; padding: 8px 12px; outline: none; background-color: transparent; font-size: 16px;">
@@ -189,7 +189,7 @@
                                   </select>
                                   
                                   
-                            </div>
+                            </div> {% endcomment %}
                             <div class="mb-6 mt-6 bufferTime-field">
                                 <label for="buffer-time" class="mb-1 block font-display text-left text-jacarta-700 dark:text-white"
                                     >Buffer Time(mins)<span class="text-red">*</span></label
@@ -362,87 +362,9 @@
     <script>
 
 
-        const timeSlots = [
-    '09:00 AM - 01:00 PM',
-    '02:00 PM - 06:00 PM',
-    '07:00 PM - 10:00 PM',
-    '09:00 AM - 10:00 PM'
-  ];
+ 
 
-  const dateSlider = document.getElementById('dateSlider');
-  const selectedDatesInput = document.getElementById('selectedDates');
-  const selectedTimeInput = document.getElementById('selectedTime');
-  const timeSlotsContainer = document.getElementById('timeSlots');
-
-  let selectedDates = [];
-
-  const today = new Date();
-  for (let i = 0; i < 14; i++) {
-    const date = new Date(today);
-    date.setDate(today.getDate() + i);
-
-    const dayName = date.toLocaleDateString('en-US', { weekday: 'short' });
-    const monthDay = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-
-    const button = document.createElement('button');
-    button.type ="button"
-    button.className = "inline-block px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-700 bg-white hover:bg-blue-100 transition";
-    button.innerHTML = `<div class="font-semibold">${dayName}</div><div>${monthDay}</div>`;
-    button.dataset.date = date.toISOString().split('T')[0];
-
-    button.addEventListener('click', function () {
-      const dateValue = this.dataset.date;
-      const index = selectedDates.indexOf(dateValue);
-
-      if (index === -1) {
-        // Add to selected
-        selectedDates.push(dateValue);
-        this.classList.remove('bg-white', 'text-gray-700'); // Remove default
-        this.classList.add("bg-accent", "text-white");    // Add active
-      } else {
-        // Remove from selected
-        selectedDates.splice(index, 1);
-        this.classList.remove("bg-accent", "text-white"); // Remove active
-        this.classList.add('bg-white', 'text-gray-700');    // Restore default
-      }
-    
-      selectedDatesInput.value = selectedDates.join(',');
-      console.log('dates',selectedDatesInput.value)
-    });
-
-    dateSlider.appendChild(button);
-  }
-
-  // Create time slot buttons (single-select)
-  timeSlots.forEach(slot => {
-    const slotBtn = document.createElement('button');
-    slotBtn.type = "button";
-    slotBtn.textContent = slot;
-    slotBtn.className = "px-3 py-1 border border-gray-300 rounded-md bg-white text-gray-700 hover:bg-blue-100 text-sm transition focus:outline-none";
-    slotBtn.dataset.time = slot;
-  
-    slotBtn.addEventListener('click', function () {
-      // If already selected, unselect
-      if (selectedTimeInput.value === this.dataset.time) {
-        this.classList.remove("bg-accent", "text-white");
-        this.classList.add('bg-white', 'text-gray-700');
-        selectedTimeInput.value = '';
-      } else {
-        // Deselect all first
-        timeSlotsContainer.querySelectorAll('button').forEach(btn => {
-          btn.classList.remove("bg-accent", "text-white");
-          btn.classList.add('bg-white', 'text-gray-700');
-        });
-  
-        // Select clicked
-        this.classList.remove('bg-white', 'text-gray-700');
-        this.classList.add("bg-accent", "text-white");
-        selectedTimeInput.value = this.dataset.time;
-      }
-    });
-  
-    timeSlotsContainer.appendChild(slotBtn);
-  });
+ 
    
             const defaultBgColor = $(".p-4").css("background-color");
 
@@ -517,13 +439,11 @@
 
             var duration = document.getElementById("video-duration").value;
             var amount = document.getElementById("video-amount").value;
-            var selectedDates = document.getElementById("selectedDates").value;
-            var selectedTime = document.getElementById("selectedTime").value;
+           
             var bufferTime = document.getElementById("video-buffer-time").value;
             var maxBookings = document.getElementById("video-max-bookings").value;
-            var timezone = document.getElementById("timezone").value;
             
-            if (!title || !duration || !amount || !description || !selectedDates || !selectedTime ||!bufferTime ||!maxBookings|| !timezone) {
+            if (!title || !duration || !amount || !description ||!bufferTime ||!maxBookings) {
                 toastr.error("please fill all the details")
           
                 return
@@ -536,11 +456,9 @@
 
             formData.append('duration', duration);
             formData.append('amount', amount);
-            formData.append('selectedDates', selectedDates);
-            formData.append('selectedTime', selectedTime);
+            
             formData.append('bufferTime', bufferTime);
             formData.append('maxBookings', maxBookings);
-            formData.append('timezone', timezone);
             
             $.ajax({
                 url: '/serviceVideo_api/',

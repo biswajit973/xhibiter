@@ -75,7 +75,10 @@ urlpatterns = [
    path('book_priorityDm_session_api/', views.book_priorityDm_session_api, name='book_priorityDm_session_api'),
    path("get-booked-times/", views.get_booked_times, name="get_booked_times"),
    path('creator/bookings/', views.creator_bookings, name='creator/bookings'),
-    path('buyer/my-bookings/', views.buyer_bookings, name='buyer/bookings'),
+   path('buyer/my-bookings/', views.buyer_bookings, name='buyer/bookings'),
+   path('creator/availability/', views.availability, name='creator/availability'),
+   path('save-availability/', views.save_availability, name='save_availability'),
+    path('get-availability-slots/', views.get_availability_slots, name='get_availability_slots'),
 
 
 

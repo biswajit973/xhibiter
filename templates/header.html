@@ -766,6 +766,14 @@
                 {% if user.is_creator %}
                 <li>
                   <a
+                    href="{% url 'creator/availability' %}"
+                    class="flex items-center rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
+                  >
+                    <span class="font-display text-sm text-jacarta-700 dark:text-white">Availability</span>
+                  </a>
+                </li>
+                <li>
+                  <a
                     href="{% url 'creator/bookings' %}"
                     class="flex items-center rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
                   >

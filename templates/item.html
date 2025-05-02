@@ -228,24 +228,14 @@ background: rgba(255,255,255,0.7); z-index: 9999; align-items: center; justify-c
       <!-- Section Title -->
       {% if session_type == "open" %}
       <h2 class="text-xl font-bold text-gray-700">When should we meet?</h2>
+<div class="relative overflow-x-auto whitespace-nowrap space-x-4 mb-4" id="dateSlider"></div>
 
-      <!-- Date Slider -->
-      <div class="relative overflow-x-auto whitespace-nowrap space-x-4" id="dateSlider">
-          <!-- Dynamic Dates Populated with JS -->
-      </div>
+<h3 class="time-option-text text-lg font-semibold text-gray-600 mb-2">Select time of the day</h3>
+<div id="timeOptions" class="flex flex-wrap gap-2"></div>
 
-      <!-- Time Section -->
-      <div>
-        
-            <h3 class="time-option-text text-lg font-semibold text-gray-600 mb-2">Select time of day</h3>
-            <div id="timeOptions" class="flex space-x-2 overflow-x-auto whitespace-nowrap scrollbar-thin">
-                <!-- Time buttons will be dynamically added here -->
-            </div>
-       
-        
-      </div>
+      
           
-<div class=" mb-4 mt-4 timeZone-field">
+{% comment %} <div class=" mb-4 mt-4 timeZone-field">
   <label for="timezone" class="text-lg font-semibold text-gray-600 mb-2"
   > Select Time Zone</label>
   <select id="timezone" name="timezone" style="border: none; border-bottom: 2px solid #ccc; border-radius: 4px 4px 0 0; padding: 8px 12px; outline: none; background-color: transparent; font-size: 16px;">
@@ -289,7 +279,7 @@ background: rgba(255,255,255,0.7); z-index: 9999; align-items: center; justify-c
     </select>
     
     
-</div>
+</div> {% endcomment %}
       <div id="additional-details-container">
         
         <h3 class="text-lg font-semibold text-gray-600 mb-2">Additional Details (optional)</h3>
@@ -462,8 +452,7 @@ background: rgba(255,255,255,0.7); z-index: 9999; align-items: center; justify-c
                   id ="openBidModal"
                   data-bs-toggle="modal"
                   data-bs-target="#placeBidModal"
-                  data-time="{{ selectedDate }}"
-                  data-time="{{ selectedTime }}"
+                  
                   class="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                   >Check Out</a
                 >
@@ -2406,311 +2395,133 @@ background: rgba(255,255,255,0.7); z-index: 9999; align-items: center; justify-c
 <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/utc.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/timezone.js"></script>
 
-<script>
-    dayjs.extend(window.dayjs_plugin_utc);
-    dayjs.extend(window.dayjs_plugin_timezone);
-</script>
 
+   
 
   {% if session_type == "open" %}
   <script>
-    let buyerTimezone=Intl.DateTimeFormat().resolvedOptions().timeZone; 
-    document.addEventListener("DOMContentLoaded", () => {
+    let availabilityData = [];
+let creatorId = "{{ item.creator.id }}";
+let sessionId = "{{ item.id }}";
 
-     
-      const defaultBuyerTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      
-  
-      const timezoneSelect = document.getElementById('timezone');
-      timezoneSelect.value =defaultBuyerTimezone;
-      timezoneSelect.value = buyerTimezone
-          renderDateButtons();
-          renderTimeOptions();
-      });
-    const { DateTime } = luxon;
-    
-const timezoneSelect = document.getElementById('timezone');
-timezoneSelect.addEventListener('change', function() {
-    if (timezoneSelect.value) {
-        buyerTimezone = timezoneSelect.value;
-        console.log("buyertimezone",buyerTimezone)
-                const dateButtonsContainer = document.getElementById('dateSlider');
-                dateButtonsContainer.innerHTML = ''; 
-        
-                const timeButtonsContainer = document.getElementById('timeOptions');
-                timeButtonsContainer.innerHTML = ''; 
-                renderDateButtons()
-                renderTimeOptions();
-        document.querySelectorAll(".date-btn").forEach(el => {
-          el.classList.remove("bg-accent", "text-white");
-          el.classList.add("bg-gray-200", "text-gray-700");
+let selectedDate = null;
+let selectedTime = null;
+let bookedTimes = [];
 
-      });
-      document.querySelectorAll(".time-btn").forEach(el => {
-        el.classList.remove("bg-accent", "text-white");
-        el.classList.add("bg-gray-200", "text-gray-700");
+document.addEventListener("DOMContentLoaded", function () {
+  fetch(`/get-availability-slots/?creator_id=${creatorId}&session_id=${sessionId}`)
+    .then(response => response.json())
+    .then(data => {
+      availabilityData = data.availability;
+      renderDateSlider();
     });
-
-    }
 });
 
-    const creatorTimezone = "{{ item.timezone }}";  // Set to creator's timezone
-    console.log("buyertimezone",buyerTimezone)
-    console.log("creatorTimezone",creatorTimezone)
+function renderDateSlider() {
+  const slider = document.getElementById("dateSlider");
+  slider.innerHTML = "";
 
-    
-    const itemSelectedDates = '{{ item.selectedDates }}';
-    const itemSelectedTime = '{{ item.selectedTime }}';
-    const bufferTime = parseInt('{{ item.bufferTime }}');
-    const duration = parseInt('{{ item.duration }}');
-    const bufferTimeInterval = bufferTime + duration;
-    
-    let selectedDate = null;
-    let selectedTime = null;
-    
-    const dateSlider = document.getElementById("dateSlider");
-    const timeOptions = document.getElementById("timeOptions");
-    const auctionDateTime = document.getElementById("auctionDateTime");
-    
-    // Helper: Format DateTime in 12-hour format
-    function formatTime12hr(dt) {
-        return dt.toFormat('hh:mm a');
-    }
-    
-    // Helper: Convert string time like "07:00 PM" into a DateTime in creator timezone
-    function getCreatorDateTime(dateISO, timeStr) {
-        const [time, modifier] = timeStr.trim().split(' ');
-        let [hours, minutes] = time.split(':').map(Number);
-        if (modifier === "PM" && hours !== 12) hours += 12;
-        if (modifier === "AM" && hours === 12) hours = 0;
-    
-        return DateTime.fromISO(dateISO, { zone: creatorTimezone }).set({ hour: hours, minute: minutes, second: 0 });
-    }
-    
-    function generateTimeSlots(startStr, endStr, dateISO, interval = bufferTimeInterval) {
-      const startTime = getCreatorDateTime(dateISO, startStr);
-      const endTime = getCreatorDateTime(dateISO, endStr);
-  
-      const slots = [];
-      let current = startTime;
-  
-      while (current <= endTime) {
-          const buyerDateTime = current.setZone(buyerTimezone);
-  
-          slots.push({
-              buyerDateISO: buyerDateTime.toISODate(), // Important: correct buyer date!
-              buyerDateTime,
-              creatorDateTime: current // (optional) original creator time
-          });
-  
-          current = current.plus({ minutes: interval });
-      }
-  
-      return slots;
-  }
-  
-  
-  
-  function renderTimeOptions() {
-    if (!selectedDate) return;
+  availabilityData.forEach((day) => {
+    const btn = document.createElement("button");
+    btn.className = "date-btn border inline-block w-20 text-center bg-gray-200 rounded-lg p-2 hover:bg-blue-200 transition text-gray-700";
+    btn.dataset.date = day.date;
 
-    const [startTime, endTime] = itemSelectedTime.split(' - ');
-    const dates = itemSelectedDates.split(',');
-    const timeSlots = [];
+    btn.innerHTML = `
+      <div class="text-sm font-bold">${day.day.slice(0, 3)}</div>
+      <div class="text-xs text-gray-600">${formatDate(day.date)}</div>
+    `;
 
-    dates.forEach(dateStr => {
-        const creatorDateISO = dateStr.trim();
-        const slots = generateTimeSlots(startTime, endTime, creatorDateISO);
-        timeSlots.push(...slots);
-    });
+    btn.addEventListener("click", function () {
+      selectedDate = day.date;
 
-    const now = DateTime.now().setZone(buyerTimezone);
-    const today = now.toISODate() === selectedDate;
-
-    timeOptions.innerHTML = '';
-    let availableSlotsCount = 0;
-
-    timeSlots.forEach(({ buyerDateISO, buyerDateTime }) => {
-        if (buyerDateISO !== selectedDate) return;
-
-        const isPast = today && buyerDateTime < now;
-        if (isPast) return;
-
-        const btn = document.createElement('button');
-        btn.className = "time-btn border bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300";
-        btn.dataset.time = formatTime12hr(buyerDateTime);
-        btn.textContent = formatTime12hr(buyerDateTime);
-        btn.addEventListener("click", () => selectTime(btn));
-        timeOptions.appendChild(btn);
-        availableSlotsCount++;
-    });
-
-    const timediv = document.querySelector(".time-option-text");
-
-    if (availableSlotsCount === 0) {
-        timediv.textContent = "No slots Available";
-        document.getElementById("additional-details-container").style.display="none"
-    } else {
-        timediv.textContent = "Select time of the day";
-         document.getElementById("additional-details-container").style.display="block"
-    }
-}
-
-
-function renderDateButtons() {
-  const [startTime, endTime] = itemSelectedTime.split(' - ');
-  const dates = itemSelectedDates.split(',');
-  const uniqueBuyerDates = new Set();
-
-  dates.forEach(dateStr => {
-      const creatorDateISO = dateStr.trim();
-      const slots = generateTimeSlots(startTime, endTime, creatorDateISO);
-
-      slots.forEach(slot => {
-          uniqueBuyerDates.add(slot.buyerDateISO); 
+      document.querySelectorAll(".date-btn").forEach(b => {
+        b.classList.remove("bg-accent", "text-white");
+        b.classList.add("bg-gray-200", "text-gray-700");
       });
-  });
 
-  const now = DateTime.now().setZone(buyerTimezone);
+      btn.classList.remove("bg-gray-200", "text-gray-700");
+      btn.classList.add("bg-accent", "text-white");
 
-  // ✅ Sort the dates before rendering
-  Array.from(uniqueBuyerDates)
-    .sort((a, b) => DateTime.fromISO(a) - DateTime.fromISO(b))
-    .forEach(buyerDateISO => {
-      const buyerDate = DateTime.fromISO(buyerDateISO, { zone: buyerTimezone });
+      fetch(`/get-booked-times/?creator_id=${creatorId}&session_name={{ model_type_label }}&model_id={{ item.id }}&selectedDate=${selectedDate}`)
+        .then(res => res.json())
+        .then(data => {
+          const isFullyBooked = data.fully_booked;
+          bookedTimes = data.booked_times.map(t => convert24To12HourWithLeadingZero(t));
+          if (isFullyBooked) {
+            document.getElementById("timeOptions").innerHTML = "<p class='text-gray-500'>No available slots</p>";
+            return;
+          }
+          renderSlots(day.slots);
+        });
+    });
 
-      // ✅ Check if date is today or future
-      if (buyerDate.startOf('day') < now.startOf('day')) return;
-
-      const day = buyerDate.toFormat('ccc'); // Tue
-      const dateLabel = buyerDate.toFormat('dd LLL'); // 25 Apr
-
-      const dateBtn = document.createElement("button");
-      dateBtn.className = "date-btn border inline-block w-20 text-center bg-gray-200 rounded-lg p-2 hover:bg-blue-200 transition";
-      dateBtn.innerHTML = `
-          <div class="text-sm font-bold">${day}</div>
-          <div class="text-xs text-gray-600">${dateLabel}</div>
-      `;
-      dateBtn.dataset.date = buyerDate.toISODate();
-      dateBtn.addEventListener("click", () => selectDate(dateBtn));
-      dateSlider.appendChild(dateBtn);
+    slider.appendChild(btn);
   });
 }
 
+function renderSlots(slots) {
+  const container = document.getElementById("timeOptions");
+  container.innerHTML = "";
 
-    
-    function selectDate(btn) {
-        document.querySelectorAll(".date-btn").forEach(el => {
-            el.classList.remove("bg-accent", "text-white");
-            el.classList.add("bg-gray-200", "text-gray-700");
-        });
-    
-        btn.classList.add("bg-accent", "text-white");
-        selectedDate = btn.dataset.date;
-        renderTimeOptions();
-        fetchBookedTimes(selectedDate);
-        updateAuctionDateTime();
-    }
-    
-    function selectTime(btn) {
-        if (btn.disabled) return;
-        document.querySelectorAll(".time-btn").forEach(el => {
-            el.classList.remove("bg-accent", "text-white");
-            el.classList.add("bg-gray-200", "text-gray-700");
-        });
-    
-        btn.classList.add("bg-accent", "text-white");
-        selectedTime = btn.dataset.time;
-        updateAuctionDateTime();
-    }
-    
-    function updateAuctionDateTime() {
-        if (selectedDate && selectedTime) {
-            auctionDateTime.textContent = `${selectedDate} - ${selectedTime}`;
-        }
-    }
-    
-    async function fetchBookedTimes(selectedDateBuyerTimezone) {
-      let creatorId = "{{ item.creator.id }}";
-      let model_type = "{{ model_type_label }}";
-      let model_id = "{{ item.id }}";
-      let creatorTimezone = "{{ item.timezone }}";
-  
-      if (!selectedDateBuyerTimezone || !creatorId || !buyerTimezone) return;
-  
-      const selectedDateBuyer = DateTime.fromISO(selectedDateBuyerTimezone, { zone: buyerTimezone });
-  
-      const selectedDateCreator = selectedDateBuyer.setZone(creatorTimezone);
-  
-      try {
-          const response = await fetch(`/get-booked-times/?selectedDate=${selectedDateCreator.toISODate()}&creator_id=${creatorId}&session_name=${model_type}&model_id=${model_id}&buyer_timezone=${buyerTimezone}&creator_timezone=${creatorTimezone}`);
-          const bookedData = await response.json();
-  
-          console.log("bookedData:", bookedData);
-  
-          // If there are no bookings or max booking is reached, show message
-          if (bookedData.is_max_booking_reached) {
-              document.getElementById('timeOptions').innerHTML = `<h3>No slots available</h3>`;
-              return;
-          }
-  
-          // Convert booked times to buyer's timezone and filter only those that match the selected date in buyer timezone
-          const bookedTimesForSelectedDate = bookedData.converted_bookings
-              .map(obj => {
-                  const buyerDateTime = DateTime.fromISO(obj.buyer_datetime, { zone: buyerTimezone });
-  
-                  // Filter to match the selected date (in buyer's timezone)
-                  if (buyerDateTime.toISODate() !== selectedDateBuyer.toISODate()) return null;
-  
-                  return formatTime12hrs(buyerDateTime);
-              })
-              .filter(Boolean);
-  
-          console.log("Filtered booked times on selected buyer date:", bookedTimesForSelectedDate);
-  
-          // Disable booked slots for the selected buyer date
-          disableBookedSlots(bookedTimesForSelectedDate);
-  
-      } catch (error) {
-          console.error("Error fetching booked times:", error);
-      }
+  if (slots.length === 0) {
+    container.innerHTML = "<p class='text-gray-500'>No available slots</p>";
+    return;
   }
-  
-  function disableBookedSlots(bookedTimesBuyerTimezone) {
-      const timeSlots = document.querySelectorAll('.time-btn');
-  
-      // Iterate over all time slot buttons
-      timeSlots.forEach((btn) => {
-          const time = btn.dataset.time; // Get the time associated with the button
-          const isBooked = bookedTimesBuyerTimezone.includes(time); // Check if the slot is booked
-  
-          if (isBooked) {
-              // Disable the button and mark it as unavailable
-              btn.disabled = true;
-              btn.textContent = "NA"; // Set the text to "NA" to show it's unavailable
-              btn.classList.add('bg-gray-400', 'cursor-not-allowed'); // Add styling for unavailable slots
-          } else {
-              // Enable the button and restore its original text
-              btn.disabled = false;
-              btn.textContent = btn.dataset.time; // restore text if not booked
-              btn.classList.remove('bg-gray-400', 'cursor-not-allowed'); // Remove the unavailable styling
-          }
-      });
-  }
-  
-  function formatTime12hrs(dateTime) {
-    const hour = dateTime.hour % 12 || 12;
-    const formattedHour = hour < 10 ? `0${hour}` : hour; 
-    const period = dateTime.hour >= 12 ? 'PM' : 'AM';
 
-    // Format the time as HH:MM AM/PM
-    return `${formattedHour}:${dateTime.minute < 10 ? '0' : ''}${dateTime.minute} ${period}`;
-}
+  container.className = "flex flex-wrap gap-2";
 
-  
+  slots.forEach(slot => {
+    const formattedSlotTime = slot.from;
+    const isBooked = bookedTimes.includes(formattedSlotTime);
+
+    const slotBtn = document.createElement("button");
+    slotBtn.style.backgroundColor = isBooked ? 'gray' : '';
+    slotBtn.textContent = isBooked ? formattedSlotTime : formattedSlotTime;
+    slotBtn.className = `time-btn border px-4 py-2 rounded-lg ${isBooked ? ' text-white cursor-not-allowed' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`;
    
-    
+    slotBtn.disabled = isBooked;
 
+    if (!isBooked) {
+      slotBtn.addEventListener("click", function () {
+        selectedTime = formattedSlotTime;
+
+        document.querySelectorAll(".time-btn").forEach(btn => {
+          btn.classList.remove("bg-accent", "text-white");
+          btn.classList.add("bg-gray-200", "text-gray-700");
+        });
+
+        slotBtn.classList.remove("bg-gray-200", "text-gray-700");
+        slotBtn.classList.add("bg-accent", "text-white");
+
+        const auctionDateTime = document.getElementById("auctionDateTime");
+        if (selectedDate && selectedTime) {
+          auctionDateTime.textContent = `${selectedDate} - ${selectedTime}`;
+        }
+      });
+    }
+
+    container.appendChild(slotBtn);
+  });
+}
+
+function formatDate(dateStr) {
+  const options = { day: '2-digit', month: 'short' };
+  const dateObj = new Date(dateStr);
+  return dateObj.toLocaleDateString('en-US', options);
+}
+
+function convert24To12HourWithLeadingZero(timeStr) {
+  const [hour, minute] = timeStr.split(":");
+  const date = new Date();
+  date.setHours(parseInt(hour), parseInt(minute));
+  return date.toLocaleTimeString('en-US', {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true
+  });
+}
+
+     
 document.querySelector('.book_session').addEventListener('click',function(){
 
   document.getElementById('loadingSpinner').style.display = 'flex';
@@ -2718,21 +2529,21 @@ let session_title = "{{ item.title|escapejs }}"
 let model_type = "{{ model_type_label}}"   
 let model_id = "{{ item.id }}"
 let creator_id = "{{ item.creator.id }}"
-let selected_Date = selectedDate
-let selected_Time = selectedTime
+
 console.log('session_type',model_type)
 console.log('session_id',model_id)
-console.log(selectedDate)
-console.log(selectedTime)
+
 let additionalDetails = document.getElementById('additional-details').value
-let timeZone = document.getElementById('timezone').value
+//let timeZone = document.getElementById('timezone').value
 console.log('creator_id',creator_id)
 
-if(!timeZone){
-  alert('Please select time zone.');
-  document.getElementById('loadingSpinner').style.display = 'none'; 
+if (!selectedDate || !selectedTime) {
+  alert("⚠️ Please select a date and time before booking.");
+  document.getElementById('loadingSpinner').style.display = 'none';
   return;
 }
+
+
 const formData = new FormData();
 
 
@@ -2740,41 +2551,10 @@ formData.append('session_title',session_title)
 formData.append('session_id',model_id)
 formData.append('session_name',model_type)
 formData.append('creator_id',creator_id)
+formData.append('selectedDate',selectedDate)
+formData.append('selectedTime',selectedTime)
 
 formData.append('additionalDetails',additionalDetails)
-
-formData.append('booking_timezone',timeZone)
-let creatorTimezone = "{{ item.timezone }}"; 
-
-
-    if (selected_Date && selected_Time) {
-        let datetimeStr = `${selected_Date} ${selected_Time}`;  
-
-         // Parse datetime as local
-    let naiveDatetime = dayjs(datetimeStr, "YYYY-MM-DD hh:mm A");
-
-    // Tell dayjs this time is in buyer's timezone
-    let datetimeInBuyerTZ = dayjs.tz(naiveDatetime.format("YYYY-MM-DD HH:mm"), buyerTimezone);
-
-    // Then convert to creator timezone
-    let datetimeInCreatorTZ = datetimeInBuyerTZ.tz(creatorTimezone);
-
-    let formattedDate = datetimeInCreatorTZ.format("YYYY-MM-DD");
-    let formattedTime = datetimeInCreatorTZ.format("hh:mm A");
-           
-        console.log('Converted Date:', formattedDate);
-        console.log('Converted Time:', formattedTime);
-
-        formData.append('selectedDate', formattedDate);
-        formData.append('selectedTime', formattedTime);
-    } else {
-        alert('Please select a date and time first.');
-        document.getElementById('loadingSpinner').style.display = 'none';
-        return;
-    }
-
-   
-
 
 
         $.ajax({
@@ -2824,6 +2604,7 @@ textarea.addEventListener("input", function () {
     textarea.value = textarea.value.slice(0, maxLength); 
   }
 });
+
 </script>
 
 {% endif %}
@@ -2843,6 +2624,9 @@ textarea.addEventListener("input", function () {
 });
 
   document.querySelector('.book_session').addEventListener('click',function(){
+
+    document.getElementById('loadingSpinner').style.display = 'flex';
+
     let session_title = "{{ item.title|escapejs }}"
     let model_type = "{{ model_type_label}}"   
     let model_id = "{{ item.id }}"
@@ -2869,6 +2653,8 @@ textarea.addEventListener("input", function () {
     
     if(!selectedDate || !selectedTime){
       alert("please select date and time")
+      document.getElementById('loadingSpinner').style.display = 'none';
+
       return
     }
     
@@ -2883,19 +2669,25 @@ textarea.addEventListener("input", function () {
                 alert("✅ Session booked successfully!");   
               },
               error: function (xhr, status, errorThrown) {
-                if (xhr.responseText.includes("login") && xhr.status === 302) {
+                if (xhr.status === 401) {
                   alert("🔒 Please log in to book a session.");
                   window.location.href = "/login/?next=" + window.location.pathname;
               }
                else if (xhr.status === 403 && xhr.responseJSON?.error?.includes("own session")) {
                     alert("❌ You cannot book your own session.");
+                    location.reload()
                 } else if (xhr.responseJSON?.error) {
                     alert("⚠️ " + xhr.responseJSON.error);
+                    location.reload()
+
                 } else {
                     alert("❌ Session booking failed. Please try again.");
+                    location.reload()
                 }
+            }, complete: function() {
+          
+              document.getElementById('loadingSpinner').style.display = 'none';
             }
-    
     
     }) 
     })
@@ -2912,6 +2704,9 @@ textarea.addEventListener("input", function () {
 });
 
   document.querySelector('.book_session').addEventListener('click',function(){
+
+    document.getElementById('loadingSpinner').style.display = 'flex';
+
     let session_title = "{{ item.title|escapejs }}"
     let model_type = "{{ model_type_label}}"   
     let model_id = "{{ item.id }}"
@@ -2942,17 +2737,24 @@ textarea.addEventListener("input", function () {
                 alert("✅ Session booked successfully!");   
               },
               error: function (xhr, status, errorThrown) {
-                if (xhr.responseText.includes("login") && xhr.status === 302) {
+                if (xhr.status === 401) {
                   alert("🔒 Please log in to book a session.");
                   window.location.href = "/login/?next=" + window.location.pathname;
               }
                else if (xhr.status === 403 && xhr.responseJSON?.error?.includes("own session")) {
                     alert("❌ You cannot book your own session.");
+                    location.reload()
                 } else if (xhr.responseJSON?.error) {
                     alert("⚠️ " + xhr.responseJSON.error);
+                    location.reload()
+
                 } else {
                     alert("❌ Session booking failed. Please try again.");
+                    location.reload()
                 }
+            }, complete: function() {
+          
+              document.getElementById('loadingSpinner').style.display = 'none';
             }
     
     
