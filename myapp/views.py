@@ -852,7 +852,6 @@ def book_video_session_api(request):
             session_time = datetime.strptime(selected_time, "%I:%M %p").time()
 
         creator_id = request.POST.get('creator_id')
-        print("creator_id",creator_id)
         
         if str(user_id) == str(creator_id):
             return JsonResponse({'error': "You cannot book your own session."}, status=403)
@@ -860,9 +859,6 @@ def book_video_session_api(request):
         if session_name == 'Video':
             creator_session = ServiceVideoForm.objects.filter(id=session_id, creator_id=creator_id).first()
        
-        print("creator_session",creator_session)
-       
-        print("session_id",session_id,session_title)
         if not creator_session:
             return JsonResponse({'error': 'session not found or unavailable.'}, status=400)
         
@@ -990,7 +986,6 @@ def book_webinar_session_api(request):
             session_time = datetime.strptime(selected_time, "%I:%M %p").time()
 
         creator_id = request.POST.get('creator_id')
-        print("creator_id",creator_id)
         
         if str(user_id) == str(creator_id):
             return JsonResponse({'error': "You cannot book your own session."}, status=403)
@@ -999,10 +994,7 @@ def book_webinar_session_api(request):
         
         if session_name == 'Webinar':
             creator_session = ServiceWebinarForm.objects.filter(id=session_id, creator_id=creator_id).first()
-       
-        print("creator_session",creator_session)
-       
-        print("session_id",session_id,session_title)
+          
         if not creator_session:
             return JsonResponse({'error': 'session not found or unavailable.'}, status=400)
 
@@ -1120,7 +1112,6 @@ def book_priorityDm_session_api(request):
         session_name = request.POST.get('session_name')
         
         creator_id = request.POST.get('creator_id')
-        print("creator_id",creator_id)
         
         if str(user_id) == str(creator_id):
             return JsonResponse({'error': "You cannot book your own session."}, status=403)
@@ -1130,9 +1121,7 @@ def book_priorityDm_session_api(request):
         if session_name == 'Priority Demo':
             creator_session = ServicePriorityDmForm.objects.filter(id=session_id, creator_id=creator_id).first()
        
-        print("creator_session",creator_session)
        
-        print("session_id",session_id,session_title)
         if not creator_session:
             return JsonResponse({'error': 'Creator has updated availability, session not found or unavailable.'}, status=400)
 
@@ -1311,7 +1300,6 @@ def creator_bookings(request):
             'additional_details':booking.additionalDetails if booking.additionalDetails else "NA",
             "session_title": booking.session_title if session else "Session Not Found"
         })
-        print("user_boookings",user_bookings)
     return render(request, 'creator-bookings.html', {
         "user_bookings": user_bookings,
     })
@@ -1457,7 +1445,6 @@ def generate_time_slots(from_time, to_time, buffer_minutes=15):
 def get_availability_slots(request):
     creator_id = request.GET.get('creator_id')
     session_id = request.GET.get('session_id')
-    print("id",session_id)
     if not creator_id:
         return JsonResponse({'error': 'creator_id is required'}, status=400)
     if not session_id:

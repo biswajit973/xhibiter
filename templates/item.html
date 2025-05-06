@@ -92,146 +92,170 @@ background: rgba(255,255,255,0.7); z-index: 9999; align-items: center; justify-c
             </figure>
 
             <!-- Details -->
-            <div class="md:w-3/5 md:basis-auto md:pl-8 lg:w-1/2 lg:pl-[3.75rem]">
+            <div class="w-full md:w-3/5 md:basis-auto md:pl-8 lg:w-1/2 lg:pl-[3.75rem]">
               <!-- Collection / Likes / Actions -->
-              <div class="mb-3 flex">
+              <div class="mb-3 flex flex-row sm:flex-row sm:items-center sm:justify-end space-x-4">
                 <!-- Collection -->
-                <div class="flex items-center">
+                <div class="flex items-center mb-2 sm:mb-0">
                   <a href="#" class="mr-2 text-sm font-bold text-accent">{{ item.creator.yourusername }}</a>
-                  <span
-                    class="inline-flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-green dark:border-jacarta-600"
-                    data-tippy-content="Verified Collection"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      width="24"
-                      height="24"
-                      class="h-[.875rem] w-[.875rem] fill-white"
-                    >
+                  <span class="inline-flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-green dark:border-jacarta-600" data-tippy-content="Verified Collection">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" class="h-[.875rem] w-[.875rem] fill-white">
                       <path fill="none" d="M0 0h24v24H0z"></path>
                       <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"></path>
                     </svg>
                   </span>
                 </div>
-
+            
                 <!-- Likes / Actions -->
-                <div class="ml-auto flex space-x-2">
-                  <div
-                    class="flex items-center space-x-1 rounded-xl border border-jacarta-100 bg-white py-2 px-4 dark:border-jacarta-600 dark:bg-jacarta-700"
-                  >
-                    <span
-                      class="js-likes relative cursor-pointer before:absolute before:h-4 before:w-4 before:bg-[url('{% static 'img/heart-fill.svg' %}')] before:bg-cover before:bg-center before:bg-no-repeat before:opacity-0"
-                      data-tippy-content="Favorite"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        width="24"
-                        height="24"
-                        class="h-4 w-4 fill-jacarta-500 hover:fill-red dark:fill-jacarta-200 dark:hover:fill-red"
-                      >
+                <div class="flex justify-start sm:justify-end space-x-2">
+                  <div class="flex items-center space-x-1 rounded-xl border border-jacarta-100 bg-white py-2 px-4 dark:border-jacarta-600 dark:bg-jacarta-700">
+                    <span class="js-likes relative cursor-pointer" data-tippy-content="Favorite">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" class="h-4 w-4 fill-jacarta-500 hover:fill-red dark:fill-jacarta-200 dark:hover:fill-red">
                         <path fill="none" d="M0 0H24V24H0z"></path>
-                        <path
-                          d="M12.001 4.529c2.349-2.109 5.979-2.039 8.242.228 2.262 2.268 2.34 5.88.236 8.236l-8.48 8.492-8.478-8.492c-2.104-2.356-2.025-5.974.236-8.236 2.265-2.264 5.888-2.34 8.244-.228zm6.826 1.641c-1.5-1.502-3.92-1.563-5.49-.153l-1.335 1.198-1.336-1.197c-1.575-1.412-3.99-1.35-5.494.154-1.49 1.49-1.565 3.875-.192 5.451L12 18.654l7.02-7.03c1.374-1.577 1.299-3.959-.193-5.454z"
-                        ></path>
+                        <path d="M12.001 4.529c2.349-2.109 5.979-2.039 8.242.228 2.262 2.268 2.34 5.88.236 8.236l-8.48 8.492-8.478-8.492c-2.104-2.356-2.025-5.974.236-8.236 2.265-2.264 5.888-2.34 8.244-.228z"></path>
                       </svg>
                     </span>
                     <span class="text-sm dark:text-jacarta-200">188</span>
                   </div>
-
-                  <!-- Actions -->
-                  <div
-                  id="shareButton"
-                  class="rounded-xl border border-jacarta-100 bg-white hover:bg-jacarta-100 dark:border-jacarta-600 dark:bg-jacarta-700 dark:hover:bg-jacarta-600"
-                  data-tippy-content="Share">
-                  <!-- Atom-style Icon (Stylized Share) -->
-                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 24 24"
-                                    width="24"
-                                    height="24"
-                                    class="h-10 w-10 fill-jacarta-500 dark:fill-jacarta-200"
-                                  >
-                                    <path fill="none" d="M0 0h24v24H0z" />
-                                    <path
-                                      d="M13.576 17.271l-5.11-2.787a3.5 3.5 0 1 1 0-4.968l5.11-2.787a3.5 3.5 0 1 1 .958 1.755l-5.11 2.787a3.514 3.514 0 0 1 0 1.458l5.11 2.787a3.5 3.5 0 1 1-.958 1.755z"
-                                    />
-                                  </svg>
-                  
-                                </div>
-                
-                 
+            
+                  <div id="shareButton" class="rounded-xl border border-jacarta-100 bg-white hover:bg-jacarta-100 dark:border-jacarta-600 dark:bg-jacarta-700 dark:hover:bg-jacarta-600 p-2" data-tippy-content="Share">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" class="h-6 w-6 fill-jacarta-500 dark:fill-jacarta-200">
+                      <path fill="none" d="M0 0h24v24H0z" />
+                      <path d="M13.576 17.271l-5.11-2.787a3.5 3.5 0 1 1 0-4.968l5.11-2.787a3.5 3.5 0 1 1 .958 1.755l-5.11 2.787a3.514 3.514 0 0 1 0 1.458l5.11 2.787a3.5 3.5 0 1 1-.958 1.755z" />
+                    </svg>
+                  </div>
                 </div>
               </div>
-
-              <h1 class="mb-4 font-display text-4xl font-semibold text-jacarta-700 dark:text-white">{{ item.creator.firstname }} {{ item.creator.lastname }}</h1>
-
-              <div class="mb-8 flex items-center space-x-4 whitespace-nowrap">
-                <div class="flex items-center">
-                  <span class="-ml-1" data-tippy-content="ETH">
-                    <svg
-                      version="1.1"
-                      xmlns="http://www.w3.org/2000/svg"
-                      x="0"
-                      y="0"
-                      viewBox="0 0 1920 1920"
-                      xml:space="preserve"
-                      class="mr-1 h-4 w-4"
-                    >
-                      <path fill="#8A92B2" d="M959.8 80.7L420.1 976.3 959.8 731z"></path>
-                      <path fill="#62688F" d="M959.8 731L420.1 976.3l539.7 319.1zm539.8 245.3L959.8 80.7V731z"></path>
-                      <path fill="#454A75" d="M959.8 1295.4l539.8-319.1L959.8 731z"></path>
-                      <path fill="#8A92B2" d="M420.1 1078.7l539.7 760.6v-441.7z"></path>
-                      <path fill="#62688F" d="M959.8 1397.6v441.7l540.1-760.6z"></path>
+            
+              <!-- Title -->
+              <h1 class="mb-4 font-display text-2xl sm:text-3xl font-semibold text-jacarta-700 dark:text-white">{{ item.creator.firstname }} {{ item.creator.lastname }}</h1>
+            
+              <!-- Reviews & Availability -->
+              <div class="flex  -mx-2">
+                <!-- Review Rating Section -->
+                <div class="flex items-center space-x-2 w-full sm:w-1/2 lg:w-1/3">
+                  <span data-tippy-content="ETH">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 dark:text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.948a1 1 0 00.95.69h4.15c.969 0 1.371 1.24.588 1.81l-3.36 2.443a1 1 0 00-.364 1.118l1.285 3.949c.3.92-.755 1.688-1.54 1.118l-3.36-2.443a1 1 0 00-1.175 0l-3.36 2.443c-.784.57-1.838-.197-1.54-1.118l1.285-3.949a1 1 0 00-.364-1.118L2.075 9.375c-.783-.57-.38-1.81.588-1.81h4.15a1 1 0 00.95-.69l1.286-3.948z" />
                     </svg>
                   </span>
-                  <span class="text-sm font-medium tracking-tight text-green">4.7 ETH</span>
+                  <span class="text-sm font-medium tracking-tight text-green">4.9 out of 120 reviews</span>
                 </div>
-                <span class="text-sm text-jacarta-400 dark:text-jacarta-300">Highest bid</span>
-                <span class="text-sm text-jacarta-400 dark:text-jacarta-300">1/1 available</span>
+              
+                <!-- Booked by Users Section -->
+                <div class="flex items-center space-x-2 w-full sm:w-1/2 lg:w-1/3">
+                  <span data-tippy-content="Users">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20" class="w-4 h-4 dark:text-white">
+                      <path fill-rule="evenodd" d="M10 2a4 4 0 1 1 0 8 4 4 0 0 1 0-8zm0 10a6 6 0 0 0-6 6v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-1a6 6 0 0 0-6-6z" clip-rule="evenodd"/>
+                    </svg>
+                  </span>
+                  <span class="text-sm font-medium dark:text-white">Booked by 300+ users</span>
+                </div>
+              
+                <!-- Available Date Section -->
+                <div class="flex items-center justify-end space-x-2 w-full sm:w-1/2 lg:w-1/3">
+                  <span data-tippy-content="Available Date">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20" class="w-4 h-4 dark:text-white">
+                      <path fill-rule="evenodd" d="M3 4a1 1 0 0 1 1-1h2V2a1 1 0 0 1 2 0v1h6V2a1 1 0 0 1 2 0v1h2a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4zM4 5v12h12V5H4z" clip-rule="evenodd"/>
+                    </svg>
+                  </span>
+                  <span class="available-date text-sm font-bold text-gray-700 dark:text-white"></span>
+                </div>
               </div>
-              <h1 class="mb-2 font-display text-2xl font-semibold text-jacarta-700 dark:text-white">{{ item.title }}</h1>
-
-              <p class="mb-3 dark:text-jacarta-300">
-                {{ item.description }}
-              </p>
-              <div class="flex justify-center items-center">
-               
-                <div class="w-full max-w-md">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center space-x-1">
-                          <h3>Price :</h3>
-                            <span class="text-lg font-medium">₹</span>
-                            <span class="text-lg font-semibold">{{item.amount}}</span>
-                        </div>
-                        {% if item.duration %}
-                        <div class="flex items-center space-x-2 border-r-0">
-                            <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M8 2v4"></path>
-                                <path d="M16 2v4"></path>
-                                <rect width="18" height="18" x="3" y="4" rx="2"></rect>
-                                <path d="M3 10h18"></path>
-                            </svg>
-                           
-                            <h3>Duration :</h3>
-                            <span class="text-gray-700">{{ item.duration }} minutes</span>
-                          
-                        </div>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
+              
+              
+              
+              
+              
             
-                <!-- Main Container -->
-    <div class="max-w-lg mx-auto bg-white p-4 rounded-xl shadow-lg space-y-6">
+              <!-- Item Title -->
+              <h2 class="mb-2 mt-4 font-display text-xl sm:text-2xl font-semibold text-jacarta-700 dark:text-white">{{ item.title }}</h2>
+               <!-- Price & Duration -->
+               <div class="flex flex-row sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div class="flex items-center space-x-1">
+                  <h3 class="dark:text-white">Price:</h3>
+                  <span class="text-lg font-medium dark:text-white">₹</span>
+                  <span class="text-lg font-bold dark:text-white">{{ item.amount }}</span>
+                </div>
+                {% if item.duration %}
+                <div class="flex items-center space-x-2">
+                  <svg class="w-5 h-5 text-gray-700 dark:text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M8 2v4"></path>
+                    <path d="M16 2v4"></path>
+                    <rect width="18" height="18" x="3" y="4" rx="2"></rect>
+                    <path d="M3 10h18"></path>
+                  </svg>
+                  <h3 class="dark:text-white">Duration:</h3>
+                  <span class="text-lg font-bold dark:text-white">{{ item.duration }} minutes</span>
+                </div>
+                {% endif %}
+              </div>
+              <!-- Description -->
+              <p class="mt-4 dark:text-jacarta-300">{{ item.description }}</p>
+
+              {% if session_type == "open" %}
+              <a
+                href="#"
+                id ="openBidModal"
+                data-bs-toggle="modal"
+                data-bs-target="#sessionDetailsModal"
+                
+                class="flex justify-center mt-4  rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                >Schedule a session</a
+              >
+              {% endif %}
+
+              {% if session_type == "fixed" %}
+              <!-- Show only the fixed datetime -->
+              <div class="mt-6 flex items-center">
+                  <h6 class="text-sm font-semibold text-jacarta-700 dark:text-white">Session Date & Time :  </h6>
+                  <div class="relative flex items-center overflow-hidden rounded-lg border border-jacarta-100 dark:border-jacarta-600 p-2">
+                    <span class="text-sm">
+                      {{ item.session_date }}-{{ item.session_time|time:"h:i A" }}
+                    </span>
+                  </div>
+              </div>
+              <a
+              href="#"
+              id ="openBidModal"
+                  data-bs-toggle="modal"
+                  data-bs-target="#placeBidModal"
+                  data-date="{{ item.session_date }}"
+                  data-time="{{ item.session_time }}"
+              
+              class="flex justify-center mt-4  rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+              >Schedule a session</a
+            >
+            {% endif %} 
+            {% if session_type == "none" %}
+                <a
+                href="#"
+                id ="openBidModal"
+                data-bs-toggle="modal"
+                data-bs-target="#placeBidModal"
+                class="mt-6 inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                >Schedule a Session</a
+              >
+              
+              {% endif %}
+
+            </div>
+             
+            </div>
+          
+         </div>
+          
+            
+               <!-- Main Container -->
+{% comment %} <div class="max-w-lg mx-auto bg-white p-4 rounded-xl shadow-lg space-y-6"> {% endcomment %}
+    {% comment %}
       <!-- Section Title -->
       {% if session_type == "open" %}
       <h2 class="text-xl font-bold text-gray-700">When should we meet?</h2>
 <div class="relative overflow-x-auto whitespace-nowrap space-x-4 mb-4" id="dateSlider"></div>
 
 <h3 class="time-option-text text-lg font-semibold text-gray-600 mb-2">Select time of the day</h3>
-<div id="timeOptions" class="flex flex-wrap gap-2"></div>
+<div id="timeOptions" class="flex flex-wrap gap-2"></div> {% endcomment %}
 
       
           
@@ -280,12 +304,12 @@ background: rgba(255,255,255,0.7); z-index: 9999; align-items: center; justify-c
     
     
 </div> {% endcomment %}
-      <div id="additional-details-container">
+      {% comment %} <div id="additional-details-container">
         
         <h3 class="text-lg font-semibold text-gray-600 mb-2">Additional Details (optional)</h3>
         <textarea id="additional-details" maxlength="2000" class="w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300" required="" placeholder="enter details if any "></textarea>
-  </div>
-      {% elif session_type == "fixed" %}
+  </div> {% endcomment %}
+      {% comment %} {% if session_type == "fixed" %}
   <!-- Show only the fixed datetime -->
   <div class="w-1/2 mt-4">
       <h6 class="text-sm font-semibold text-jacarta-700 dark:text-white">Session Date & Time</h6>
@@ -295,13 +319,21 @@ background: rgba(255,255,255,0.7); z-index: 9999; align-items: center; justify-c
         </span>
       </div>
   </div>
-  {% else %}
-  
-{% endif %} 
+  <a
+                  href="#"
+                  id ="openBidModal"
+                  data-bs-toggle="modal"
+                  data-bs-target="#placeBidModal"
+                  data-date="{{ item.session_date }}"
+                  data-time="{{ item.session_time }}"
+                  class="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                  >Check Out</a
+                >
+{% endif %}  {% endcomment %}
 
       <!-- Continue Button -->
       
-  </div>
+  {% comment %} </div> {% endcomment %}
 
  
               <!-- Creator / Owner -->
@@ -367,10 +399,10 @@ background: rgba(255,255,255,0.7); z-index: 9999; align-items: center; justify-c
                 </div>
               </div> {% endcomment %}
 
-              <!-- Bid -->
+              {% comment %} <!-- Bid -->
               <div
                 class="rounded-2lg  bg-white p-8 dark:border-jacarta-600 dark:bg-jacarta-700"
-              >
+              > {% endcomment %}
                 {% comment %} <div class="mb-8 sm:flex sm:flex-wrap">
                   <!-- Highest bid -->
                   <div class="sm:w-1/2 sm:pr-4 lg:pr-8">
@@ -446,45 +478,16 @@ background: rgba(255,255,255,0.7); z-index: 9999; align-items: center; justify-c
                     </div>
                   </div>
                 </div> border border-jacarta-100{% endcomment %}
-                {% if session_type == "open" %}
-                <a
-                  href="#"
-                  id ="openBidModal"
-                  data-bs-toggle="modal"
-                  data-bs-target="#placeBidModal"
-                  
-                  class="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
-                  >Check Out</a
-                >
-                {% elif session_type == "fixed" %}
-              </div>
-              <a
-                  href="#"
-                  id ="openBidModal"
-                  data-bs-toggle="modal"
-                  data-bs-target="#placeBidModal"
-                  data-date="{{ item.session_date }}"
-                  data-time="{{ item.session_time }}"
-                  class="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
-                  >Check Out</a
-                >
-                {% else %}
-                <a
-                href="#"
-                id ="openBidModal"
-                data-bs-toggle="modal"
-                data-bs-target="#placeBidModal"
-                class="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
-                >Check Out</a
-              >
-              {% endif %}
-              <!-- end bid -->
+                
+               
+                
+              {% comment %} <!-- end bid -->
             </div>
             <!-- end details -->
-          </div>
+          </div> {% endcomment %}
 
           <!-- Tabs -->
-          <div class="scrollbar-custom mt-14 overflow-x-auto rounded-lg">
+          {% comment %} <div class="scrollbar-custom mt-14 overflow-x-auto rounded-lg">
             <div class="min-w-fit">
               <!-- Tabs Nav -->
               <ul class="nav nav-tabs flex items-center" role="tablist">
@@ -1468,7 +1471,989 @@ background: rgba(255,255,255,0.7); z-index: 9999; align-items: center; justify-c
               </div>
               <!-- end tab content -->
             </div>
+          </div> {% endcomment %}
+          {% if session_type == "open" %}
+          <div class="scrollbar-custom overflow-x-auto rounded-lg">
+            <div class="min-w-fit">
+              <!-- Tabs Nav -->
+              <ul class="nav nav-tabs flex items-center" role="tablist">
+                <!-- Offers -->
+                <li class="nav-item" role="presentation">
+                  <button
+                    class="nav-link active relative flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white"
+                    id="overview-tab"
+                    data-bs-toggle="tab"
+                    data-bs-target="#overview"
+                    type="button"
+                    role="tab"
+                    aria-controls="overview"
+                    aria-selected="true"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      height="24"
+                      class="mr-1 h-5 w-5 fill-current"
+                    >
+                      <path fill="none" d="M0 0h24v24H0z" />
+                      <path
+                        d="M8 4h13v2H8V4zm-5-.5h3v3H3v-3zm0 7h3v3H3v-3zm0 7h3v3H3v-3zM8 11h13v2H8v-2zm0 7h13v2H8v-2z"
+                      />
+                    </svg>
+                    <span class="font-display text-base font-medium">Overview</span>
+                  </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button
+                    class="nav-link relative flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white"
+                    id="offers-tab"
+                    data-bs-toggle="tab"
+                    data-bs-target="#offers"
+                    type="button"
+                    role="tab"
+                    aria-controls="offers"
+                    aria-selected="true"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      height="24"
+                      class="mr-1 h-5 w-5 fill-current"
+                    >
+                      <path fill="none" d="M0 0h24v24H0z" />
+                      <path
+                        d="M8 4h13v2H8V4zm-5-.5h3v3H3v-3zm0 7h3v3H3v-3zm0 7h3v3H3v-3zM8 11h13v2H8v-2zm0 7h13v2H8v-2z"
+                      />
+                    </svg>
+                    <span class="font-display text-base font-medium">Booking History</span>
+                  </button>
+                </li>
+
+                <!-- Properties -->
+                <li class="nav-item" role="presentation">
+                  <button
+                    class="nav-link relative flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white"
+                    id="properties-tab"
+                    data-bs-toggle="tab"
+                    data-bs-target="#properties"
+                    type="button"
+                    role="tab"
+                    aria-controls="properties"
+                    aria-selected="false"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      height="24"
+                      class="mr-1 h-5 w-5 fill-current"
+                    >
+                      <path fill="none" d="M0 0h24v24H0z" />
+                      <path
+                        d="M6.17 18a3.001 3.001 0 0 1 5.66 0H22v2H11.83a3.001 3.001 0 0 1-5.66 0H2v-2h4.17zm6-7a3.001 3.001 0 0 1 5.66 0H22v2h-4.17a3.001 3.001 0 0 1-5.66 0H2v-2h10.17zm-6-7a3.001 3.001 0 0 1 5.66 0H22v2H11.83a3.001 3.001 0 0 1-5.66 0H2V4h4.17z"
+                      />
+                    </svg>
+                    <span class="font-display text-base font-medium">Reviews</span>
+                  </button>
+                </li>
+
+                <!-- Details -->
+                <li class="nav-item" role="presentation">
+                  <button
+                    class="nav-link relative flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white"
+                    id="details-tab"
+                    data-bs-toggle="tab"
+                    data-bs-target="#details"
+                    type="button"
+                    role="tab"
+                    aria-controls="details"
+                    aria-selected="false"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      height="24"
+                      class="mr-1 h-5 w-5 fill-current"
+                    >
+                      <path fill="none" d="M0 0h24v24H0z" />
+                      <path
+                        d="M20 22H4a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1zm-1-2V4H5v16h14zM7 6h4v4H7V6zm0 6h10v2H7v-2zm0 4h10v2H7v-2zm6-9h4v2h-4V7z"
+                      />
+                    </svg>
+                    <span class="font-display text-base font-medium">Add Ons</span>
+                  </button>
+                </li>
+
+                <!-- Activity -->
+                <li class="nav-item" role="presentation">
+                  <button
+                    class="nav-link relative flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white"
+                    id="activity-tab"
+                    data-bs-toggle="tab"
+                    data-bs-target="#activity"
+                    type="button"
+                    role="tab"
+                    aria-controls="activity"
+                    aria-selected="false"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      height="24"
+                      class="mr-1 h-5 w-5 fill-current"
+                    >
+                      <path fill="none" d="M0 0h24v24H0z" />
+                      <path
+                        d="M11.95 7.95l-1.414 1.414L8 6.828 8 20H6V6.828L3.465 9.364 2.05 7.95 7 3l4.95 4.95zm10 8.1L17 21l-4.95-4.95 1.414-1.414 2.537 2.536L16 4h2v13.172l2.536-2.536 1.414 1.414z"
+                      />
+                    </svg>
+                    <span class="font-display text-base font-medium">FAQ</span>
+                  </button>
+                </li>
+
+                <!-- Price History -->
+                <li class="nav-item" role="presentation">
+                  <button
+                    class="nav-link relative flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white"
+                    id="price-history-tab"
+                    data-bs-toggle="tab"
+                    data-bs-target="#price-history"
+                    type="button"
+                    role="tab"
+                    aria-controls="price-history"
+                    aria-selected="false"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      height="24"
+                      class="mr-1 h-5 w-5 fill-current"
+                    >
+                      <path fill="none" d="M0 0H24V24H0z" />
+                      <path
+                        d="M5 3v16h16v2H3V3h2zm15.293 3.293l1.414 1.414L16 13.414l-3-2.999-4.293 4.292-1.414-1.414L13 7.586l3 2.999 4.293-4.292z"
+                      />
+                    </svg>
+                    <span class="font-display text-base font-medium">Session Package details</span>
+                  </button>
+                </li>
+              </ul>
+
+              <!-- Tab Content -->
+              <div class="tab-content overflow-auto">
+              <!-- Overview -->
+                <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
+                  <div
+                    role="table"
+                    class="scrollbar-custom max-h-72 w-full overflow-y-auto rounded-lg rounded-tl-none border border-jacarta-100 bg-white text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
+                  >
+                    <div class="sticky top-0 flex bg-light-base dark:bg-jacarta-600" role="row">
+                      <div class="w-1/2 py-2 px-4" role="columnheader">
+                        <span class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100"
+                          >Feature</span
+                        >
+                      </div>
+                      <div class="w-1/2 py-2 px-4" role="columnheader">
+                        <span class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100"
+                          >Details</span
+                        >
+                      </div> 
+                     
+                      
+                    </div>
+                    
+                    <div class="flex" role="row">
+                      <div
+                        class="flex w-1/2 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                        role="cell"
+                      >
+                       <p>📌 Purpose</p>
+                      </div>
+                      <div
+                      class="flex w-1/2 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                      role="cell"
+                    >
+                     <p>Learn how to start and grow your YouTube channel from scratch.</p>
+                    </div>
+                    </div>
+                    <div class="flex" role="row">
+                      <div
+                        class="flex w-1/2 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                        role="cell"
+                      >
+                       <p>🎯 Focus Areas</p>
+                      </div>
+                      <div
+                      class="flex w-1/2 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                      role="cell"
+                    >
+                     <p>Naming strategy, thumbnail design, content planning, consistency tips.</p>
+                    </div>
+                    </div>
+                    <div class="flex" role="row">
+                      <div
+                        class="flex w-1/2 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                        role="cell"
+                      >
+                       <p>💼 Tools Used</p>
+                      </div>
+                      <div
+                      class="flex w-1/2 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                      role="cell"
+                    >
+                     <p>OBS, Final Cut Pro, TubeBuddy, YouTube Studio.</p>
+                    </div>
+                    </div>
+                    <div class="flex" role="row">
+                      <div
+                        class="flex w-1/2 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                        role="cell"
+                      >
+                       <p>👥 Who It’s For</p>
+                      </div>
+                      <div
+                      class="flex w-1/2 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                      role="cell"
+                    >
+                     <p>Aspiring creators (0–10k subs) or fresh starters.</p>
+                    </div>
+                    </div>
+                   
+                  </div>
+                </div>
+
+                <!-- Offers -->
+                <div class="tab-pane fade" id="offers" role="tabpanel" aria-labelledby="offers-tab">
+                 
+                  <div
+                  role="table"
+                  class="scrollbar-custom max-h-72 w-full overflow-y-auto rounded-lg rounded-tl-none border border-jacarta-100 bg-white text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
+                >
+                  <div class="sticky top-0 flex bg-light-base dark:bg-jacarta-600" role="row">
+                    <div class="w-1/4 py-2 px-4" role="columnheader">
+                      <span class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100"
+                        >Date</span
+                      >
+                    </div>
+                    <div class="w-1/4 py-2 px-4" role="columnheader">
+                      <span class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100"
+                        >User</span
+                      >
+                    </div>
+                     <div class="w-1/4 py-2 px-4" role="columnheader">
+                      <span class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100"
+                        >Session Title</span
+                      >
+                    </div>
+                   
+                    <div class="w-1/4 py-2 px-4" role="columnheader">
+                      <span class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100"
+                        >Price</span
+                      >
+                    </div>
+                    <div class="w-1/4 py-2 px-4" role="columnheader">
+                      <span class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100"
+                        >Feedback</span
+                      >
+                    </div>
+                  </div>
+                
+                  <div class="flex" role="row">
+                    <div
+                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                      role="cell"
+                    >
+                     <p>May 02</p>
+                    </div>
+                   
+                    <div
+                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                      role="cell"
+                    >
+                      <p>User****213</p>
+                    </div>
+                    <div
+                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                      role="cell"
+                    >
+                      <p>YouTube Basics</p>
+                    </div>
+                    <div
+                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                      role="cell"
+                    >
+                      <p>₹4999</p>
+                    </div>
+                    <div
+                    class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                    role="cell"
+                  >
+                    <p>“Best 45 minutes ever!”</p>
+                  </div>
+                  </div>
+                 
+                  <div class="flex" role="row">
+                    <div
+                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                      role="cell"
+                    >
+                     <p>Apr 28</p>
+                    </div>
+                   
+                    <div
+                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                      role="cell"
+                    >
+                      <p>User****865</p>
+                    </div>
+                    <div
+                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                      role="cell"
+                    >
+                      <p>Deep Dive + Roast</p>
+                    </div>
+                    <div
+                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                      role="cell"
+                    >
+                      <p>₹7999</p>
+                    </div>
+                    <div
+                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                      role="cell"
+                    >
+                      <p>“He roasted my thumbnails 😂”</p>
+                    </div>
+                  </div>
+                </div>
+                </div>
+
+                <!-- Properties -->
+                <div class="tab-pane fade" id="properties" role="tabpanel" aria-labelledby="properties-tab">
+                <div
+                  role="table"
+                  class="scrollbar-custom max-h-72 w-full overflow-y-auto rounded-lg rounded-tl-none border border-jacarta-100 bg-white text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
+                >
+                  <div class="sticky top-0 flex bg-light-base dark:bg-jacarta-600" role="row">
+                    <div class="w-1/4 py-2 px-4" role="columnheader">
+                      <span class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100"
+                        >⭐ Rating</span
+                      >
+                    </div>
+                    <div class="w-1/4 py-2 px-4" role="columnheader">
+                      <span class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100"
+                        >User ID</span
+                      >
+                    </div>
+                     <div class="w-1/4 py-2 px-4" role="columnheader">
+                      <span class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100"
+                        >Date</span
+                      >
+                    </div>
+                   
+                    <div class="w-1/4 py-2 px-4" role="columnheader">
+                      <span class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100"
+                        >Comment</span
+                      >
+                    </div>
+                  </div>
+                
+                  <div class="flex" role="row">
+                    <div
+                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                      role="cell"
+                    >
+                     <p>★★★★★</p>
+                    </div>
+                   
+                    <div
+                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                      role="cell"
+                    >
+                      <p>	@inspiredRider</p>
+                    </div>
+                    <div
+                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                      role="cell"
+                    >
+                      <p>May 01</p>
+                    </div>
+                    <div
+                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                      role="cell"
+                    >
+                      <p>“He literally reviewed my titles live. 🔥”</p>
+                    </div>
+                  </div>
+                 
+                  <div class="flex" role="row">
+                    <div
+                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                      role="cell"
+                    >
+                     <p>★★★★☆</p>
+                    </div>
+                   
+                    <div
+                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                      role="cell"
+                    >
+                      <p>@kiranYT</p>
+                    </div>
+                    <div
+                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                      role="cell"
+                    >
+                      <p>Apr 29</p>
+                    </div>
+                    <div
+                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                      role="cell"
+                    >
+                      <p>“Superb advice, just needed more time.”</p>
+                    </div>
+                  </div>
+                  <div class="flex" role="row">
+                    <div
+                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                      role="cell"
+                    >
+                     <p>★★★★★</p>
+                    </div>
+                   
+                    <div
+                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                      role="cell"
+                    >
+                      <p>@creatorVlogz</p>
+                    </div>
+                    <div
+                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                      role="cell"
+                    >
+                      <p>Apr 27</p>
+                    </div>
+                    <div
+                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                      role="cell"
+                    >
+                      <p>“Worth every rupee. Practical & direct.”</p>
+                    </div>
+                  </div>
+                </div>
+                </div>
+
+                <!-- Details -->
+                <div class="tab-pane fade" id="details" role="tabpanel" aria-labelledby="details-tab">
+                  <div
+                    role="table"
+                    class="scrollbar-custom max-h-72 w-full overflow-y-auto rounded-lg rounded-tl-none border border-jacarta-100 bg-white text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
+                  >
+                    <div class="sticky top-0 flex bg-light-base dark:bg-jacarta-600" role="row">
+                      <div class="w-1/3 py-2 px-4" role="columnheader">
+                        <span class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100"
+                          >Add-On</span
+                        >
+                      </div>
+                      <div class="w-1/3 py-2 px-4" role="columnheader">
+                        <span class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100"
+                          >Price</span
+                        >
+                      </div> 
+                     
+                      <div class="w-1/3 py-2 px-4" role="columnheader">
+                        <span class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100"
+                          >Description</span
+                        >
+                      </div>
+                    </div>
+                    
+                    <div class="flex" role="row">
+                      <div
+                        class="flex w-1/3 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                        role="cell"
+                      >
+                       <p>📼 Session Recording</p>
+                      </div>
+                      <div
+                      class="flex w-1/3 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                      role="cell"
+                    >
+                     <p>₹299</p>
+                    </div>
+                     
+                      <div
+                        class="flex w-1/3 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                        role="cell"
+                      >
+                        <p>Get the full video recording emailed to you.</p>
+                      </div>
+                    </div>
+                    <div class="flex" role="row">
+                      <div
+                        class="flex w-1/3 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                        role="cell"
+                      >
+                       <p>📣 Instagram Shoutout</p>
+                      </div>
+                      <div
+                      class="flex w-1/3 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                      role="cell"
+                    >
+                     <p>₹599</p>
+                    </div>
+                     
+                      <div
+                        class="flex w-1/3 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                        role="cell"
+                      >
+                        <p>Get tagged in IG story post-session.</p>
+                      </div>
+                    </div>
+                    <div class="flex" role="row">
+                      <div
+                        class="flex w-1/3 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                        role="cell"
+                      >
+                       <p>⏱️ Extra 15 mins</p>
+                      </div>
+                      <div
+                      class="flex w-1/3 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                      role="cell"
+                    >
+                     <p>₹1000</p>
+                    </div>
+                     
+                      <div
+                        class="flex w-1/3 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                        role="cell"
+                      >
+                        <p>If you want extended Q&A (schedule permitting).</p>
+                      </div>
+                    </div>
+                   
+                  </div>
+                </div>
+
+                <!-- Activity -->
+                <div class="tab-pane fade" id="activity" role="tabpanel" aria-labelledby="activity-tab">
+                  <!-- Filter -->
+                  {% comment %} <div
+                    class="border border-b-0 border-jacarta-100 bg-light-base px-4 pt-5 pb-2.5 dark:border-jacarta-600 dark:bg-jacarta-700"
+                  >
+                    <div class="flex flex-wrap">
+                      <button
+                        class="group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          height="24"
+                          class="mr-2 h-4 w-4 fill-jacarta-700 group-hover:fill-white dark:fill-white"
+                        >
+                          <path fill="none" d="M0 0h24v24H0z"></path>
+                          <path
+                            d="M10.9 2.1l9.899 1.415 1.414 9.9-9.192 9.192a1 1 0 0 1-1.414 0l-9.9-9.9a1 1 0 0 1 0-1.414L10.9 2.1zm.707 2.122L3.828 12l8.486 8.485 7.778-7.778-1.06-7.425-7.425-1.06zm2.12 6.364a2 2 0 1 1 2.83-2.829 2 2 0 0 1-2.83 2.829z"
+                          ></path>
+                        </svg>
+                        <span class="text-2xs font-medium">Listing</span>
+                      </button>
+                      <button
+                        class="mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          height="24"
+                          class="mr-2 h-4 w-4 fill-white"
+                        >
+                          <path fill="none" d="M0 0h24v24H0z"></path>
+                          <path
+                            d="M14 20v2H2v-2h12zM14.586.686l7.778 7.778L20.95 9.88l-1.06-.354L17.413 12l5.657 5.657-1.414 1.414L16 13.414l-2.404 2.404.283 1.132-1.415 1.414-7.778-7.778 1.415-1.414 1.13.282 6.294-6.293-.353-1.06L14.586.686zm.707 3.536l-7.071 7.07 3.535 3.536 7.071-7.07-3.535-3.536z"
+                          ></path>
+                        </svg>
+                        <span class="text-2xs font-medium text-white">Bids</span>
+                      </button>
+                      <button
+                        class="group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          height="24"
+                          class="mr-2 h-4 w-4 fill-jacarta-700 group-hover:fill-white dark:fill-white"
+                        >
+                          <path fill="none" d="M0 0h24v24H0z"></path>
+                          <path
+                            d="M16.05 12.05L21 17l-4.95 4.95-1.414-1.414 2.536-2.537L4 18v-2h13.172l-2.536-2.536 1.414-1.414zm-8.1-10l1.414 1.414L6.828 6 20 6v2H6.828l2.536 2.536L7.95 11.95 3 7l4.95-4.95z"
+                          ></path>
+                        </svg>
+                        <span class="text-2xs font-medium">Transfers</span>
+                      </button>
+                      <button
+                        class="group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          height="24"
+                          class="mr-2 h-4 w-4 fill-jacarta-700 group-hover:fill-white dark:fill-white"
+                        >
+                          <path fill="none" d="M0 0h24v24H0z"></path>
+                          <path
+                            d="M6.5 2h11a1 1 0 0 1 .8.4L21 6v15a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6l2.7-3.6a1 1 0 0 1 .8-.4zM19 8H5v12h14V8zm-.5-2L17 4H7L5.5 6h13zM9 10v2a3 3 0 0 0 6 0v-2h2v2a5 5 0 0 1-10 0v-2h2z"
+                          ></path>
+                        </svg>
+                        <span class="text-2xs font-medium">Sales</span>
+                      </button>
+                    </div>
+                  </div> {% endcomment %}
+
+                  <div
+                    role="table"
+                    class="scrollbar-custom max-h-72 w-full overflow-y-auto rounded-lg rounded-tl-none border border-jacarta-100 bg-white text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
+                  >
+                    <div class="sticky top-0 flex bg-light-base dark:bg-jacarta-600" role="row">
+                      <div class="w-1/2 py-2 px-4" role="columnheader">
+                        <span class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100"
+                          >Question</span
+                        >
+                      </div>
+                      {% comment %} <div class="w-[17%] py-2 px-4" role="columnheader">
+                        <span class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100"
+                          >Price</span
+                        >
+                      </div> {% endcomment %}
+                      {% comment %} <div class="w-[22%] py-2 px-4" role="columnheader">
+                        <span class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100"
+                          >From</span
+                        >
+                      </div> {% endcomment %}
+                      {% comment %} <div class="w-[22%] py-2 px-4" role="columnheader">
+                        <span class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100"
+                          >To</span
+                        >
+                      </div> {% endcomment %}
+                      <div class="w-1/2 py-2 px-4" role="columnheader">
+                        <span class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100"
+                          >Answer</span
+                        >
+                      </div>
+                    </div>
+                    {% comment %} <div class="flex" role="row">
+                      <div
+                        class="flex w-[17%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                        role="cell"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          height="24"
+                          class="mr-2 h-4 w-4 fill-jacarta-700 group-hover:fill-white dark:fill-white"
+                        >
+                          <path fill="none" d="M0 0h24v24H0z"></path>
+                          <path
+                            d="M14 20v2H2v-2h12zM14.586.686l7.778 7.778L20.95 9.88l-1.06-.354L17.413 12l5.657 5.657-1.414 1.414L16 13.414l-2.404 2.404.283 1.132-1.415 1.414-7.778-7.778 1.415-1.414 1.13.282 6.294-6.293-.353-1.06L14.586.686zm.707 3.536l-7.071 7.07 3.535 3.536 7.071-7.07-3.535-3.536z"
+                          ></path>
+                        </svg>
+                        Bid
+                      </div>
+                      <div
+                        class="flex w-[17%] items-center whitespace-nowrap border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                        role="cell"
+                      >
+                        <span class="-ml-1" data-tippy-content="ETH">
+                          <svg
+                            version="1.1"
+                            xmlns="http://www.w3.org/2000/svg"
+                            x="0"
+                            y="0"
+                            viewBox="0 0 1920 1920"
+                            xml:space="preserve"
+                            class="mr-1 h-4 w-4"
+                          >
+                            <path fill="#8A92B2" d="M959.8 80.7L420.1 976.3 959.8 731z"></path>
+                            <path
+                              fill="#62688F"
+                              d="M959.8 731L420.1 976.3l539.7 319.1zm539.8 245.3L959.8 80.7V731z"
+                            ></path>
+                            <path fill="#454A75" d="M959.8 1295.4l539.8-319.1L959.8 731z"></path>
+                            <path fill="#8A92B2" d="M420.1 1078.7l539.7 760.6v-441.7z"></path>
+                            <path fill="#62688F" d="M959.8 1397.6v441.7l540.1-760.6z"></path>
+                          </svg>
+                        </span>
+                        <span class="text-sm font-medium tracking-tight text-green">30 ETH</span>
+                      </div>
+                      <div
+                        class="flex w-[22%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                        role="cell"
+                      >
+                        <a href="{% url 'user' %}" class="text-accent">AD496A</a>
+                      </div>
+                      <div
+                        class="flex w-[22%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                        role="cell"
+                      >
+                        <a href="{% url 'user' %}" class="text-accent">Polymorph: MORPH Token</a>
+                      </div>
+                      <div
+                        class="flex w-[22%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                        role="cell"
+                      >
+                        <a
+                          href="#"
+                          class="flex flex-wrap items-center text-accent"
+                          target="_blank"
+                          rel="nofollow noopener"
+                          title="Opens in a new window"
+                          data-tippy-content="March 13 2022, 2:32 pm"
+                        >
+                          <span class="mr-1">19 days ago</span>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            width="24"
+                            height="24"
+                            class="h-4 w-4 fill-current"
+                          >
+                            <path fill="none" d="M0 0h24v24H0z" />
+                            <path
+                              d="M10 6v2H5v11h11v-5h2v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h6zm11-3v8h-2V6.413l-7.793 7.794-1.414-1.414L17.585 5H13V3h8z"
+                            />
+                          </svg>
+                        </a>
+                      </div>
+                    </div>
+                    <div class="flex" role="row">
+                      <div
+                        class="flex w-[17%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                        role="cell"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          height="24"
+                          class="mr-2 h-4 w-4 fill-jacarta-700 group-hover:fill-white dark:fill-white"
+                        >
+                          <path fill="none" d="M0 0h24v24H0z"></path>
+                          <path
+                            d="M16.05 12.05L21 17l-4.95 4.95-1.414-1.414 2.536-2.537L4 18v-2h13.172l-2.536-2.536 1.414-1.414zm-8.1-10l1.414 1.414L6.828 6 20 6v2H6.828l2.536 2.536L7.95 11.95 3 7l4.95-4.95z"
+                          ></path>
+                        </svg>
+                        Transfer
+                      </div>
+                      <div
+                        class="flex w-[17%] items-center whitespace-nowrap border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                        role="cell"
+                      >
+                        <span class="-ml-1" data-tippy-content="ETH">
+                          <svg
+                            version="1.1"
+                            xmlns="http://www.w3.org/2000/svg"
+                            x="0"
+                            y="0"
+                            viewBox="0 0 1920 1920"
+                            xml:space="preserve"
+                            class="mr-1 h-4 w-4"
+                          >
+                            <path fill="#8A92B2" d="M959.8 80.7L420.1 976.3 959.8 731z"></path>
+                            <path
+                              fill="#62688F"
+                              d="M959.8 731L420.1 976.3l539.7 319.1zm539.8 245.3L959.8 80.7V731z"
+                            ></path>
+                            <path fill="#454A75" d="M959.8 1295.4l539.8-319.1L959.8 731z"></path>
+                            <path fill="#8A92B2" d="M420.1 1078.7l539.7 760.6v-441.7z"></path>
+                            <path fill="#62688F" d="M959.8 1397.6v441.7l540.1-760.6z"></path>
+                          </svg>
+                        </span>
+                        <span class="text-sm font-medium tracking-tight text-green">.00510 ETH</span>
+                      </div>
+                      <div
+                        class="flex w-[22%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                        role="cell"
+                      >
+                        <a href="{% url 'user' %}" class="text-accent">The_vikk</a>
+                      </div>
+                      <div
+                        class="flex w-[22%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                        role="cell"
+                      >
+                        <a href="{% url 'user' %}" class="text-accent">Polymorph: MORPH Token</a>
+                      </div>
+                      <div
+                        class="flex w-[22%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                        role="cell"
+                      >
+                        <span class="mr-1 dark:text-jacarta-300">16 days ago</span>
+                      </div>
+                    </div> {% endcomment %}
+                    <div class="flex" role="row">
+                      <div
+                        class="flex w-1/2 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                        role="cell"
+                      >
+                       <p>Can I reschedule?</p>
+                      </div>
+                     
+                      <div
+                        class="flex w-1/2 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                        role="cell"
+                      >
+                        <p>Yes, up to 24 hours before the session.</p>
+                      </div>
+                    </div>
+                    <div class="flex" role="row">
+                      <div
+                        class="flex w-1/2 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                        role="cell"
+                      >
+                       <p>Will I get a recording?</p>
+                      </div>
+                     
+                      <div
+                        class="flex w-1/2 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                        role="cell"
+                      >
+                        <p>Yes, if you purchase the "Session Recording" add-on.</p>
+                      </div>
+                    </div>
+                    <div class="flex" role="row">
+                      <div
+                        class="flex w-1/2 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                        role="cell"
+                      >
+                       <p>Can I bring a friend to the session?	No, it’s strictly 1-on-1.</p>
+                      </div>
+                     
+                      <div
+                        class="flex w-1/2 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                        role="cell"
+                      >
+                        <p>No, it’s strictly 1-on-1.</p>
+                      </div>
+                    </div>
+                    <div class="flex" role="row">
+                      <div
+                        class="flex w-1/2 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                        role="cell"
+                      >
+                       <p>What if I'm late to the call?</p>
+                      </div>
+                     
+                      <div
+                        class="flex w-1/2 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                        role="cell"
+                      >
+                        <p>What if I'm late to the call?	Delay reduces your time; no time extension guaranteed.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Price History -->
+                <div class="tab-pane fade" id="price-history" role="tabpanel" aria-labelledby="price-history-tab">
+                  <div
+                  role="table"
+                  class="scrollbar-custom max-h-72 w-full overflow-y-auto rounded-lg rounded-tl-none border border-jacarta-100 bg-white text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
+                >
+                  <div class="sticky top-0 flex bg-light-base dark:bg-jacarta-600" role="row">
+                    <div class="w-1/4 py-2 px-4" role="columnheader">
+                      <span class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100"
+                        >Package Title</span
+                      >
+                    </div>
+                    <div class="w-1/4 py-2 px-4" role="columnheader">
+                      <span class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100"
+                        >Duration</span
+                      >
+                    </div>
+                     <div class="w-1/4 py-2 px-4" role="columnheader">
+                      <span class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100"
+                        >Price</span
+                      >
+                    </div>
+                   
+                    <div class="w-1/4 py-2 px-4" role="columnheader">
+                      <span class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100"
+                        >Includes</span
+                      >
+                    </div>
+                  </div>
+                
+                  <div class="flex" role="row">
+                    <div
+                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                      role="cell"
+                    >
+                     <p>YouTube Basics</p>
+                    </div>
+                   
+                    <div
+                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                      role="cell"
+                    >
+                      <p>45 min</p>
+                    </div>
+                    <div
+                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                      role="cell"
+                    >
+                      <p>₹4999</p>
+                    </div>
+                    <div
+                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                      role="cell"
+                    >
+                      <p>1-on-1 live call, screen sharing, channel audit, content strategy.</p>
+                    </div>
+                  </div>
+                 
+                  <div class="flex" role="row">
+                    <div
+                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                      role="cell"
+                    >
+                     <p>Deep Dive + Roast</p>
+                    </div>
+                   
+                    <div
+                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                      role="cell"
+                    >
+                      <p>60 min</p>
+                    </div>
+                    <div
+                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                      role="cell"
+                    >
+                      <p>₹7999</p>
+                    </div>
+                    <div
+                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                      role="cell"
+                    >
+                      <p>YouTube basics + full review + 10-min roast segment.</p>
+                    </div>
+                  </div>
+
+                </div>
+                </div>
+              </div>
+              <!-- end tab content -->
+            </div>
           </div>
+          {% endif %}
           <!-- end tabs -->
         </div>
       </section>
@@ -2378,10 +3363,144 @@ background: rgba(255,255,255,0.7); z-index: 9999; align-items: center; justify-c
     
           <div class="modal-footer">
             <div class="flex items-center justify-center space-x-4">
-              <button type="button" class=" book_session rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">
+              <button type="button" class="book_session rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">
                 Check out
               </button>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="modal fade" id="sessionDetailsModal" tabindex="-1" aria-labelledby="sessionDetailsLabel" aria-hidden="true">
+      <div class="modal-dialog max-w-2xl">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="sessionDetailsLabel"></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" class="h-6 w-6 fill-jacarta-700 dark:fill-white">
+                <path fill="none" d="M0 0h24v24H0z" />
+                <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z" />
+              </svg>
+            </button>
+          </div>
+    
+          <!-- Body -->
+          <div class="modal-body p-6">
+            <!-- When should we meet? -->
+            {% if session_type == "open" %}
+              <h2 class="text-xl font-bold text-gray-700 dark:text-white">When should we meet?</h2>
+              <div class="relative overflow-x-auto whitespace-nowrap space-x-4 mb-4" id="dateSlider"></div>
+    
+              <h3 class="time-option-text text-lg font-semibold text-gray-600 mb-2 dark:text-white">Select time of the day</h3>
+              <div id="timeOptions" class="flex flex-wrap gap-2"></div>
+    
+              <div id="additional-details-container">
+                <h3 class="text-lg font-semibold text-gray-600 mb-2 dark:text-white">Additional Details (optional)</h3>
+                <textarea id="additional-details" maxlength="2000" class="w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300" required="" placeholder="enter details if any "></textarea>
+              </div>
+            {% endif %}
+          </div>
+          <!-- end body -->
+    
+          <div class="modal-footer">
+            <div class="flex items-center justify-center space-x-4">
+              <button type="button" 
+        class="book_video_session rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark" 
+        data-bs-toggle="modal" 
+        data-bs-target="#bookingDetailsModal">
+  Check out
+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="bookingDetailsModal" tabindex="-1" aria-labelledby="bookingDetailsLabel" aria-hidden="true">
+      <div class="modal-dialog max-w-xl">
+        <div class="modal-content">
+          <!-- Header -->
+          <div class="modal-header">
+            <h5 class="modal-title mx-auto font-bold" id="bookingDetailsLabel">Booking Summary</h5>
+            <button type="button" class="btn-close absolute right-4 top-4" data-bs-dismiss="modal" aria-label="Close">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 fill-jacarta-700 dark:fill-white" viewBox="0 0 24 24">
+                <path fill="none" d="M0 0h24v24H0z"/>
+                <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"/>
+              </svg>
+            </button>
+          </div>
+    
+          <!-- Body -->
+          <div class="modal-body px-6 py-4 space-y-6">
+            <!-- Centered Description -->
+            <div class="text-left">
+              <h6 class="text-base font-semibold text-jacarta-700 dark:text-white mb-1">Description</h6>
+              <p id="booking-description" class="text-gray-600 dark:text-jacarta-300 leading-relaxed">{{ item.description }}</p>
+            </div>
+    
+            <!-- Price and Date Row -->
+            <div class="flex justify-between items-start gap-6">
+              <!-- Price Left -->
+              <div class="w-1/2">
+                <h6 class="text-sm font-semibold text-jacarta-700 dark:text-white mb-1">Price</h6>
+                <p id="booking-price" class="text-base font-medium text-gray-700 dark:text-white">₹{{ item.amount }}</p>
+              </div>
+    
+              <!-- Date Right -->
+              <div class="w-1/2 text-right">
+                <h6 class="text-sm font-semibold text-jacarta-700 dark:text-white mb-1">Date</h6>
+                <p id="booking-date" class="text-sm text-gray-600 dark:text-jacarta-300">--</p>
+              </div>
+            </div>
+    
+            <!-- Optional Add Ons and Time -->
+            <div class="flex justify-between items-start gap-6">
+              <!-- Optional Add Ons -->
+              <div class="w-1/2">
+                <h6 class="text-sm font-semibold text-jacarta-700 dark:text-white mb-2">Optional Add Ons</h6>
+    
+                <!-- Recording Option -->
+                <div class="flex items-center mb-2 space-x-2">
+                  <input type="checkbox" id="addon-recording" class="rounded border-gray-300 text-accent focus:ring-accent">
+                  <label for="addon-recording" class="text-sm text-gray-700 dark:text-white">
+                    Recording <span class="ml-1 text-jacarta-700 dark:text-white font-medium" id="recording-cost">₹299</span>
+                  </label>
+                </div>
+    
+                <!-- Shoutout Option -->
+                <div class="flex items-center space-x-2">
+                  <input type="checkbox" id="addon-shoutout" class="rounded border-gray-300 text-accent focus:ring-accent">
+                  <label for="addon-shoutout" class="text-sm text-gray-700 dark:text-white">
+                    Shoutout <span class="ml-1 text-jacarta-700 dark:text-white font-medium" id="shoutout-cost">₹599</span>
+                  </label>
+                </div>
+              </div>
+    
+              <!-- Time -->
+              <div class="w-1/2 text-right">
+                <h6 class="text-sm font-semibold text-jacarta-700 dark:text-white mb-1">Time</h6>
+                <p id="booking-time" class="text-sm text-gray-600 dark:text-jacarta-300">--</p>
+              </div>
+            </div>
+    
+            <!-- Total -->
+            <div class="flex justify-between items-start gap-6">
+              <div class="w-1/2">
+                <h6 class="text-sm font-semibold text-jacarta-700 dark:text-white mb-1">Total</h6>
+              </div>
+    
+              <div class="w-1/2 text-right">
+                <p id="booking-total" class="text-sm text-gray-600 dark:text-jacarta-300">₹0</p>
+              </div>
+            </div>
+          </div>
+    
+          <!-- Footer -->
+          <div class="modal-footer justify-center pb-6">
+            <button type="button" class="confirm_video_session_booking rounded-full bg-accent py-3 px-8 text-white font-semibold hover:bg-accent-dark" data-bs-dismiss="modal">
+              Confirm Booking
+            </button>
           </div>
         </div>
       </div>
@@ -2413,7 +3532,19 @@ document.addEventListener("DOMContentLoaded", function () {
     .then(response => response.json())
     .then(data => {
       availabilityData = data.availability;
+      console.log(availabilityData)
       renderDateSlider();
+      if (availabilityData.length > 0) {
+        const availableEntry = availabilityData.find(item => item.slots.length > 0);
+      
+        if (availableEntry) {
+          const formattedDate = formatDate(availableEntry.date);
+          const availableDate = document.querySelector(".available-date");
+          availableDate.innerText = `Available on ${formattedDate}`;
+        } else {
+          availableDate.innerText = "Available Soon";
+        }
+      }
     });
 });
 
@@ -2423,12 +3554,12 @@ function renderDateSlider() {
 
   availabilityData.forEach((day) => {
     const btn = document.createElement("button");
-    btn.className = "date-btn border inline-block w-20 text-center bg-gray-200 rounded-lg p-2 hover:bg-blue-200 transition text-gray-700";
+    btn.className = "date-btn border inline-block w-20 text-center bg-gray-200 rounded-lg p-2 hover:bg-blue-200 transition text-gray-700 dark:text-white";
     btn.dataset.date = day.date;
 
     btn.innerHTML = `
       <div class="text-sm font-bold">${day.day.slice(0, 3)}</div>
-      <div class="text-xs text-gray-600">${formatDate(day.date)}</div>
+      <div class="text-xs text-gray-600 dark:text-white">${formatDate(day.date)}</div>
     `;
 
     btn.addEventListener("click", function () {
@@ -2463,22 +3594,52 @@ function renderSlots(slots) {
   const container = document.getElementById("timeOptions");
   container.innerHTML = "";
 
-  if (slots.length === 0) {
-    container.innerHTML = "<p class='text-gray-500'>No available slots</p>";
+  if (!slots || slots.length === 0) {
+    container.innerHTML = "<p class='text-gray-500 dark:text-white'>No available slots</p>";
     return;
   }
 
   container.className = "flex flex-wrap gap-2";
 
-  slots.forEach(slot => {
+  const now = new Date();
+  const selected = new Date(selectedDate);
+  const isToday = selected.toDateString() === now.toDateString();
+
+  // Helper to parse 12-hour time like "07:30 AM"
+  function parseTime12Hour(timeStr, baseDate) {
+    const [time, modifier] = timeStr.split(" ");
+    let [hours, minutes] = time.split(":").map(Number);
+
+    if (modifier === "PM" && hours !== 12) hours += 12;
+    if (modifier === "AM" && hours === 12) hours = 0;
+
+    const date = new Date(baseDate);
+    date.setHours(hours, minutes, 0, 0);
+    return date;
+  }
+
+  const filteredSlots = slots.filter(slot => {
+    const slotTime = parseTime12Hour(slot.from, selected);
+    return !isToday || slotTime > now;
+  });
+
+  if (filteredSlots.length === 0) {
+    container.innerHTML = "<p class='text-gray-500 dark:text-white'>No available slots</p>";
+    return;
+  }
+
+  filteredSlots.forEach(slot => {
     const formattedSlotTime = slot.from;
     const isBooked = bookedTimes.includes(formattedSlotTime);
 
     const slotBtn = document.createElement("button");
     slotBtn.style.backgroundColor = isBooked ? 'gray' : '';
-    slotBtn.textContent = isBooked ? formattedSlotTime : formattedSlotTime;
-    slotBtn.className = `time-btn border px-4 py-2 rounded-lg ${isBooked ? ' text-white cursor-not-allowed' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`;
-   
+    slotBtn.textContent = formattedSlotTime;
+    slotBtn.className = `time-btn border px-4 py-2 rounded-lg ${
+      isBooked
+        ? 'text-white cursor-not-allowed dark:text-white'
+        : 'bg-gray-200 text-gray-700 hover:bg-gray-300 dark:text-white'
+    }`;
     slotBtn.disabled = isBooked;
 
     if (!isBooked) {
@@ -2493,9 +3654,16 @@ function renderSlots(slots) {
         slotBtn.classList.remove("bg-gray-200", "text-gray-700");
         slotBtn.classList.add("bg-accent", "text-white");
 
-        const auctionDateTime = document.getElementById("auctionDateTime");
         if (selectedDate && selectedTime) {
-          auctionDateTime.textContent = `${selectedDate} - ${selectedTime}`;
+          const dateObj = new Date(selectedDate);
+          const formattedDate = dateObj.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: '2-digit'
+          }).replace(',', '');
+
+          document.getElementById('booking-date').textContent = formattedDate;
+          document.getElementById('booking-time').textContent = selectedTime;
         }
       });
     }
@@ -2503,6 +3671,8 @@ function renderSlots(slots) {
     container.appendChild(slotBtn);
   });
 }
+
+
 
 function formatDate(dateStr) {
   const options = { day: '2-digit', month: 'short' };
@@ -2521,8 +3691,37 @@ function convert24To12HourWithLeadingZero(timeStr) {
   });
 }
 
+document.querySelector('.book_video_session').addEventListener('click',function(){
+
+  const bookingPrice = parseFloat(document.getElementById('booking-price').textContent.replace('₹', '').trim()) || 0;
+console.log("bookingPrice",bookingPrice)
+  const recordingCost = parseFloat(document.getElementById('recording-cost').textContent.replace('₹', '').trim()) || 0;
+  const shoutoutCost = parseFloat(document.getElementById('shoutout-cost').textContent.replace('₹', '').trim()) || 0;
+
+  const addonRecording = document.getElementById('addon-recording');
+  const addonShoutout = document.getElementById('addon-shoutout');
+
+  const bookingTotalElement = document.getElementById('booking-total');
+
+  function updateTotal() {
+    let total = bookingPrice; 
+    if (addonRecording.checked) {
+      total += recordingCost; 
+    }
+    if (addonShoutout.checked) {
+      total += shoutoutCost; 
+    }
+    bookingTotalElement.textContent = `₹${total}`;
+  }
+
+  addonRecording.addEventListener('change', updateTotal);
+  addonShoutout.addEventListener('change', updateTotal);
+
+  updateTotal();
+});
+
      
-document.querySelector('.book_session').addEventListener('click',function(){
+document.querySelector('.confirm_video_session_booking').addEventListener('click',function(){
 
   document.getElementById('loadingSpinner').style.display = 'flex';
 let session_title = "{{ item.title|escapejs }}"  

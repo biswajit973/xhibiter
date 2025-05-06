@@ -48,86 +48,62 @@
               <a href="{% url 'user' %}" class="text-sm font-bold text-accent">{{ creator.yourusername }}</a>
             </div>
 
-            <div
-              class="mb-8 inline-flex flex-wrap items-center justify-center rounded-xl border border-jacarta-100 bg-white dark:border-jacarta-600 dark:bg-jacarta-800"
-            >
-              <a
-                href="#"
-                class="w-1/2 rounded-l-xl border-r border-jacarta-100 py-4 hover:shadow-md dark:border-jacarta-600 sm:w-32"
-              >
-             
-              <div class="mb-1 text-base font-bold text-jacarta-700 dark:text-white">
-                  {{ formatted_followers }}
-              </div> 
-             <div class="text-2xs font-medium tracking-tight dark:text-jacarta-400">Instagram Followers</div>
-              </a>
-              <a
-                href="#"
-                class="w-1/2 border-jacarta-100 py-4 hover:shadow-md dark:border-jacarta-600 sm:w-32 sm:border-r"
-              >
-                <div class="mb-1 text-base font-bold text-jacarta-700 dark:text-white">
-                    {{ formatted_subscribers }}
+            <div class="mb-8 inline-flex flex-wrap items-center justify-center rounded-xl border border-jacarta-100 bg-white dark:border-jacarta-600 dark:bg-jacarta-800 w-96">
+              <!-- Instagram -->
+              <a href="{{ creator.instagramlink }}" target="_blank" class="w-1/2 rounded-l-xl border-r border-jacarta-100 py-4 hover:shadow-md dark:border-jacarta-600 sm:w-32 flex flex-col items-center">
+                <div class="mb-1 text-2xs font-bold text-jacarta-700 dark:text-white">
+                  {{ formatted_followers }} Followers
                 </div>
-                <div class="text-2xs font-medium tracking-tight dark:text-jacarta-400">Youtube Subscribers</div>
+                <div class="text-2xs font-medium tracking-tight dark:text-jacarta-400">(IG)</div>
               </a>
-              <a
-                href="#"
-                class="w-1/2 border-r border-jacarta-100 py-4 hover:shadow-md dark:border-jacarta-600 sm:w-32"
-              >
-                <div
-                  class="mb-1 flex items-center justify-center text-base font-medium text-jacarta-700 dark:text-white"
-                >
-                  <span class="-mt-px inline-block" data-tippy-content="ETH">
-                    <svg
-                      version="1.1"
-                      xmlns="http://www.w3.org/2000/svg"
-                      x="0"
-                      y="0"
-                      viewBox="0 0 1920 1920"
-                      xml:space="preserve"
-                      class="h-4 w-4"
-                    >
-                      <path fill="#8A92B2" d="M959.8 80.7L420.1 976.3 959.8 731z" />
-                      <path fill="#62688F" d="M959.8 731L420.1 976.3l539.7 319.1zm539.8 245.3L959.8 80.7V731z" />
-                      <path fill="#454A75" d="M959.8 1295.4l539.8-319.1L959.8 731z" />
-                      <path fill="#8A92B2" d="M420.1 1078.7l539.7 760.6v-441.7z" />
-                      <path fill="#62688F" d="M959.8 1397.6v441.7l540.1-760.6z" />
+            
+              <!-- YouTube -->
+              <a href="{{ creator.youtubelink }}" target="_blank" class="w-1/2 border-jacarta-100 py-4 hover:shadow-md dark:border-jacarta-600 sm:w-32 sm:border-r flex flex-col items-center">
+                <div class="mb-1 text-2xs font-bold text-jacarta-700 dark:text-white">
+                  {{ formatted_subscribers }} Subscribers
+                </div>
+                <div class="text-2xs font-medium tracking-tight dark:text-jacarta-400">(YT)</div>
+              </a>
+            
+              <!-- Bookings -->
+              <a href="#" class="w-1/2 border-r border-jacarta-100 py-4 hover:shadow-md dark:border-jacarta-600 sm:w-32 flex flex-col items-center">
+                <div class="mb-1 text-2xs font-bold text-jacarta-700 dark:text-white">1.2K Bookings</div>
+                <div class="flex items-center text-2xs font-medium tracking-tight dark:text-jacarta-400">
+                  <div class="-mt-px inline-block" data-tippy-content="ETH">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-jacarta-700 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                  </span>
-                  <span class="font-bold">2.55</span>
+                  </div>
+                  <div class="text-2xs font-medium tracking-tight dark:text-jacarta-400">2h response</div>
                 </div>
-                <div class="text-2xs font-medium tracking-tight dark:text-jacarta-400">Floor Price</div>
               </a>
-              <a href="#" class="w-1/2 rounded-r-xl border-jacarta-100 py-4 hover:shadow-md sm:w-32">
-                <div
-                  class="mb-1 flex items-center justify-center text-base font-medium text-jacarta-700 dark:text-white"
-                >
-                  <span class="-mt-px inline-block" data-tippy-content="ETH">
-                    <svg
-                      version="1.1"
-                      xmlns="http://www.w3.org/2000/svg"
-                      x="0"
-                      y="0"
-                      viewBox="0 0 1920 1920"
-                      xml:space="preserve"
-                      class="h-4 w-4"
-                    >
-                      <path fill="#8A92B2" d="M959.8 80.7L420.1 976.3 959.8 731z" />
-                      <path fill="#62688F" d="M959.8 731L420.1 976.3l539.7 319.1zm539.8 245.3L959.8 80.7V731z" />
-                      <path fill="#454A75" d="M959.8 1295.4l539.8-319.1L959.8 731z" />
-                      <path fill="#8A92B2" d="M420.1 1078.7l539.7 760.6v-441.7z" />
-                      <path fill="#62688F" d="M959.8 1397.6v441.7l540.1-760.6z" />
+            
+              <!-- Reviews -->
+              <a href="#" class="w-1/2 rounded-r-xl border-jacarta-100 py-4 hover:shadow-md sm:w-32 flex flex-col items-center">
+                <div class="mb-1 flex items-center justify-center text-base font-medium text-jacarta-700 dark:text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.948a1 1 0 00.95.69h4.15c.969 0 1.371 1.24.588 1.81l-3.36 2.443a1 1 0 00-.364 1.118l1.285 3.949c.3.92-.755 1.688-1.54 1.118l-3.36-2.443a1 1 0 00-1.175 0l-3.36 2.443c-.784.57-1.838-.197-1.54-1.118l1.285-3.949a1 1 0 00-.364-1.118L2.075 9.375c-.783-.57-.38-1.81.588-1.81h4.15a1 1 0 00.95-.69l1.286-3.948z" />
                     </svg>
-                  </span>
-                  <span class="font-bold">17.2K</span>
+                  
+                  <div class="text-2xs font-bold text-jacarta-700 dark:text-white">4.8(320 reviews)</div>
                 </div>
-                <div class="text-2xs font-medium tracking-tight dark:text-jacarta-400">Volume Traded</div>
+                <div class="flex items-center text-2xs font-medium tracking-tight dark:text-jacarta-400">
+                  <div class="-mt-px inline-block" data-tippy-content="ETH">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-jacarta-700 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v6h6M20 20v-6h-6M4 10a9 9 0 0115.5-5.5L20 4M20 20a9 9 0 01-15.5-5.5L4 20" />
+                    </svg>
+                  </div>
+                  <div class="text-2xs font-medium tracking-tight dark:text-jacarta-400">38% repeat</div>
+                </div>
               </a>
             </div>
+            
+            <p id="about-text" 
+            class="mx-auto max-w-xl text-lg dark:text-jacarta-300 leading-relaxed whitespace-pre-line break-words cursor-pointer transition duration-300">
+           {{ creator.aboutyourself }}
+         </p>
+         
 
-            <p class="mx-auto max-w-xl text-lg dark:text-jacarta-300">
-            {{ creator.aboutyourself }}    
-            </p>
 
             <div class="mt-6 flex items-center justify-center space-x-2.5">
               <div
@@ -1210,9 +1186,11 @@
                     <div class="mt-7 flex items-center justify-between">
                      <a href="{{ creatorvideo.get_absolute_url }}">
 
-                        <span class="font-display text-base text-jacarta-700 hover:text-accent dark:text-white"
-                          >{{ creatorvideo.title }}</span
-                        >
+                      <span class="font-display text-base text-jacarta-700 hover:text-accent dark:text-white"
+                      style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; max-width: calc(100% - 2rem); line-height: 1.5em;">
+                      {{ creatorvideo.title }}
+                    </span>
+                    
                       </a>
                       <div class="dropup rounded-full hover:bg-jacarta-100 dark:hover:bg-jacarta-600">
                         <a
@@ -1240,27 +1218,33 @@
                           class="dropdown-menu dropdown-menu-end z-10 hidden min-w-[200px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800"
                           aria-labelledby="itemActions"
                         >
+                        <a href="{{ creatorvideo.get_absolute_url }}" class="block">
                           <button
                             class="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                           >
-                            New bid
+                            View Details
                           </button>
+                        </a>
                           <hr class="my-2 mx-4 h-px border-0 bg-jacarta-100 dark:bg-jacarta-600" />
-                          <button
+                          {% comment %} <button
                             class="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                           >
                             Refresh Metadata
-                          </button>
+                          </button> {% endcomment %}
                           <button
                             class="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
+                            onclick="copyLink('{{ creatorvideo.get_absolute_url }}')"
                           >
                             Share
                           </button>
                           <button
-                            class="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
-                          >
-                            Report
-                          </button>
+                          class="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
+                          data-bs-toggle="modal"
+                          data-bs-target="#reportConfirmationModal"
+                        >
+                          Report
+                        </button>
+
                         </div>
                       </div>
                     </div>
@@ -1291,9 +1275,11 @@ Buy now</a>
                             d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12h2c0 4.418 3.582 8 8 8s8-3.582 8-8-3.582-8-8-8C9.25 4 6.824 5.387 5.385 7.5H8v2H2v-6h2V6c1.824-2.43 4.729-4 8-4zm1 5v4.585l3.243 3.243-1.415 1.415L11 12.413V7h2z"
                           />
                         </svg>
+                        
                         <span class="font-display text-sm font-semibold group-hover:text-accent dark:text-jacarta-200"
-                          >View History</span
+                          >View Details</span
                         >
+                      
                       </a>
                     </div>
                   </div>
@@ -1364,8 +1350,9 @@ Buy now</a>
                     <div class="mt-7 flex items-center justify-between">
                       <a href="{{ creatorwebinar.get_absolute_url }}">
                         <span class="font-display text-base text-jacarta-700 hover:text-accent dark:text-white"
-                          >{{ creatorwebinar.title }}</span
-                        >
+                        style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; max-width: calc(100% - 2rem); line-height: 1.5em;">
+                        {{ creatorwebinar.title }}
+                      </span>
                       </a>
                       <div class="dropup rounded-full hover:bg-jacarta-100 dark:hover:bg-jacarta-600">
                         <a
@@ -1393,27 +1380,32 @@ Buy now</a>
                           class="dropdown-menu dropdown-menu-end z-10 hidden min-w-[200px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800"
                           aria-labelledby="itemActions2"
                         >
+                        <a href="{{ creatorwebinar.get_absolute_url }}">
                           <button
                             class="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                           >
-                            New bid
+                            View Details
                           </button>
+                        </a>
                           <hr class="my-2 mx-4 h-px border-0 bg-jacarta-100 dark:bg-jacarta-600" />
-                          <button
+                          {% comment %} <button
                             class="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                           >
                             Refresh Metadata
-                          </button>
+                          </button> {% endcomment %}
                           <button
-                            class="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
-                          >
-                            Share
-                          </button>
-                          <button
-                            class="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
-                          >
-                            Report
-                          </button>
+                          class="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
+                          onclick="copyLink('{{ creatorwebinar.get_absolute_url }}')"
+                        >
+                          Share
+                        </button>
+                        <button
+                        class="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
+                        data-bs-toggle="modal"
+                        data-bs-target="#reportConfirmationModal"
+                      >
+                        Report
+                      </button>
                         </div>
                       </div>
                     </div>
@@ -1443,7 +1435,7 @@ Buy now</a>
                           />
                         </svg>
                         <span class="font-display text-sm font-semibold group-hover:text-accent dark:text-jacarta-200"
-                          >View History</span
+                          >View Details</span
                         >
                       </a>
                     </div>
@@ -1514,8 +1506,9 @@ Buy now</a>
                     <div class="mt-7 flex items-center justify-between">
                       <a href="{{ creatorpriority.get_absolute_url }}">
                         <span class="font-display text-base text-jacarta-700 hover:text-accent dark:text-white"
-                          >{{ creatorpriority.title }}</span
-                        >
+                        style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; max-width: calc(100% - 2rem); line-height: 1.5em;">
+                        {{ creatorpriority.title }}
+                      </span>
                       </a>
                       <div class="dropup rounded-full hover:bg-jacarta-100 dark:hover:bg-jacarta-600">
                         <a
@@ -1543,27 +1536,32 @@ Buy now</a>
                           class="dropdown-menu dropdown-menu-end z-10 hidden min-w-[200px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800"
                           aria-labelledby="itemActions3"
                         >
+                        <a href="{{ creatorpriority.get_absolute_url }}">
                           <button
                             class="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                           >
-                            New bid
+                            View Details
                           </button>
+                        </a>
                           <hr class="my-2 mx-4 h-px border-0 bg-jacarta-100 dark:bg-jacarta-600" />
-                          <button
+                          {% comment %} <button
                             class="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                           >
                             Refresh Metadata
-                          </button>
+                          </button> {% endcomment %}
                           <button
                             class="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
+                            onclick="copyLink('{{ creatorpriority.get_absolute_url }}')"
                           >
                             Share
                           </button>
                           <button
-                            class="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
-                          >
-                            Report
-                          </button>
+                          class="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
+                          data-bs-toggle="modal"
+                          data-bs-target="#reportConfirmationModal"
+                        >
+                          Report
+                        </button>
                         </div>
                       </div>
                     </div>
@@ -1592,7 +1590,7 @@ Buy now</a>
                           />
                         </svg>
                         <span class="font-display text-sm font-semibold group-hover:text-accent dark:text-jacarta-200"
-                          >View History</span
+                          >View Details</span
                         >
                       </a>
                     </div>
@@ -2942,7 +2940,113 @@ Buy now</a>
         </div>
       </div>
     </div>
+    <!-- Confirmation Modal -->
+<div class="modal fade" id="reportConfirmationModal" tabindex="-1" aria-labelledby="reportConfirmationLabel" aria-hidden="true">
+  <div class="modal-dialog max-w-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title font-semibold text-jacarta-700 dark:text-white" id="reportConfirmationLabel">
+          Confirm Report
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            width="24"
+            height="24"
+            class="h-6 w-6 fill-jacarta-700 dark:fill-white"
+          >
+            <path fill="none" d="M0 0h24v24H0z" />
+            <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="modal-body p-6 text-center">
+        <p class="text-jacarta-700 dark:text-white mb-4">
+          Are you sure you want to report this item?
+        </p>
+        <p class="text-sm text-jacarta-500 dark:text-jacarta-300">
+          This action cannot be undone.
+        </p>
+      </div>
+
+      <div class="modal-footer flex justify-center space-x-4 pb-4">
+        <button
+          type="button"
+          class="rounded-full bg-jacarta-100 px-6 py-2 text-sm font-semibold text-jacarta-700 hover:bg-jacarta-200 dark:bg-jacarta-600 dark:text-white dark:hover:bg-jacarta-500"
+          data-bs-dismiss="modal"
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          class="rounded-full bg-accent px-6 py-2 text-sm font-semibold text-white shadow hover:bg-red-700"
+          onclick="confirmReport()"
+        >
+          Report
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
     <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const fullText = `{{ creator.aboutyourself|escapejs }}`;
+        const words = fullText.split(" ");
+        const shortText = words.slice(0, 45).join(" ") + (words.length > 45 ? "" : "");
+        const remainingText = words.length > 45 ? words.slice(45).join(" ") : "";
+    
+        const aboutText = document.getElementById("about-text");
+        let isExpanded = false;
+    
+        // Set initial text
+        aboutText.innerHTML = `
+          <span id="short-part">${shortText}</span>
+          <span id="remaining-part" style="display: none;"> ${remainingText}</span>
+        `;
+    
+        aboutText.addEventListener("click", function () {
+          const remainingEl = document.getElementById("remaining-part");
+          isExpanded = !isExpanded;
+          remainingEl.style.display = isExpanded ? "inline" : "none";
+        });
+    
+        aboutText.addEventListener("mouseenter", function () {
+          if (!isExpanded) document.getElementById("remaining-part").style.display = "inline";
+        });
+    
+        aboutText.addEventListener("mouseleave", function () {
+          if (!isExpanded) document.getElementById("remaining-part").style.display = "none";
+        });
+      });
+
+     
+
+      function copyLink(relativeUrl) {
+        const fullUrl = window.location.origin + relativeUrl;
+      
+        const input = document.createElement('input');
+        input.value = fullUrl;
+        document.body.appendChild(input);
+      
+        input.select();
+        input.setSelectionRange(0, 99999); 
+      
+        document.execCommand('copy');
+        document.body.removeChild(input);
+      
+        alert('Link copied to clipboard!');
+      }
+      
+
+        function confirmReport() {
+          alert("Report submitted!");
+          const modal = bootstrap.Modal.getInstance(document.getElementById('reportConfirmationModal'));
+          modal.hide();
+        }
+      
       document.getElementById('shareButton').addEventListener('click', async () => {
         if (navigator.share) {
           try {
@@ -2958,6 +3062,7 @@ Buy now</a>
           alert('Sharing not supported on this browser.');
         }
       });
+
     </script>
 
     {% endblock %}
