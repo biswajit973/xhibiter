@@ -1122,7 +1122,7 @@
 
               <!-- Grid -->
               {% if creatorvideosessiondetails or creatorwebinarsessiondetails or creatorpriorityDmdetails %}
-              <div class="grid grid-cols-1 gap-[1.875rem] md:grid-cols-2 lg:grid-cols-4">
+              <div class="grid grid-cols-1 gap-[1.875rem] md:grid-cols-2 lg:grid-cols-3">
                 {% if creatorvideosessiondetails %}
                 {% for creatorvideo in creatorvideosessiondetails %}
               <article>
@@ -1248,11 +1248,20 @@
                         </div>
                       </div>
                     </div>
-                    <div class="mt-2 text-sm">
-                      <span class="mr-1 text-jacarta-700 dark:text-jacarta-200">From INR {{ creatorvideo.amount }}</span>
-                      <span class="text-jacarta-500 dark:text-jacarta-300">2/8</span>
+                    <div class ="flex items-center justify-between mt-2 text-sm">
+                      <div>
+                        <span class="mr-1 text-jacarta-700 dark:text-jacarta-200">From INR {{ creatorvideo.amount}}</span>
+                      </div>
+                      <div>
+                        <span class="mr-1 text-jacarta-700 dark:text-jacarta-200">Duration : {{ creatorvideo.duration}} minutes</span>
+                      </div>
                     </div>
-
+                    <div class="mt-2 text-sm">
+                      <span class="mr-1 text-jacarta-700 dark:text-jacarta-200">Mode : Google Meet/Zoom (link shared after booking)</span>
+                    </div> 
+                    <div class="mt-2 text-sm">
+                      <span class="mr-1 text-jacarta-700 dark:text-jacarta-200">Language : Hindi/English</span>
+                    </div> 
                     <div class="mt-8 flex items-center justify-between">
                       <button
                         class="font-display text-sm font-semibold text-accent"
@@ -1409,11 +1418,20 @@ Buy now</a>
                         </div>
                       </div>
                     </div>
-                    <div class="mt-2 text-sm">
-                      <span class="mr-1 text-jacarta-700 dark:text-jacarta-200">From INR {{ creatorwebinar.amount }}</span>
-                      <span class="text-jacarta-500 dark:text-jacarta-300">1/7</span>
+                    <div class ="flex items-center justify-between mt-2 text-sm">
+                      <div>
+                        <span class="mr-1 text-jacarta-700 dark:text-jacarta-200">From INR {{ creatorwebinar.amount}}</span>
+                      </div>
+                      <div>
+                        <span class="mr-1 text-jacarta-700 dark:text-jacarta-200">Duration: {{ creatorwebinar.duration}} minutes</span>
+                      </div>
+                    </div> 
+                    <div  class="mt-2 text-sm">
+                      <span class="mr-1 text-jacarta-700 dark:text-jacarta-200">Mode: Google Meet/Zoom (link shared after booking)</span>
                     </div>
-
+                    <div class="mt-2 text-sm">
+                      <span class="mr-1 text-jacarta-700 dark:text-jacarta-200">Language : Hindi/English</span>
+                    </div> 
                     <div class="mt-8 flex items-center justify-between">
                       <button
                         class="font-display text-sm font-semibold text-accent"
@@ -1565,10 +1583,20 @@ Buy now</a>
                         </div>
                       </div>
                     </div>
-                    <div class="mt-2 text-sm">
-                      <span class="mr-1 text-jacarta-700 dark:text-jacarta-200">From INR {{ creatorpriority.amount}}</span>
-                      <span class="text-jacarta-500 dark:text-jacarta-300">1/3</span>
+                    <div class ="flex items-center justify-between mt-2 text-sm">
+                      <div>
+                        <span class="mr-1 text-jacarta-700 dark:text-jacarta-200">From INR {{ creatorpriority.amount}}</span>
+                      </div>
+                      <div>
+                        <span class="mr-1 text-jacarta-700 dark:text-jacarta-200">Duration: {{ creatorpriority.duration}} minutes</span>
+                      </div>
+                    </div>  
+                     <div  class="mt-2 text-sm">
+                      <span class="mr-1 text-jacarta-700 dark:text-jacarta-200">Mode: Google Meet/Zoom (link shared after booking)</span>
                     </div>
+                    <div class="mt-2 text-sm">
+                      <span class="mr-1 text-jacarta-700 dark:text-jacarta-200">Language : Hindi/English</span>
+                    </div> 
 
                     <div class="mt-8 flex items-center justify-between">
                       <button

@@ -433,7 +433,7 @@
                   </li>
                   <li>
                     <a
-                      href="{% url 'edit-profile' %}"
+                      href="{% url 'create' %}"
                       class="flex items-center rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
                     >
                       <span class="font-display text-sm text-jacarta-700 dark:text-white">Edit Profile</span>
@@ -1055,7 +1055,7 @@
                       </div>
                     </div>
                     <a
-                      href="{% url 'user' %}"
+                      href="{% url 'create' %}"
                       class="flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
                     >
                       <svg
@@ -1073,7 +1073,7 @@
                       <span class="mt-1 font-display text-sm text-jacarta-700 dark:text-white">My Profile</span>
                     </a>
                     <a
-                      href="{% url 'edit-profile' %}"
+                      href="{% url 'create' %}"
                       class="flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
                     >
                       <svg
@@ -1265,8 +1265,9 @@
         <!-- Mobile Menu Actions -->
         <div class="ml-auto flex lg:hidden">
           <!-- Profile -->
+          {% if user.is_authenticated %}
           <a
-            href="{% url 'edit-profile' %}"
+            href="{% url 'logout' %}"
             class="group ml-2 flex h-10 w-10 items-center justify-center rounded-full border border-jacarta-100 bg-white transition-colors hover:border-transparent hover:bg-accent focus:border-transparent focus:bg-accent dark:border-transparent dark:bg-white/[.15] dark:hover:bg-accent"
             aria-label="profile"
           >
@@ -1283,6 +1284,26 @@
               />
             </svg>
           </a>
+          {% else %}
+          <a
+          href="{% url 'login' %}"
+          class="group ml-2 flex h-10 w-10 items-center justify-center rounded-full border border-jacarta-100 bg-white transition-colors hover:border-transparent hover:bg-accent focus:border-transparent focus:bg-accent dark:border-transparent dark:bg-white/[.15] dark:hover:bg-accent"
+          aria-label="profile"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            width="24"
+            height="24"
+            class="h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white group-focus:fill-white dark:fill-white"
+          >
+            <path fill="none" d="M0 0h24v24H0z" />
+            <path
+              d="M11 14.062V20h2v-5.938c3.946.492 7 3.858 7 7.938H4a8.001 8.001 0 0 1 7-7.938zM12 13c-3.315 0-6-2.685-6-6s2.685-6 6-6 6 2.685 6 6-2.685 6-6 6z"
+            />
+          </svg>
+        </a>
+      {% endif %}
 
           <!-- Dark Mode -->
           <a

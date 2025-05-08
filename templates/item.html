@@ -16,11 +16,18 @@ background: rgba(255,255,255,0.7); z-index: 9999; align-items: center; justify-c
     animation: spin 1s linear infinite;
 }
 
+@media (min-width: 400px) {
+    .container {
+        max-width: 100% !important;
+    }
+}
+
 @keyframes spin {
     to {
         transform: rotate(360deg);
     }
 }
+
 </style>
 
 
@@ -32,16 +39,16 @@ background: rgba(255,255,255,0.7); z-index: 9999; align-items: center; justify-c
         </picture>
         <div class="container">
           <!-- Item -->
-          <div class="md:flex md:flex-wrap">
+          <div class="md:flex md:flex-wrap items-center justify-center">
             <!-- Image -->
 
 
-<figure class="mb-8 md:w-2/5 md:flex-shrink-0 md:flex-grow-0 md:basis-auto lg:w-1/2">
+<figure class="mb-8 lg:w-1/2">
   {% if item.creator.profile_picture %}
     <img
       src="{{ item.creator.profile_picture.url }}"
       alt="Profile Picture"
-      class="cursor-pointer rounded-2.5xl"
+      class="mt-6 cursor-pointer rounded-2.5xl"
       data-bs-toggle="modal"
       data-bs-target="#imageModal"
     />
@@ -49,7 +56,7 @@ background: rgba(255,255,255,0.7); z-index: 9999; align-items: center; justify-c
     <img
       src="{% static 'img/collections/collection_square_1.jpg' %}"
       alt="Default Profile Picture"
-      class="cursor-pointer rounded-2.5xl"
+      class="mt-6 -pointer rounded-2.5xl"
       data-bs-toggle="modal"
       data-bs-target="#imageModal"
     />
@@ -92,11 +99,11 @@ background: rgba(255,255,255,0.7); z-index: 9999; align-items: center; justify-c
             </figure>
 
             <!-- Details -->
-            <div class="w-full md:w-3/5 md:basis-auto md:pl-8 lg:w-1/2 lg:pl-[3.75rem]">
+            <div class="w-full md:w-full md:basis-auto md:pl-8 lg:w-1/2 lg:pl-[3.75rem]">
               <!-- Collection / Likes / Actions -->
-              <div class="mb-3 flex flex-row sm:flex-row sm:items-center sm:justify-end space-x-4">
-                <!-- Collection -->
-                <div class="flex items-center mb-2 sm:mb-0">
+              <div class="mb-4 flex items-center justify-between">
+                <!-- Collection (Left Side) -->
+                <div class="flex items-center">
                   <a href="#" class="mr-2 text-sm font-bold text-accent">{{ item.creator.yourusername }}</a>
                   <span class="inline-flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-green dark:border-jacarta-600" data-tippy-content="Verified Collection">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" class="h-[.875rem] w-[.875rem] fill-white">
@@ -105,9 +112,9 @@ background: rgba(255,255,255,0.7); z-index: 9999; align-items: center; justify-c
                     </svg>
                   </span>
                 </div>
-            
-                <!-- Likes / Actions -->
-                <div class="flex justify-start sm:justify-end space-x-2">
+              
+                <!-- Likes / Actions (Right Side) -->
+                <div class="flex items-center space-x-2">
                   <div class="flex items-center space-x-1 rounded-xl border border-jacarta-100 bg-white py-2 px-4 dark:border-jacarta-600 dark:bg-jacarta-700">
                     <span class="js-likes relative cursor-pointer" data-tippy-content="Favorite">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" class="h-4 w-4 fill-jacarta-500 hover:fill-red dark:fill-jacarta-200 dark:hover:fill-red">
@@ -117,7 +124,7 @@ background: rgba(255,255,255,0.7); z-index: 9999; align-items: center; justify-c
                     </span>
                     <span class="text-sm dark:text-jacarta-200">188</span>
                   </div>
-            
+              
                   <div id="shareButton" class="rounded-xl border border-jacarta-100 bg-white hover:bg-jacarta-100 dark:border-jacarta-600 dark:bg-jacarta-700 dark:hover:bg-jacarta-600 p-2" data-tippy-content="Share">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" class="h-6 w-6 fill-jacarta-500 dark:fill-jacarta-200">
                       <path fill="none" d="M0 0h24v24H0z" />
@@ -126,52 +133,56 @@ background: rgba(255,255,255,0.7); z-index: 9999; align-items: center; justify-c
                   </div>
                 </div>
               </div>
+              
             
               <!-- Title -->
               <h1 class="mb-4 font-display text-2xl sm:text-3xl font-semibold text-jacarta-700 dark:text-white">{{ item.creator.firstname }} {{ item.creator.lastname }}</h1>
             
-              <!-- Reviews & Availability -->
-              <div class="flex  -mx-2">
-                <!-- Review Rating Section -->
-                <div class="flex items-center space-x-2 w-full sm:w-1/2 lg:w-1/3">
-                  <span data-tippy-content="ETH">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 dark:text-white" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.948a1 1 0 00.95.69h4.15c.969 0 1.371 1.24.588 1.81l-3.36 2.443a1 1 0 00-.364 1.118l1.285 3.949c.3.92-.755 1.688-1.54 1.118l-3.36-2.443a1 1 0 00-1.175 0l-3.36 2.443c-.784.57-1.838-.197-1.54-1.118l1.285-3.949a1 1 0 00-.364-1.118L2.075 9.375c-.783-.57-.38-1.81.588-1.81h4.15a1 1 0 00.95-.69l1.286-3.948z" />
-                    </svg>
-                  </span>
-                  <span class="text-sm font-medium tracking-tight text-green">4.9 out of 120 reviews</span>
-                </div>
-              
-                <!-- Booked by Users Section -->
-                <div class="flex items-center space-x-2 w-full sm:w-1/2 lg:w-1/3">
-                  <span data-tippy-content="Users">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20" class="w-4 h-4 dark:text-white">
-                      <path fill-rule="evenodd" d="M10 2a4 4 0 1 1 0 8 4 4 0 0 1 0-8zm0 10a6 6 0 0 0-6 6v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-1a6 6 0 0 0-6-6z" clip-rule="evenodd"/>
-                    </svg>
-                  </span>
-                  <span class="text-sm font-medium dark:text-white">Booked by 300+ users</span>
-                </div>
-              
-                <!-- Available Date Section -->
-                <div class="flex items-center justify-end space-x-2 w-full sm:w-1/2 lg:w-1/3">
-                  <span data-tippy-content="Available Date">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20" class="w-4 h-4 dark:text-white">
-                      <path fill-rule="evenodd" d="M3 4a1 1 0 0 1 1-1h2V2a1 1 0 0 1 2 0v1h6V2a1 1 0 0 1 2 0v1h2a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4zM4 5v12h12V5H4z" clip-rule="evenodd"/>
-                    </svg>
-                  </span>
-                  <span class="available-date text-sm font-bold text-gray-700 dark:text-white"></span>
-                </div>
+            <!-- Reviews & Availability -->
+
+            <div class="flex flex-wrap gap-y-4 gap-x-4 mb-6">
+              <!-- Review Rating Section -->
+              <div class="flex items-center space-x-2 basis-full sm:basis-[48%] lg:basis-[32%]">
+                <span data-tippy-content="ETH">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 dark:text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.948a1 1 0 00.95.69h4.15c.969 0 1.371 1.24.588 1.81l-3.36 2.443a1 1 0 00-.364 1.118l1.285 3.949c.3.92-.755 1.688-1.54 1.118l-3.36-2.443a1 1 0 00-1.175 0l-3.36 2.443c-.784.57-1.838-.197-1.54-1.118l1.285-3.949a1 1 0 00-.364-1.118L2.075 9.375c-.783-.57-.38-1.81.588-1.81h4.15a1 1 0 00.95-.69l1.286-3.948z" />
+                  </svg>
+                </span>
+                <span class="text-sm font-medium tracking-tight text-green">4.9 out of 120 reviews</span>
               </div>
-              
+
+              <!-- Booked by Users Section -->
+              <div class="flex items-center space-x-2 basis-full sm:basis-[48%] lg:basis-[32%]">
+                <span data-tippy-content="Users">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20" class="w-4 h-4 dark:text-white">
+                    <path fill-rule="evenodd" d="M10 2a4 4 0 1 1 0 8 4 4 0 0 1 0-8zm0 10a6 6 0 0 0-6 6v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-1a6 6 0 0 0-6-6z" clip-rule="evenodd"/>
+                  </svg>
+                </span>
+                <span class="text-sm font-medium dark:text-white">Booked by 300+ users</span>
+              </div>
+
+              <!-- Available Date Section -->
+              <div class="flex items-center space-x-2 justify-start sm:justify-end basis-full sm:basis-[48%] lg:basis-[32%]">
+                <span data-tippy-content="Available Date">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20" class="w-4 h-4 dark:text-white">
+                    <path fill-rule="evenodd" d="M3 4a1 1 0 0 1 1-1h2V2a1 1 0 0 1 2 0v1h6V2a1 1 0 0 1 2 0v1h2a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4zM4 5v12h12V5H4z" clip-rule="evenodd"/>
+                  </svg>
+                </span>
+                <span class="available-date text-sm font-bold text-gray-700 dark:text-white"></span>
+              </div>
+            </div>
+
+
+
               
               
               
               
             
               <!-- Item Title -->
-              <h2 class="mb-2 mt-4 font-display text-xl sm:text-2xl font-semibold text-jacarta-700 dark:text-white">{{ item.title }}</h2>
+              <h2 class="mb-2 font-display text-xl sm:text-2xl font-semibold text-jacarta-700 dark:text-white">{{ item.title }}</h2>
                <!-- Price & Duration -->
-               <div class="flex flex-row sm:flex-row justify-between items-start sm:items-center gap-4">
+               <div class="flex flex-row sm:flex-row justify-between items-center sm:items-center gap-4">
                 <div class="flex items-center space-x-1">
                   <h3 class="dark:text-white">Price:</h3>
                   <span class="text-lg font-medium dark:text-white">₹</span>
@@ -191,7 +202,7 @@ background: rgba(255,255,255,0.7); z-index: 9999; align-items: center; justify-c
                 {% endif %}
               </div>
               <!-- Description -->
-              <p class="mt-4 dark:text-jacarta-300">{{ item.description }}</p>
+              <p class="mt-4 mb-4 dark:text-jacarta-300">{{ item.description }}</p>
 
               {% if session_type == "open" %}
               <a
@@ -200,7 +211,7 @@ background: rgba(255,255,255,0.7); z-index: 9999; align-items: center; justify-c
                 data-bs-toggle="modal"
                 data-bs-target="#sessionDetailsModal"
                 
-                class="flex justify-center mt-4  rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                class="flex justify-center mt-4 mb-6 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                 >Schedule a session</a
               >
               {% endif %}
@@ -223,7 +234,7 @@ background: rgba(255,255,255,0.7); z-index: 9999; align-items: center; justify-c
                   data-date="{{ item.session_date }}"
                   data-time="{{ item.session_time }}"
               
-              class="flex justify-center mt-4  rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+              class="flex justify-center mt-4 mb-6 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
               >Schedule a session</a
             >
             {% endif %} 
@@ -233,7 +244,7 @@ background: rgba(255,255,255,0.7); z-index: 9999; align-items: center; justify-c
                 id ="openBidModal"
                 data-bs-toggle="modal"
                 data-bs-target="#placeBidModal"
-                class="mt-6 inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                class="mt-6 inline-block w-full mt-4 mb-6 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                 >Schedule a Session</a
               >
               
@@ -1473,10 +1484,9 @@ background: rgba(255,255,255,0.7); z-index: 9999; align-items: center; justify-c
             </div>
           </div> {% endcomment %}
           {% if session_type == "open" %}
-          <div class="scrollbar-custom overflow-x-auto rounded-lg">
-            <div class="min-w-fit">
+          <div class="container rounded-lg">
               <!-- Tabs Nav -->
-              <ul class="nav nav-tabs flex items-center" role="tablist">
+              <ul class="nav nav-tabs flex overflow-x-auto min-w-max" role="tablist" style="-ms-overflow-style: none; scrollbar-width: none;">
                 <!-- Offers -->
                 <li class="nav-item" role="presentation">
                   <button
@@ -1645,814 +1655,221 @@ background: rgba(255,255,255,0.7); z-index: 9999; align-items: center; justify-c
               </ul>
 
               <!-- Tab Content -->
-              <div class="tab-content overflow-auto">
+            <div class="tab-content max-h-[500px] overflow-y-auto">
               <!-- Overview -->
-                <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
-                  <div
-                    role="table"
-                    class="scrollbar-custom max-h-72 w-full overflow-y-auto rounded-lg rounded-tl-none border border-jacarta-100 bg-white text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
-                  >
-                    <div class="sticky top-0 flex bg-light-base dark:bg-jacarta-600" role="row">
-                      <div class="w-1/2 py-2 px-4" role="columnheader">
-                        <span class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100"
-                          >Feature</span
-                        >
-                      </div>
-                      <div class="w-1/2 py-2 px-4" role="columnheader">
-                        <span class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100"
-                          >Details</span
-                        >
-                      </div> 
-                     
-                      
-                    </div>
-                    
-                    <div class="flex" role="row">
-                      <div
-                        class="flex w-1/2 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                        role="cell"
-                      >
-                       <p>📌 Purpose</p>
-                      </div>
-                      <div
-                      class="flex w-1/2 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                      role="cell"
-                    >
-                     <p>Learn how to start and grow your YouTube channel from scratch.</p>
-                    </div>
-                    </div>
-                    <div class="flex" role="row">
-                      <div
-                        class="flex w-1/2 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                        role="cell"
-                      >
-                       <p>🎯 Focus Areas</p>
-                      </div>
-                      <div
-                      class="flex w-1/2 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                      role="cell"
-                    >
-                     <p>Naming strategy, thumbnail design, content planning, consistency tips.</p>
-                    </div>
-                    </div>
-                    <div class="flex" role="row">
-                      <div
-                        class="flex w-1/2 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                        role="cell"
-                      >
-                       <p>💼 Tools Used</p>
-                      </div>
-                      <div
-                      class="flex w-1/2 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                      role="cell"
-                    >
-                     <p>OBS, Final Cut Pro, TubeBuddy, YouTube Studio.</p>
-                    </div>
-                    </div>
-                    <div class="flex" role="row">
-                      <div
-                        class="flex w-1/2 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                        role="cell"
-                      >
-                       <p>👥 Who It’s For</p>
-                      </div>
-                      <div
-                      class="flex w-1/2 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                      role="cell"
-                    >
-                     <p>Aspiring creators (0–10k subs) or fresh starters.</p>
-                    </div>
-                    </div>
-                   
-                  </div>
+              <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
+                <div class="overflow-x-auto max-h-72 rounded-lg border border-jacarta-100 dark:border-jacarta-600">
+                  <table class="min-w-[800px] w-full text-sm text-left text-jacarta-700 dark:text-white bg-white dark:bg-jacarta-700">
+                    <thead class="bg-light-base dark:bg-jacarta-600 sticky top-0">
+                      <tr>
+                        <th scope="col" class="px-4 py-2 whitespace-nowrap">Feature</th>
+                        <th scope="col" class="px-4 py-2 whitespace-nowrap">Details</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="border-t border-jacarta-100 dark:border-jacarta-600">
+                        <td class="px-4 py-4 whitespace-nowrap">📌 Purpose</td>
+                        <td class="px-4 py-4 break-words">
+                          Learn how to start and grow your YouTube channel from scratch.
+                        </td>
+                      </tr>
+                      <tr class="border-t border-jacarta-100 dark:border-jacarta-600">
+                        <td class="px-4 py-4 whitespace-nowrap">🎯 Focus Areas</td>
+                        <td class="px-4 py-4 break-words">
+                          Naming strategy, thumbnail design, content planning, consistency tips.
+                        </td>
+                      </tr>
+                      <tr class="border-t border-jacarta-100 dark:border-jacarta-600">
+                        <td class="px-4 py-4 whitespace-nowrap">💼 Tools Used</td>
+                        <td class="px-4 py-4 break-words">
+                          OBS, Final Cut Pro, TubeBuddy, YouTube Studio.
+                        </td>
+                      </tr>
+                      <tr class="border-t border-jacarta-100 dark:border-jacarta-600">
+                        <td class="px-4 py-4 whitespace-nowrap">👥 Who It’s For</td>
+                        <td class="px-4 py-4 break-words">
+                          Aspiring creators (0–10k subs) or fresh starters.
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
+              </div>
+              
 
                 <!-- Offers -->
                 <div class="tab-pane fade" id="offers" role="tabpanel" aria-labelledby="offers-tab">
-                 
-                  <div
-                  role="table"
-                  class="scrollbar-custom max-h-72 w-full overflow-y-auto rounded-lg rounded-tl-none border border-jacarta-100 bg-white text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
-                >
-                  <div class="sticky top-0 flex bg-light-base dark:bg-jacarta-600" role="row">
-                    <div class="w-1/4 py-2 px-4" role="columnheader">
-                      <span class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100"
-                        >Date</span
-                      >
-                    </div>
-                    <div class="w-1/4 py-2 px-4" role="columnheader">
-                      <span class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100"
-                        >User</span
-                      >
-                    </div>
-                     <div class="w-1/4 py-2 px-4" role="columnheader">
-                      <span class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100"
-                        >Session Title</span
-                      >
-                    </div>
-                   
-                    <div class="w-1/4 py-2 px-4" role="columnheader">
-                      <span class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100"
-                        >Price</span
-                      >
-                    </div>
-                    <div class="w-1/4 py-2 px-4" role="columnheader">
-                      <span class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100"
-                        >Feedback</span
-                      >
-                    </div>
+                  <div class="w-full overflow-x-auto">
+                    <table class="min-w-[800px] w-full text-sm text-left text-jacarta-700 dark:text-white bg-white dark:bg-jacarta-700 border border-jacarta-100 dark:border-jacarta-600 rounded-lg">
+                      <thead class="bg-light-base dark:bg-jacarta-600 sticky top-0 z-10">
+                        <tr>
+                          <th class="py-2 px-4 min-w-[120px]">Date</th>
+                          <th class="py-2 px-4 min-w-[120px]">User</th>
+                          <th class="py-2 px-4 min-w-[150px]">Session Title</th>
+                          <th class="py-2 px-4 min-w-[100px]">Price</th>
+                          <th class="py-2 px-4 min-w-[200px]">Feedback</th>
+                        </tr>
+                      </thead>
+                      <tbody class="divide-y divide-jacarta-100 dark:divide-jacarta-600 max-h-72 overflow-y-auto">
+                        <tr>
+                          <td class="py-4 px-4">May 02</td>
+                          <td class="py-4 px-4">User****213</td>
+                          <td class="py-4 px-4">YouTube Basics</td>
+                          <td class="py-4 px-4">₹4999</td>
+                          <td class="py-4 px-4">“Best 45 minutes ever!”</td>
+                        </tr>
+                        <tr>
+                          <td class="py-4 px-4">Apr 28</td>
+                          <td class="py-4 px-4">User****865</td>
+                          <td class="py-4 px-4">Deep Dive + Roast</td>
+                          <td class="py-4 px-4">₹7999</td>
+                          <td class="py-4 px-4">“He roasted my thumbnails 😂”</td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
+                </div>
                 
-                  <div class="flex" role="row">
-                    <div
-                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                      role="cell"
-                    >
-                     <p>May 02</p>
-                    </div>
-                   
-                    <div
-                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                      role="cell"
-                    >
-                      <p>User****213</p>
-                    </div>
-                    <div
-                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                      role="cell"
-                    >
-                      <p>YouTube Basics</p>
-                    </div>
-                    <div
-                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                      role="cell"
-                    >
-                      <p>₹4999</p>
-                    </div>
-                    <div
-                    class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                    role="cell"
-                  >
-                    <p>“Best 45 minutes ever!”</p>
-                  </div>
-                  </div>
-                 
-                  <div class="flex" role="row">
-                    <div
-                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                      role="cell"
-                    >
-                     <p>Apr 28</p>
-                    </div>
-                   
-                    <div
-                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                      role="cell"
-                    >
-                      <p>User****865</p>
-                    </div>
-                    <div
-                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                      role="cell"
-                    >
-                      <p>Deep Dive + Roast</p>
-                    </div>
-                    <div
-                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                      role="cell"
-                    >
-                      <p>₹7999</p>
-                    </div>
-                    <div
-                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                      role="cell"
-                    >
-                      <p>“He roasted my thumbnails 😂”</p>
-                    </div>
-                  </div>
-                </div>
-                </div>
 
                 <!-- Properties -->
                 <div class="tab-pane fade" id="properties" role="tabpanel" aria-labelledby="properties-tab">
-                <div
-                  role="table"
-                  class="scrollbar-custom max-h-72 w-full overflow-y-auto rounded-lg rounded-tl-none border border-jacarta-100 bg-white text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
-                >
-                  <div class="sticky top-0 flex bg-light-base dark:bg-jacarta-600" role="row">
-                    <div class="w-1/4 py-2 px-4" role="columnheader">
-                      <span class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100"
-                        >⭐ Rating</span
-                      >
-                    </div>
-                    <div class="w-1/4 py-2 px-4" role="columnheader">
-                      <span class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100"
-                        >User ID</span
-                      >
-                    </div>
-                     <div class="w-1/4 py-2 px-4" role="columnheader">
-                      <span class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100"
-                        >Date</span
-                      >
-                    </div>
-                   
-                    <div class="w-1/4 py-2 px-4" role="columnheader">
-                      <span class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100"
-                        >Comment</span
-                      >
-                    </div>
+                  <div class="overflow-x-auto max-h-72 rounded-lg border border-jacarta-100 dark:border-jacarta-600">
+                    <table class="min-w-[800px] w-full text-sm text-left text-jacarta-700 dark:text-white bg-white dark:bg-jacarta-700">
+                      <thead class="bg-light-base dark:bg-jacarta-600 sticky top-0">
+                        <tr>
+                          <th scope="col" class="px-4 py-2 whitespace-nowrap">⭐ Rating</th>
+                          <th scope="col" class="px-4 py-2 whitespace-nowrap">User ID</th>
+                          <th scope="col" class="px-4 py-2 whitespace-nowrap">Date</th>
+                          <th scope="col" class="px-4 py-2 whitespace-nowrap">Comment</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr class="border-t border-jacarta-100 dark:border-jacarta-600">
+                          <td class="px-4 py-4 whitespace-nowrap">★★★★★</td>
+                          <td class="px-4 py-4 break-all">@inspiredRiderwegsbsrhdn</td>
+                          <td class="px-4 py-4 whitespace-nowrap">May 01</td>
+                          <td class="px-4 py-4 break-all">“He literally reviewed my titles live. 🔥”</td>
+                        </tr>
+                        <tr class="border-t border-jacarta-100 dark:border-jacarta-600">
+                          <td class="px-4 py-4 whitespace-nowrap">★★★★☆</td>
+                          <td class="px-4 py-4 break-all">@kiranYT</td>
+                          <td class="px-4 py-4 whitespace-nowrap">Apr 29</td>
+                          <td class="px-4 py-4 break-all">“Superb advice, just needed more time.”</td>
+                        </tr>
+                        <tr class="border-t border-jacarta-100 dark:border-jacarta-600">
+                          <td class="px-4 py-4 whitespace-nowrap">★★★★★</td>
+                          <td class="px-4 py-4 break-all">@creatorVlogz</td>
+                          <td class="px-4 py-4 whitespace-nowrap">Apr 27</td>
+                          <td class="px-4 py-4 break-all">“Worth every rupee. Practical & direct.”</td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
+                </div>
                 
-                  <div class="flex" role="row">
-                    <div
-                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                      role="cell"
-                    >
-                     <p>★★★★★</p>
-                    </div>
-                   
-                    <div
-                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                      role="cell"
-                    >
-                      <p>	@inspiredRider</p>
-                    </div>
-                    <div
-                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                      role="cell"
-                    >
-                      <p>May 01</p>
-                    </div>
-                    <div
-                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                      role="cell"
-                    >
-                      <p>“He literally reviewed my titles live. 🔥”</p>
-                    </div>
-                  </div>
-                 
-                  <div class="flex" role="row">
-                    <div
-                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                      role="cell"
-                    >
-                     <p>★★★★☆</p>
-                    </div>
-                   
-                    <div
-                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                      role="cell"
-                    >
-                      <p>@kiranYT</p>
-                    </div>
-                    <div
-                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                      role="cell"
-                    >
-                      <p>Apr 29</p>
-                    </div>
-                    <div
-                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                      role="cell"
-                    >
-                      <p>“Superb advice, just needed more time.”</p>
-                    </div>
-                  </div>
-                  <div class="flex" role="row">
-                    <div
-                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                      role="cell"
-                    >
-                     <p>★★★★★</p>
-                    </div>
-                   
-                    <div
-                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                      role="cell"
-                    >
-                      <p>@creatorVlogz</p>
-                    </div>
-                    <div
-                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                      role="cell"
-                    >
-                      <p>Apr 27</p>
-                    </div>
-                    <div
-                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                      role="cell"
-                    >
-                      <p>“Worth every rupee. Practical & direct.”</p>
-                    </div>
-                  </div>
-                </div>
-                </div>
+                
+                
 
                 <!-- Details -->
                 <div class="tab-pane fade" id="details" role="tabpanel" aria-labelledby="details-tab">
-                  <div
-                    role="table"
-                    class="scrollbar-custom max-h-72 w-full overflow-y-auto rounded-lg rounded-tl-none border border-jacarta-100 bg-white text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
-                  >
-                    <div class="sticky top-0 flex bg-light-base dark:bg-jacarta-600" role="row">
-                      <div class="w-1/3 py-2 px-4" role="columnheader">
-                        <span class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100"
-                          >Add-On</span
-                        >
-                      </div>
-                      <div class="w-1/3 py-2 px-4" role="columnheader">
-                        <span class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100"
-                          >Price</span
-                        >
-                      </div> 
-                     
-                      <div class="w-1/3 py-2 px-4" role="columnheader">
-                        <span class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100"
-                          >Description</span
-                        >
-                      </div>
-                    </div>
-                    
-                    <div class="flex" role="row">
-                      <div
-                        class="flex w-1/3 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                        role="cell"
-                      >
-                       <p>📼 Session Recording</p>
-                      </div>
-                      <div
-                      class="flex w-1/3 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                      role="cell"
-                    >
-                     <p>₹299</p>
-                    </div>
-                     
-                      <div
-                        class="flex w-1/3 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                        role="cell"
-                      >
-                        <p>Get the full video recording emailed to you.</p>
-                      </div>
-                    </div>
-                    <div class="flex" role="row">
-                      <div
-                        class="flex w-1/3 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                        role="cell"
-                      >
-                       <p>📣 Instagram Shoutout</p>
-                      </div>
-                      <div
-                      class="flex w-1/3 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                      role="cell"
-                    >
-                     <p>₹599</p>
-                    </div>
-                     
-                      <div
-                        class="flex w-1/3 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                        role="cell"
-                      >
-                        <p>Get tagged in IG story post-session.</p>
-                      </div>
-                    </div>
-                    <div class="flex" role="row">
-                      <div
-                        class="flex w-1/3 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                        role="cell"
-                      >
-                       <p>⏱️ Extra 15 mins</p>
-                      </div>
-                      <div
-                      class="flex w-1/3 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                      role="cell"
-                    >
-                     <p>₹1000</p>
-                    </div>
-                     
-                      <div
-                        class="flex w-1/3 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                        role="cell"
-                      >
-                        <p>If you want extended Q&A (schedule permitting).</p>
-                      </div>
-                    </div>
-                   
+                  <div class="overflow-x-auto max-h-72 rounded-lg border border-jacarta-100 dark:border-jacarta-600">
+                    <table class="min-w-[800px] w-full text-sm text-left text-jacarta-700 dark:text-white bg-white dark:bg-jacarta-700">
+                      <thead class="bg-light-base dark:bg-jacarta-600 sticky top-0">
+                        <tr>
+                          <th scope="col" class="px-4 py-2 whitespace-nowrap">📌 Add-On</th>
+                          <th scope="col" class="px-4 py-2 whitespace-nowrap">💰 Price</th>
+                          <th scope="col" class="px-4 py-2 whitespace-nowrap">📝 Description</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr class="border-t border-jacarta-100 dark:border-jacarta-600">
+                          <td class="px-4 py-4 whitespace-nowrap">📼 Session Recording</td>
+                          <td class="px-4 py-4 whitespace-nowrap">₹299</td>
+                          <td class="px-4 py-4 break-all">Get the full video recording emailed to you.</td>
+                        </tr>
+                        <tr class="border-t border-jacarta-100 dark:border-jacarta-600">
+                          <td class="px-4 py-4 whitespace-nowrap">📣 Instagram Shoutout</td>
+                          <td class="px-4 py-4 whitespace-nowrap">₹599</td>
+                          <td class="px-4 py-4 break-all">Get tagged in IG story post-session.</td>
+                        </tr>
+                        <tr class="border-t border-jacarta-100 dark:border-jacarta-600">
+                          <td class="px-4 py-4 whitespace-nowrap">⏱️ Extra 15 mins</td>
+                          <td class="px-4 py-4 whitespace-nowrap">₹1000</td>
+                          <td class="px-4 py-4 break-all">If you want extended Q&A (schedule permitting).</td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
+                
 
                 <!-- Activity -->
                 <div class="tab-pane fade" id="activity" role="tabpanel" aria-labelledby="activity-tab">
-                  <!-- Filter -->
-                  {% comment %} <div
-                    class="border border-b-0 border-jacarta-100 bg-light-base px-4 pt-5 pb-2.5 dark:border-jacarta-600 dark:bg-jacarta-700"
-                  >
-                    <div class="flex flex-wrap">
-                      <button
-                        class="group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          width="24"
-                          height="24"
-                          class="mr-2 h-4 w-4 fill-jacarta-700 group-hover:fill-white dark:fill-white"
-                        >
-                          <path fill="none" d="M0 0h24v24H0z"></path>
-                          <path
-                            d="M10.9 2.1l9.899 1.415 1.414 9.9-9.192 9.192a1 1 0 0 1-1.414 0l-9.9-9.9a1 1 0 0 1 0-1.414L10.9 2.1zm.707 2.122L3.828 12l8.486 8.485 7.778-7.778-1.06-7.425-7.425-1.06zm2.12 6.364a2 2 0 1 1 2.83-2.829 2 2 0 0 1-2.83 2.829z"
-                          ></path>
-                        </svg>
-                        <span class="text-2xs font-medium">Listing</span>
-                      </button>
-                      <button
-                        class="mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          width="24"
-                          height="24"
-                          class="mr-2 h-4 w-4 fill-white"
-                        >
-                          <path fill="none" d="M0 0h24v24H0z"></path>
-                          <path
-                            d="M14 20v2H2v-2h12zM14.586.686l7.778 7.778L20.95 9.88l-1.06-.354L17.413 12l5.657 5.657-1.414 1.414L16 13.414l-2.404 2.404.283 1.132-1.415 1.414-7.778-7.778 1.415-1.414 1.13.282 6.294-6.293-.353-1.06L14.586.686zm.707 3.536l-7.071 7.07 3.535 3.536 7.071-7.07-3.535-3.536z"
-                          ></path>
-                        </svg>
-                        <span class="text-2xs font-medium text-white">Bids</span>
-                      </button>
-                      <button
-                        class="group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          width="24"
-                          height="24"
-                          class="mr-2 h-4 w-4 fill-jacarta-700 group-hover:fill-white dark:fill-white"
-                        >
-                          <path fill="none" d="M0 0h24v24H0z"></path>
-                          <path
-                            d="M16.05 12.05L21 17l-4.95 4.95-1.414-1.414 2.536-2.537L4 18v-2h13.172l-2.536-2.536 1.414-1.414zm-8.1-10l1.414 1.414L6.828 6 20 6v2H6.828l2.536 2.536L7.95 11.95 3 7l4.95-4.95z"
-                          ></path>
-                        </svg>
-                        <span class="text-2xs font-medium">Transfers</span>
-                      </button>
-                      <button
-                        class="group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          width="24"
-                          height="24"
-                          class="mr-2 h-4 w-4 fill-jacarta-700 group-hover:fill-white dark:fill-white"
-                        >
-                          <path fill="none" d="M0 0h24v24H0z"></path>
-                          <path
-                            d="M6.5 2h11a1 1 0 0 1 .8.4L21 6v15a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6l2.7-3.6a1 1 0 0 1 .8-.4zM19 8H5v12h14V8zm-.5-2L17 4H7L5.5 6h13zM9 10v2a3 3 0 0 0 6 0v-2h2v2a5 5 0 0 1-10 0v-2h2z"
-                          ></path>
-                        </svg>
-                        <span class="text-2xs font-medium">Sales</span>
-                      </button>
-                    </div>
-                  </div> {% endcomment %}
-
-                  <div
-                    role="table"
-                    class="scrollbar-custom max-h-72 w-full overflow-y-auto rounded-lg rounded-tl-none border border-jacarta-100 bg-white text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
-                  >
-                    <div class="sticky top-0 flex bg-light-base dark:bg-jacarta-600" role="row">
-                      <div class="w-1/2 py-2 px-4" role="columnheader">
-                        <span class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100"
-                          >Question</span
-                        >
-                      </div>
-                      {% comment %} <div class="w-[17%] py-2 px-4" role="columnheader">
-                        <span class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100"
-                          >Price</span
-                        >
-                      </div> {% endcomment %}
-                      {% comment %} <div class="w-[22%] py-2 px-4" role="columnheader">
-                        <span class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100"
-                          >From</span
-                        >
-                      </div> {% endcomment %}
-                      {% comment %} <div class="w-[22%] py-2 px-4" role="columnheader">
-                        <span class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100"
-                          >To</span
-                        >
-                      </div> {% endcomment %}
-                      <div class="w-1/2 py-2 px-4" role="columnheader">
-                        <span class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100"
-                          >Answer</span
-                        >
-                      </div>
-                    </div>
-                    {% comment %} <div class="flex" role="row">
-                      <div
-                        class="flex w-[17%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                        role="cell"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          width="24"
-                          height="24"
-                          class="mr-2 h-4 w-4 fill-jacarta-700 group-hover:fill-white dark:fill-white"
-                        >
-                          <path fill="none" d="M0 0h24v24H0z"></path>
-                          <path
-                            d="M14 20v2H2v-2h12zM14.586.686l7.778 7.778L20.95 9.88l-1.06-.354L17.413 12l5.657 5.657-1.414 1.414L16 13.414l-2.404 2.404.283 1.132-1.415 1.414-7.778-7.778 1.415-1.414 1.13.282 6.294-6.293-.353-1.06L14.586.686zm.707 3.536l-7.071 7.07 3.535 3.536 7.071-7.07-3.535-3.536z"
-                          ></path>
-                        </svg>
-                        Bid
-                      </div>
-                      <div
-                        class="flex w-[17%] items-center whitespace-nowrap border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                        role="cell"
-                      >
-                        <span class="-ml-1" data-tippy-content="ETH">
-                          <svg
-                            version="1.1"
-                            xmlns="http://www.w3.org/2000/svg"
-                            x="0"
-                            y="0"
-                            viewBox="0 0 1920 1920"
-                            xml:space="preserve"
-                            class="mr-1 h-4 w-4"
-                          >
-                            <path fill="#8A92B2" d="M959.8 80.7L420.1 976.3 959.8 731z"></path>
-                            <path
-                              fill="#62688F"
-                              d="M959.8 731L420.1 976.3l539.7 319.1zm539.8 245.3L959.8 80.7V731z"
-                            ></path>
-                            <path fill="#454A75" d="M959.8 1295.4l539.8-319.1L959.8 731z"></path>
-                            <path fill="#8A92B2" d="M420.1 1078.7l539.7 760.6v-441.7z"></path>
-                            <path fill="#62688F" d="M959.8 1397.6v441.7l540.1-760.6z"></path>
-                          </svg>
-                        </span>
-                        <span class="text-sm font-medium tracking-tight text-green">30 ETH</span>
-                      </div>
-                      <div
-                        class="flex w-[22%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                        role="cell"
-                      >
-                        <a href="{% url 'user' %}" class="text-accent">AD496A</a>
-                      </div>
-                      <div
-                        class="flex w-[22%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                        role="cell"
-                      >
-                        <a href="{% url 'user' %}" class="text-accent">Polymorph: MORPH Token</a>
-                      </div>
-                      <div
-                        class="flex w-[22%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                        role="cell"
-                      >
-                        <a
-                          href="#"
-                          class="flex flex-wrap items-center text-accent"
-                          target="_blank"
-                          rel="nofollow noopener"
-                          title="Opens in a new window"
-                          data-tippy-content="March 13 2022, 2:32 pm"
-                        >
-                          <span class="mr-1">19 days ago</span>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            width="24"
-                            height="24"
-                            class="h-4 w-4 fill-current"
-                          >
-                            <path fill="none" d="M0 0h24v24H0z" />
-                            <path
-                              d="M10 6v2H5v11h11v-5h2v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h6zm11-3v8h-2V6.413l-7.793 7.794-1.414-1.414L17.585 5H13V3h8z"
-                            />
-                          </svg>
-                        </a>
-                      </div>
-                    </div>
-                    <div class="flex" role="row">
-                      <div
-                        class="flex w-[17%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                        role="cell"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          width="24"
-                          height="24"
-                          class="mr-2 h-4 w-4 fill-jacarta-700 group-hover:fill-white dark:fill-white"
-                        >
-                          <path fill="none" d="M0 0h24v24H0z"></path>
-                          <path
-                            d="M16.05 12.05L21 17l-4.95 4.95-1.414-1.414 2.536-2.537L4 18v-2h13.172l-2.536-2.536 1.414-1.414zm-8.1-10l1.414 1.414L6.828 6 20 6v2H6.828l2.536 2.536L7.95 11.95 3 7l4.95-4.95z"
-                          ></path>
-                        </svg>
-                        Transfer
-                      </div>
-                      <div
-                        class="flex w-[17%] items-center whitespace-nowrap border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                        role="cell"
-                      >
-                        <span class="-ml-1" data-tippy-content="ETH">
-                          <svg
-                            version="1.1"
-                            xmlns="http://www.w3.org/2000/svg"
-                            x="0"
-                            y="0"
-                            viewBox="0 0 1920 1920"
-                            xml:space="preserve"
-                            class="mr-1 h-4 w-4"
-                          >
-                            <path fill="#8A92B2" d="M959.8 80.7L420.1 976.3 959.8 731z"></path>
-                            <path
-                              fill="#62688F"
-                              d="M959.8 731L420.1 976.3l539.7 319.1zm539.8 245.3L959.8 80.7V731z"
-                            ></path>
-                            <path fill="#454A75" d="M959.8 1295.4l539.8-319.1L959.8 731z"></path>
-                            <path fill="#8A92B2" d="M420.1 1078.7l539.7 760.6v-441.7z"></path>
-                            <path fill="#62688F" d="M959.8 1397.6v441.7l540.1-760.6z"></path>
-                          </svg>
-                        </span>
-                        <span class="text-sm font-medium tracking-tight text-green">.00510 ETH</span>
-                      </div>
-                      <div
-                        class="flex w-[22%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                        role="cell"
-                      >
-                        <a href="{% url 'user' %}" class="text-accent">The_vikk</a>
-                      </div>
-                      <div
-                        class="flex w-[22%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                        role="cell"
-                      >
-                        <a href="{% url 'user' %}" class="text-accent">Polymorph: MORPH Token</a>
-                      </div>
-                      <div
-                        class="flex w-[22%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                        role="cell"
-                      >
-                        <span class="mr-1 dark:text-jacarta-300">16 days ago</span>
-                      </div>
-                    </div> {% endcomment %}
-                    <div class="flex" role="row">
-                      <div
-                        class="flex w-1/2 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                        role="cell"
-                      >
-                       <p>Can I reschedule?</p>
-                      </div>
-                     
-                      <div
-                        class="flex w-1/2 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                        role="cell"
-                      >
-                        <p>Yes, up to 24 hours before the session.</p>
-                      </div>
-                    </div>
-                    <div class="flex" role="row">
-                      <div
-                        class="flex w-1/2 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                        role="cell"
-                      >
-                       <p>Will I get a recording?</p>
-                      </div>
-                     
-                      <div
-                        class="flex w-1/2 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                        role="cell"
-                      >
-                        <p>Yes, if you purchase the "Session Recording" add-on.</p>
-                      </div>
-                    </div>
-                    <div class="flex" role="row">
-                      <div
-                        class="flex w-1/2 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                        role="cell"
-                      >
-                       <p>Can I bring a friend to the session?	No, it’s strictly 1-on-1.</p>
-                      </div>
-                     
-                      <div
-                        class="flex w-1/2 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                        role="cell"
-                      >
-                        <p>No, it’s strictly 1-on-1.</p>
-                      </div>
-                    </div>
-                    <div class="flex" role="row">
-                      <div
-                        class="flex w-1/2 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                        role="cell"
-                      >
-                       <p>What if I'm late to the call?</p>
-                      </div>
-                     
-                      <div
-                        class="flex w-1/2 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                        role="cell"
-                      >
-                        <p>What if I'm late to the call?	Delay reduces your time; no time extension guaranteed.</p>
-                      </div>
-                    </div>
+                  <!-- FAQ Table -->
+                  <div class="overflow-x-auto max-h-72 rounded-lg border border-jacarta-100 dark:border-jacarta-600">
+                    <table class="min-w-[800px] w-full text-sm text-left text-jacarta-700 dark:text-white bg-white dark:bg-jacarta-700">
+                      <thead class="bg-light-base dark:bg-jacarta-600 sticky top-0">
+                        <tr>
+                          <th scope="col" class="px-4 py-2 whitespace-nowrap">❓ Question</th>
+                          <th scope="col" class="px-4 py-2 whitespace-nowrap">✅ Answer</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr class="border-t border-jacarta-100 dark:border-jacarta-600">
+                          <td class="px-4 py-4">Can I reschedule?</td>
+                          <td class="px-4 py-4">Yes, up to 24 hours before the session.</td>
+                        </tr>
+                        <tr class="border-t border-jacarta-100 dark:border-jacarta-600">
+                          <td class="px-4 py-4">Will I get a recording?</td>
+                          <td class="px-4 py-4">Yes, if you purchase the "Session Recording" add-on.</td>
+                        </tr>
+                        <tr class="border-t border-jacarta-100 dark:border-jacarta-600">
+                          <td class="px-4 py-4">Can I bring a friend to the session?</td>
+                          <td class="px-4 py-4">No, it’s strictly 1-on-1.</td>
+                        </tr>
+                        <tr class="border-t border-jacarta-100 dark:border-jacarta-600">
+                          <td class="px-4 py-4">What if I'm late to the call?</td>
+                          <td class="px-4 py-4">Delay reduces your time; no time extension guaranteed.</td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
-
+                
                 <!-- Price History -->
                 <div class="tab-pane fade" id="price-history" role="tabpanel" aria-labelledby="price-history-tab">
-                  <div
-                  role="table"
-                  class="scrollbar-custom max-h-72 w-full overflow-y-auto rounded-lg rounded-tl-none border border-jacarta-100 bg-white text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
-                >
-                  <div class="sticky top-0 flex bg-light-base dark:bg-jacarta-600" role="row">
-                    <div class="w-1/4 py-2 px-4" role="columnheader">
-                      <span class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100"
-                        >Package Title</span
-                      >
-                    </div>
-                    <div class="w-1/4 py-2 px-4" role="columnheader">
-                      <span class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100"
-                        >Duration</span
-                      >
-                    </div>
-                     <div class="w-1/4 py-2 px-4" role="columnheader">
-                      <span class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100"
-                        >Price</span
-                      >
-                    </div>
-                   
-                    <div class="w-1/4 py-2 px-4" role="columnheader">
-                      <span class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100"
-                        >Includes</span
-                      >
-                    </div>
+                  <!-- Price History Table -->
+                  <div class="overflow-x-auto max-h-72 rounded-lg border border-jacarta-100 dark:border-jacarta-600">
+                    <table class="min-w-[800px] w-full text-sm text-left text-jacarta-700 dark:text-white bg-white dark:bg-jacarta-700">
+                      <thead class="bg-light-base dark:bg-jacarta-600 sticky top-0">
+                        <tr>
+                          <th scope="col" class="px-4 py-2">📦 Package Title</th>
+                          <th scope="col" class="px-4 py-2">⏳ Duration</th>
+                          <th scope="col" class="px-4 py-2">💰 Price</th>
+                          <th scope="col" class="px-4 py-2">✔️ Includes</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr class="border-t border-jacarta-100 dark:border-jacarta-600">
+                          <td class="px-4 py-4">YouTube Basics</td>
+                          <td class="px-4 py-4">45 min</td>
+                          <td class="px-4 py-4">₹4999</td>
+                          <td class="px-4 py-4">1-on-1 live call, screen sharing, channel audit, content strategy.</td>
+                        </tr>
+                        <tr class="border-t border-jacarta-100 dark:border-jacarta-600">
+                          <td class="px-4 py-4">Deep Dive + Roast</td>
+                          <td class="px-4 py-4">60 min</td>
+                          <td class="px-4 py-4">₹7999</td>
+                          <td class="px-4 py-4">YouTube basics + full review + 10-min roast segment.</td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
+                </div>
                 
-                  <div class="flex" role="row">
-                    <div
-                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                      role="cell"
-                    >
-                     <p>YouTube Basics</p>
-                    </div>
-                   
-                    <div
-                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                      role="cell"
-                    >
-                      <p>45 min</p>
-                    </div>
-                    <div
-                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                      role="cell"
-                    >
-                      <p>₹4999</p>
-                    </div>
-                    <div
-                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                      role="cell"
-                    >
-                      <p>1-on-1 live call, screen sharing, channel audit, content strategy.</p>
-                    </div>
-                  </div>
-                 
-                  <div class="flex" role="row">
-                    <div
-                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                      role="cell"
-                    >
-                     <p>Deep Dive + Roast</p>
-                    </div>
-                   
-                    <div
-                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                      role="cell"
-                    >
-                      <p>60 min</p>
-                    </div>
-                    <div
-                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                      role="cell"
-                    >
-                      <p>₹7999</p>
-                    </div>
-                    <div
-                      class="flex w-1/4 items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                      role="cell"
-                    >
-                      <p>YouTube basics + full review + 10-min roast segment.</p>
-                    </div>
-                  </div>
-
-                </div>
-                </div>
               </div>
               <!-- end tab content -->
             </div>
-          </div>
           {% endif %}
           <!-- end tabs -->
         </div>
